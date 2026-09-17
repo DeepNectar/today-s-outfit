@@ -7,9 +7,6 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ============================================================ */
-/* ROMANTIC ANIMATED BACKGROUND                                 */
-/* ============================================================ */
 body {
     background: linear-gradient(135deg, #ffe0ec 0%, #ffd0e0 25%, #ffe8f0 50%, #ffd6e8 75%, #ffe0ec 100%);
     background-size: 400% 400%;
@@ -31,7 +28,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Floating hearts layer */
 .romantic-bg {
     position: fixed;
     top: 0; left: 0;
@@ -62,19 +58,12 @@ body {
 .romantic-bg .heart:nth-child(12) { left: 30%; animation-delay: 8s;   font-size: 26px; }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(0) rotate(0deg) scale(0.6);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
     10% { opacity: 0.9; }
     90% { opacity: 0.7; }
-    100% {
-        transform: translateY(-110vh) rotate(360deg) scale(1.2);
-        opacity: 0;
-    }
+    100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
 }
 
-/* Sparkle dots layer */
 .sparkles {
     position: fixed;
     top: 0; left: 0;
@@ -107,9 +96,6 @@ body {
     50%      { opacity: 1; transform: scale(1.4); }
 }
 
-/* ============================================================ */
-/* MAIN CARD — ROMANTIC GLOW                                    */
-/* ============================================================ */
 .card {
     max-width: 1000px;
     width: 100%;
@@ -138,7 +124,6 @@ body {
     100% { box-shadow: 0 24px 60px rgba(255, 105, 180, 0.4),  0 8px 24px rgba(255, 20, 147, 0.25), inset 0 1px 3px rgba(255,255,255,0.9), 0 0 120px rgba(255, 105, 180, 0.55); }
 }
 
-/* Decorative corner hearts */
 .card::before,
 .card::after {
     content: '💕';
@@ -754,6 +739,13 @@ h2 span:first-child {
     box-shadow: 0 8px 22px rgba(39, 174, 96, 0.3);
 }
 .btn-email:hover { box-shadow: 0 12px 32px rgba(39, 174, 96, 0.5); }
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.35);
+}
+.btn-whatsapp:hover { box-shadow: 0 12px 32px rgba(37, 211, 102, 0.55); }
 .btn-danger {
     background: linear-gradient(135deg, #c0392b, #e74c3c);
     color: white;
@@ -773,7 +765,6 @@ h2 span:first-child {
 .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
 .btn i { font-style: normal; font-size: 1.3rem; line-height: 1; }
 
-/* Refresh button gets extra spicy animation */
 #refreshBtn {
     position: relative;
     overflow: hidden;
@@ -975,9 +966,6 @@ h2 span:first-child {
     100% { transform: translateX(-50%) translateY(0) scale(1); }
 }
 
-/* ============================================================ */
-/* MODALS                                                       */
-/* ============================================================ */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -993,7 +981,6 @@ h2 span:first-child {
 .modal-overlay.active { display: flex; }
 
 .modal {
-    background: linear-gradient(145deg, #fffa fd, #fff0f8);
     background: linear-gradient(145deg, #fffafd, #fff0f8);
     border-radius: 40px;
     padding: 2rem;
@@ -1439,6 +1426,121 @@ h2 span:first-child {
     font-weight: 600;
 }
 
+.wa-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(160, 74, 109, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+.wa-modal.active { display: flex; }
+.wa-content {
+    background: linear-gradient(145deg, #fffafd, #fff0f8);
+    border-radius: 32px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 0 24px 60px rgba(37, 211, 102, 0.35), 0 0 80px rgba(37, 211, 102, 0.25);
+    border: 2px solid rgba(37, 211, 102, 0.5);
+    text-align: center;
+    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.wa-content h3 {
+    color: #128C7E;
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+}
+.wa-content p { color: #a04a6d; margin-bottom: 1.2rem; font-size: 0.92rem; }
+.wa-content input {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border-radius: 60px;
+    border: 2px solid rgba(37, 211, 102, 0.35);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    outline: none;
+    font-family: inherit;
+    background: white;
+    color: #128C7E;
+    transition: all 0.3s ease;
+}
+.wa-content input:focus {
+    border-color: #25D366;
+    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.15);
+}
+.wa-content .wa-buttons {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+.wa-content .wa-buttons button {
+    padding: 0.75rem 1.9rem;
+    border-radius: 60px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+.wa-content .wa-buttons .wa-send {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+}
+.wa-content .wa-buttons .wa-send:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 10px 26px rgba(37, 211, 102, 0.6);
+}
+.wa-content .wa-buttons .wa-cancel {
+    background: #ffe0ec;
+    color: #a04a6d;
+}
+.wa-content .wa-buttons .wa-cancel:hover {
+    background: #ffd0e0;
+    transform: translateY(-2px);
+}
+.wa-content .wa-hint {
+    font-size: 0.78rem;
+    color: #95a5a6;
+    margin-top: 1rem;
+    font-style: italic;
+    line-height: 1.5;
+}
+.wa-content .wa-preview {
+    background: white;
+    border-radius: 16px;
+    padding: 0.8rem 1rem;
+    margin-top: 1rem;
+    text-align: left;
+    font-size: 0.82rem;
+    color: #475f7a;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+}
+.wa-content .wa-preview-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #128C7E;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
 html, body { max-width: 100%; overflow-x: hidden; }
 
 @media (max-width: 600px) {
@@ -1488,6 +1590,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
     .inner-option img, .inner-option .no-inner-ph { width: 64px; height: 64px; }
     .photo-popup .big-photo { max-height: 360px; }
     .photo-popup .popup-buttons button { width: 100%; }
+    .wa-content { padding: 1.4rem 1.1rem; }
+    .wa-content .wa-buttons { flex-direction: column; }
+    .wa-content .wa-buttons button { width: 100%; }
 }
 @media (max-width: 600px) {
     input, select, textarea, button { font-size: 16px; }
@@ -1496,7 +1601,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </head>
 <body>
 
-<!-- Floating hearts background layer -->
 <div class="romantic-bg" aria-hidden="true">
     <span class="heart">💕</span>
     <span class="heart">💖</span>
@@ -1512,7 +1616,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <span class="heart">🌸</span>
 </div>
 
-<!-- Sparkles layer -->
 <div class="sparkles" aria-hidden="true">
     <span class="sparkle"></span>
     <span class="sparkle"></span>
@@ -1587,6 +1690,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <button class="btn btn-outline" id="resetBtn"><i>↺</i> reset all</button>
         <button class="btn btn-clear" id="clearHistoryBtn"><i>🗑️</i> clear history</button>
         <button class="btn btn-email" id="emailBtn"><i>💌</i> email</button>
+        <button class="btn btn-whatsapp" id="whatsappBtn"><i>💬</i> whatsapp</button>
         <button class="btn btn-danger" id="deleteModeBtn"><i>🔒</i> delete mode</button>
         <button class="btn btn-outline" id="manualAddBtn"><i>✍️</i> add manually</button>
         <button class="btn btn-sync" id="syncBtn"><i>🔄</i> force sync</button>
@@ -1802,6 +1906,27 @@ html, body { max-width: 100%; overflow-x: hidden; }
     </div>
 </div>
 
+<!-- WhatsApp Modal -->
+<div class="wa-modal" id="waModal">
+    <div class="wa-content">
+        <h3>💬 Send on WhatsApp</h3>
+        <p>Enter the phone number (with country code, no <code>+</code>, no spaces)</p>
+        <input type="tel" id="waPhoneInput" placeholder="e.g. 919876543210" autocomplete="off">
+        <div class="wa-preview-title">📝 Message Preview (latest outfit only)</div>
+        <div class="wa-preview" id="waPreview"></div>
+        <div class="wa-buttons">
+            <button class="wa-cancel" id="waCancelBtn">Cancel</button>
+            <button class="wa-send" id="waSendBtn">💬 Open WhatsApp</button>
+        </div>
+        <div class="wa-hint">
+            ✨ On <strong>mobile</strong> → opens WhatsApp app.<br>
+            ✨ On <strong>desktop/laptop</strong> → opens WhatsApp Web.<br>
+            🔗 Photo links are included so the recipient can view them.<br>
+            💕 Sends only the <strong>latest picked outfit</strong> — history is not cleared.
+        </div>
+    </div>
+</div>
+
 <div class="toast-message" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1837,8 +1962,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
     // ============================================================
     // SUPABASE CONFIG — PUT YOUR URL & KEY HERE
     // ============================================================
-    const SUPABASE_URL = 'https://uskzenvzqlwmarjijidr.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVza3plbnZ6cWx3bWFyamlqaWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjg4MTQsImV4cCI6MjEwNTIwNDgxNH0.IjW2SnsHHscEPjdiD_WaJ7u1ladgNr4OZAx1GWvKJKE';
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+
+    // NOTE: No default WhatsApp number. The modal asks for it every time.
 
     const TABLE_ITEMS   = 'outfit_items';
     const TABLE_HISTORY = 'outfit_history';
@@ -1865,6 +1992,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
     let pendingCloth = null;
     let pendingInner = null;
 
+    // Keeps the currently displayed outfit (from popup area)
+    // Set whenever a new outfit is confirmed or when history is cleared/reloaded
+    let currentlyDisplayedEntry = null;
+
     // DOM
     const itemGrid = document.getElementById('itemList');
     const popupDisplay = document.getElementById('popupDisplay');
@@ -1872,6 +2003,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     const resetBtn = document.getElementById('resetBtn');
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
     const emailBtn = document.getElementById('emailBtn');
+    const whatsappBtn = document.getElementById('whatsappBtn');
     const deleteModeBtn = document.getElementById('deleteModeBtn');
     const statusBadge = document.getElementById('statusBadge');
     const syncBadge = document.getElementById('syncBadge');
@@ -1971,6 +2103,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
     const openOptionBtn = document.getElementById('openOptionBtn');
     const emailSubjectPreview = document.getElementById('emailSubjectPreview');
 
+    // WhatsApp DOM
+    const waModal = document.getElementById('waModal');
+    const waPhoneInput = document.getElementById('waPhoneInput');
+    const waPreview = document.getElementById('waPreview');
+    const waCancelBtn = document.getElementById('waCancelBtn');
+    const waSendBtn = document.getElementById('waSendBtn');
+
     const bulkFileInput = document.getElementById('bulkFileInput');
     const exportExcelBtn = document.getElementById('exportExcelBtn');
 
@@ -1994,6 +2133,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
         const id = linkOrId && linkOrId.startsWith('http') ? extractDriveId(linkOrId) : linkOrId;
         if (!id) return '';
         return `https://drive.google.com/thumbnail?id=${id}&sz=w${size || 400}`;
+    }
+    function driveViewUrl(link) {
+        const id = extractDriveId(link);
+        if (!id) return '';
+        return `https://drive.google.com/file/d/${id}/view`;
     }
 
     // ============================================================
@@ -2109,7 +2253,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
         else if (getAvailableByFolder('cloth').length === 0) resetNotice.textContent = '🎉 All cloths picked! click "reset all"';
         else resetNotice.textContent = `💖 click refresh to pick an outfit (${currentFolder} folder) 💖`;
 
-        if (totalAll === 0) updatePopup(null);
+        if (totalAll === 0) {
+            currentlyDisplayedEntry = null;
+            updatePopup(null);
+        }
         updateDeleteIndicator();
         updateSelectedCount();
     }
@@ -2368,6 +2515,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
         else if (e.wearer === 'deep' && wearer === 'honey') e.wearer = 'both';
         else if (e.wearer === 'honey' && wearer === 'deep') e.wearer = 'both';
         else if (e.wearer === 'both') e.wearer = (wearer === 'deep') ? 'honey' : 'deep';
+        // If the current display is the same entry, update it too
+        if (currentlyDisplayedEntry && currentlyDisplayedEntry === e) {
+            updatePopup(currentlyDisplayedEntry);
+        }
         renderHistory();
         await pushAllToCloud();
     }
@@ -2539,6 +2690,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
         history.push(entry);
         picked.push(keyFor('cloth', c.name));
         if (!pendingInner.noInner) picked.push(keyFor('inner', pendingInner.item.name));
+
+        // Set the currently displayed entry to this new one
+        currentlyDisplayedEntry = entry;
 
         updatePopup(entry);
         updateUI();
@@ -2739,6 +2893,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (ALL_ITEMS.length === 0) { showToast('📭 No items to reset.', 2000); return; }
         picked = [];
         selectedForDelete.clear();
+        currentlyDisplayedEntry = null;
         updatePopup(null);
         updateUI();
         showToast('🔄 All items available again! (history preserved)', 2000);
@@ -2752,6 +2907,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         history = [];
         picked = [];
         selectedForDelete.clear();
+        currentlyDisplayedEntry = null;
         updatePopup(null);
         updateUI();
         clearHistoryModal.classList.remove('active');
@@ -2885,7 +3041,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         const clothItem = ALL_ITEMS.find(it => it.folder === 'cloth' && it.name.toLowerCase() === clothName.toLowerCase());
         const innerItem = innerName ? ALL_ITEMS.find(it => it.folder === 'inner' && it.name.toLowerCase() === innerName.toLowerCase()) : null;
 
-        history.push({
+        const newEntry = {
             cloth: clothName,
             clothCategory: clothItem ? clothItem.category : category,
             clothLink: clothItem ? (clothItem.link || '') : '',
@@ -2896,7 +3052,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
             displayDate: getFormattedDate(dateObj),
             dateTag,
             wearer
-        });
+        };
+        history.push(newEntry);
+        currentlyDisplayedEntry = newEntry;
+        updatePopup(newEntry);
         if (!isPicked('cloth', clothName)) picked.push(keyFor('cloth', clothName));
         if (innerName && !isPicked('inner', innerName)) picked.push(keyFor('inner', innerName));
 
@@ -2966,6 +3125,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     const ik = keyFor('inner', e.inner);
                     const ii = picked.indexOf(ik);
                     if (ii !== -1) picked.splice(ii, 1);
+                }
+                // If we deleted the currently displayed entry, clear popup
+                if (currentlyDisplayedEntry === e) {
+                    currentlyDisplayedEntry = null;
+                    updatePopup(null);
                 }
                 closeHistoryDeleteModal();
                 updateUI();
@@ -3047,7 +3211,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
             <div style="text-align:center;font-size:34px;margin-bottom:8px;letter-spacing:6px;">💕 🌸 💖 🌺 💕</div>
 
-            <!-- SUBJECT BOX -->
             <div style="background:#ffffff;padding:20px 24px;border-radius:16px;margin-bottom:26px;border-left:6px solid #ff1493;box-shadow:0 6px 20px rgba(255,20,147,0.15);">
                 <p style="margin:0 0 8px 0;font-size:11px;color:#d63384;text-transform:uppercase;letter-spacing:2px;font-weight:700;">📌 Email Subject (copy this line)</p>
                 <p style="margin:0;font-size:19px;font-weight:700;color:#a04a6d;font-family:'Georgia',serif;line-height:1.4;font-style:italic;">${subjectLine}</p>
@@ -3152,6 +3315,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         history = [];
         picked = [];
         selectedForDelete.clear();
+        currentlyDisplayedEntry = null;
         updatePopup(null);
         updateUI();
         showToast('💕 History cleared after email', 2500);
@@ -3217,6 +3381,108 @@ html, body { max-width: 100%; overflow-x: hidden; }
     function closeEmailOptions() {
         emailOptionsModal.classList.remove('active');
         document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // WHATSAPP — sends ONLY the currently displayed outfit
+    // Bold *formatting* for important words. Does NOT clear history.
+    // ============================================================
+    function buildWhatsAppMessage() {
+        // Prefer currently displayed entry; fallback to latest history
+        let entry = currentlyDisplayedEntry;
+        if (!entry && history.length > 0) entry = history[history.length - 1];
+
+        if (!entry) {
+            return `💕 *Honey Outfit Log Selected by Me {Shinu}* 💕\n\n💭 No outfit currently selected.`;
+        }
+
+        const todayStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        let msg = `💕 *Honey Outfit Log Selected by Me {Shinu}* 💕\n`;
+        msg += `📅 *${todayStr}*\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+        // CLOTH block
+        msg += `👔 *CLOTH*\n`;
+        msg += `Name: *${entry.cloth}*\n`;
+        if (entry.clothCategory) msg += `Category: *${entry.clothCategory}*\n`;
+        if (entry.clothLink) {
+            const view = driveViewUrl(entry.clothLink);
+            if (view) msg += `📸 Photo: ${view}\n`;
+        }
+
+        msg += `\n`;
+
+        // INNER block
+        msg += `🩲 *INNER*\n`;
+        if (entry.noInner || !entry.inner) {
+            msg += `*🚫 No Inner*\n`;
+        } else {
+            msg += `Name: *${entry.inner}*\n`;
+            if (entry.innerLink) {
+                const view = driveViewUrl(entry.innerLink);
+                if (view) msg += `📸 Photo: ${view}\n`;
+            }
+        }
+
+        msg += `\n`;
+
+        // DATE + WEARER block
+        if (entry.dateTag) msg += `${entry.dateTag}\n`;
+        if (entry.wearer) {
+            const w = entry.wearer === 'both' ? '*👤👤 Both*' :
+                      entry.wearer === 'deep' ? '*👤 Deep*' :
+                      entry.wearer === 'honey' ? '*👤 Honey*' : entry.wearer;
+            msg += `Wearer: ${w}\n`;
+        }
+
+        msg += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `💕 *Made with love by Honey for Shinu* 💕`;
+        return msg;
+    }
+
+    function openWhatsAppModal() {
+        // Require at least one entry (current popup or history)
+        if (!currentlyDisplayedEntry && history.length === 0) {
+            showToast('📭 No outfit picked yet!', 2500);
+            return;
+        }
+        // ALWAYS empty input — no default recipient
+        if (waPhoneInput) waPhoneInput.value = '';
+        // Show live preview of the latest outfit
+        if (waPreview) waPreview.textContent = buildWhatsAppMessage();
+        waModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { if (waPhoneInput) waPhoneInput.focus(); }, 100);
+    }
+
+    function closeWhatsAppModal() {
+        waModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function sendWhatsApp() {
+        let phone = (waPhoneInput.value || '').replace(/\D/g, ''); // strip non-digits
+        if (!phone || phone.length < 8) {
+            showToast('⚠️ Enter a valid phone number with country code.', 2500);
+            waPhoneInput.focus();
+            return;
+        }
+        const message = buildWhatsAppMessage();
+        const encoded = encodeURIComponent(message);
+        const url = `https://wa.me/${phone}?text=${encoded}`;
+
+        const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            window.location.href = url;
+        } else {
+            window.open(url, '_blank');
+        }
+
+        // ❌ DO NOT clear history after WhatsApp (per user request)
+        showToast('💬 WhatsApp opening! History preserved 💕', 2500);
+        closeWhatsAppModal();
     }
 
     // ============================================================
@@ -3330,6 +3596,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
         ALL_ITEMS = pulled.items.length > 0 ? pulled.items : TEST_ITEMS.slice();
         history = pulled.history;
         picked = pulled.picked;
+        // On pull, the "currently displayed" entry resets to the newest history item
+        currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+        if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
+        else updatePopup(null);
         lastSyncTime = Date.now();
         setSyncStatus('online', '☁️ synced');
         updateLastSyncInfo();
@@ -3350,6 +3620,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     ALL_ITEMS = pulled.items;
                     history = pulled.history;
                     picked = pulled.picked;
+                    currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+                    if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
                     lastSyncTime = Date.now();
                     setSyncStatus('online', '☁️ synced');
                     updateLastSyncInfo();
@@ -3414,8 +3686,15 @@ html, body { max-width: 100%; overflow-x: hidden; }
         loadLocalBackup();
         if (ALL_ITEMS.length === 0) ALL_ITEMS = TEST_ITEMS.slice();
 
+        // On load, set currentlyDisplayedEntry to latest history entry (if any)
+        if (history.length > 0) {
+            currentlyDisplayedEntry = history[history.length - 1];
+            updatePopup(currentlyDisplayedEntry);
+        } else {
+            updatePopup(null);
+        }
+
         updateUI();
-        updatePopup(null);
         setupDateOptions();
         setupManualDateDropdown();
 
@@ -3426,6 +3705,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 if (ok.items.length > 0) ALL_ITEMS = ok.items;
                 history = ok.history;
                 picked = ok.picked;
+                currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+                if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
+                else updatePopup(null);
                 lastSyncTime = Date.now();
                 setSyncStatus('online', '☁️ synced');
                 updateLastSyncInfo();
@@ -3492,6 +3774,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (resetBtn) resetBtn.addEventListener('click', handleReset);
         if (clearHistoryBtn) clearHistoryBtn.addEventListener('click', handleClearHistory);
         if (emailBtn) emailBtn.addEventListener('click', openEmailOptions);
+        if (whatsappBtn) whatsappBtn.addEventListener('click', openWhatsAppModal);
         if (addItemBtn) addItemBtn.addEventListener('click', addNewItem);
         if (deleteModeBtn) deleteModeBtn.addEventListener('click', openModal);
         if (syncBtn) syncBtn.addEventListener('click', () => syncNow(false));
@@ -3535,6 +3818,15 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (openOptionBtn) openOptionBtn.addEventListener('click', optionOpen);
         if (emailOptionsModal) emailOptionsModal.addEventListener('click', (e) => { if (e.target === emailOptionsModal) closeEmailOptions(); });
 
+        // WhatsApp modal
+        if (waCancelBtn) waCancelBtn.addEventListener('click', closeWhatsAppModal);
+        if (waSendBtn) waSendBtn.addEventListener('click', sendWhatsApp);
+        if (waModal) waModal.addEventListener('click', (e) => { if (e.target === waModal) closeWhatsAppModal(); });
+        if (waPhoneInput) waPhoneInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); sendWhatsApp(); }
+            if (e.key === 'Escape') closeWhatsAppModal();
+        });
+
         if (newItemInput) newItemInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
         if (newCategoryInput) newCategoryInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
         if (newItemLink) newItemLink.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
@@ -3559,6 +3851,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
                 else if (manualAddModal.classList.contains('active')) closeManualAddModal();
                 else if (modal.classList.contains('active')) closeModal();
                 else if (emailOptionsModal.classList.contains('active')) closeEmailOptions();
+                else if (waModal.classList.contains('active')) closeWhatsAppModal();
                 else if (clearHistoryModal.classList.contains('active')) clearHistoryModal.classList.remove('active');
                 else if (bulkDeleteModal.classList.contains('active')) bulkDeleteModal.classList.remove('active');
             }
@@ -3574,6 +3867,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
                         if (ok.items.length > 0) ALL_ITEMS = ok.items;
                         history = ok.history;
                         picked = ok.picked;
+                        currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+                        if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
                         updateUI();
                         showToast('🔄 Refreshed from cloud', 2000);
                     }
