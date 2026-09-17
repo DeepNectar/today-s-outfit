@@ -1426,6 +1426,9 @@ h2 span:first-child {
     font-weight: 600;
 }
 
+/* ============================================================ */
+/* WHATSAPP MODAL — with saved recipients                       */
+/* ============================================================ */
 .wa-modal {
     display: none;
     position: fixed;
@@ -1442,9 +1445,9 @@ h2 span:first-child {
 .wa-content {
     background: linear-gradient(145deg, #fffafd, #fff0f8);
     border-radius: 32px;
-    max-width: 520px;
+    max-width: 560px;
     width: 100%;
-    max-height: 90vh;
+    max-height: 92vh;
     overflow-y: auto;
     padding: 2rem;
     box-shadow: 0 24px 60px rgba(37, 211, 102, 0.35), 0 0 80px rgba(37, 211, 102, 0.25);
@@ -1457,30 +1460,230 @@ h2 span:first-child {
     font-size: 1.5rem;
     margin-bottom: 0.4rem;
 }
-.wa-content p { color: #a04a6d; margin-bottom: 1.2rem; font-size: 0.92rem; }
-.wa-content input {
+
+/* Section labels */
+.wa-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #128C7E;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 12px 0 8px 4px;
+    text-align: left;
+}
+.wa-section-label .add-new-link {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #25D366;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(37, 211, 102, 0.12);
+    transition: all 0.2s ease;
+}
+.wa-section-label .add-new-link:hover {
+    background: rgba(37, 211, 102, 0.25);
+    transform: scale(1.05);
+}
+
+/* Saved recipients list */
+.wa-recipients {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 4px;
+    margin-bottom: 12px;
+}
+.wa-recipient {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 2px solid rgba(37, 211, 102, 0.25);
+    background: white;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+    font-family: inherit;
+}
+.wa-recipient:hover {
+    border-color: #25D366;
+    background: #f0fff4;
+    transform: translateX(3px);
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.2);
+}
+.wa-recipient.selected {
+    border-color: #128C7E;
+    background: #e6f9ee;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.3);
+}
+.wa-recipient .wa-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    font-weight: 600;
+}
+.wa-recipient .wa-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+.wa-recipient .wa-name {
+    font-weight: 600;
+    color: #128C7E;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wa-recipient .wa-number {
+    font-size: 0.75rem;
+    color: #7a9cbf;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wa-recipient .wa-remove {
+    background: rgba(192, 57, 43, 0.1);
+    color: #c0392b;
+    border: none;
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    font-family: inherit;
+}
+.wa-recipient .wa-remove:hover {
+    background: #c0392b;
+    color: white;
+    transform: scale(1.15) rotate(90deg);
+}
+
+.wa-empty-recipients {
+    padding: 14px;
+    background: rgba(37, 211, 102, 0.08);
+    border-radius: 12px;
+    color: #7a9cbf;
+    font-size: 0.82rem;
+    font-style: italic;
+    text-align: center;
+    border: 1px dashed rgba(37, 211, 102, 0.3);
+    margin-bottom: 12px;
+}
+
+/* Add-new form (hidden by default) */
+.wa-add-form {
+    display: none;
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 2px dashed rgba(37, 211, 102, 0.5);
+}
+.wa-add-form.visible { display: block; }
+.wa-add-form input {
     width: 100%;
-    padding: 0.8rem 1.2rem;
+    padding: 0.65rem 1rem;
     border-radius: 60px;
-    border: 2px solid rgba(37, 211, 102, 0.35);
-    font-size: 1rem;
-    margin-bottom: 1rem;
+    border: 2px solid rgba(37, 211, 102, 0.3);
+    font-size: 0.92rem;
+    margin-bottom: 8px;
     outline: none;
     font-family: inherit;
     background: white;
     color: #128C7E;
     transition: all 0.3s ease;
 }
-.wa-content input:focus {
+.wa-add-form input:focus {
     border-color: #25D366;
     box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.15);
 }
+.wa-add-form .wa-add-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+.wa-add-form .wa-add-buttons button {
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.25s ease;
+}
+.wa-add-form .wa-add-buttons .wa-save-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+.wa-add-form .wa-add-buttons .wa-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+}
+.wa-add-form .wa-add-buttons .wa-cancel-add {
+    background: #ffe0ec;
+    color: #a04a6d;
+}
+.wa-add-form .wa-add-buttons .wa-cancel-add:hover {
+    background: #ffd0e0;
+}
+
+/* Message preview */
+.wa-preview {
+    background: white;
+    border-radius: 16px;
+    padding: 0.8rem 1rem;
+    margin-top: 8px;
+    text-align: left;
+    font-size: 0.8rem;
+    color: #475f7a;
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid rgba(37, 211, 102, 0.3);
+    white-space: pre-wrap;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+}
+.wa-preview-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #128C7E;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
 .wa-content .wa-buttons {
     display: flex;
     gap: 0.8rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 0.5rem;
+    margin-top: 12px;
 }
 .wa-content .wa-buttons button {
     padding: 0.75rem 1.9rem;
@@ -1501,6 +1704,12 @@ h2 span:first-child {
     transform: translateY(-2px) scale(1.04);
     box-shadow: 0 10px 26px rgba(37, 211, 102, 0.6);
 }
+.wa-content .wa-buttons .wa-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
 .wa-content .wa-buttons .wa-cancel {
     background: #ffe0ec;
     color: #a04a6d;
@@ -1510,35 +1719,11 @@ h2 span:first-child {
     transform: translateY(-2px);
 }
 .wa-content .wa-hint {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     color: #95a5a6;
     margin-top: 1rem;
     font-style: italic;
     line-height: 1.5;
-}
-.wa-content .wa-preview {
-    background: white;
-    border-radius: 16px;
-    padding: 0.8rem 1rem;
-    margin-top: 1rem;
-    text-align: left;
-    font-size: 0.82rem;
-    color: #475f7a;
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid rgba(37, 211, 102, 0.3);
-    white-space: pre-wrap;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    line-height: 1.5;
-}
-.wa-content .wa-preview-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #128C7E;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 0.5rem;
-    text-align: left;
 }
 
 html, body { max-width: 100%; overflow-x: hidden; }
@@ -1906,21 +2091,38 @@ html, body { max-width: 100%; overflow-x: hidden; }
     </div>
 </div>
 
-<!-- WhatsApp Modal -->
+<!-- WhatsApp Modal — with saved recipients + auto-save last used -->
 <div class="wa-modal" id="waModal">
     <div class="wa-content">
         <h3>💬 Send on WhatsApp</h3>
-        <p>Enter the phone number (with country code, no <code>+</code>, no spaces)</p>
-        <input type="tel" id="waPhoneInput" placeholder="e.g. 919876543210" autocomplete="off">
+
+        <!-- Saved recipients -->
+        <div class="wa-section-label">
+            <span>📱 Saved Recipients</span>
+            <a class="add-new-link" id="waAddNewToggle">➕ Add new</a>
+        </div>
+        <div class="wa-recipients" id="waRecipients"></div>
+
+        <!-- Add new form (hidden by default) -->
+        <div class="wa-add-form" id="waAddForm">
+            <input type="text" id="waNewName" placeholder="Name (e.g. Shinu, Me, Mom)" maxlength="40" autocomplete="off">
+            <input type="tel" id="waNewNumber" placeholder="Number with country code (e.g. 919876543210)" autocomplete="off">
+            <div class="wa-add-buttons">
+                <button class="wa-cancel-add" id="waAddCancelBtn" type="button">Cancel</button>
+                <button class="wa-save-btn" id="waAddSaveBtn" type="button">💾 Save</button>
+            </div>
+        </div>
+
         <div class="wa-preview-title">📝 Message Preview (latest outfit only)</div>
         <div class="wa-preview" id="waPreview"></div>
+
         <div class="wa-buttons">
             <button class="wa-cancel" id="waCancelBtn">Cancel</button>
-            <button class="wa-send" id="waSendBtn">💬 Open WhatsApp</button>
+            <button class="wa-send" id="waSendBtn" disabled>💬 Open WhatsApp</button>
         </div>
         <div class="wa-hint">
-            ✨ On <strong>mobile</strong> → opens WhatsApp app.<br>
-            ✨ On <strong>desktop/laptop</strong> → opens WhatsApp Web.<br>
+            ✨ Tap a <strong>saved recipient</strong> to send instantly.<br>
+            ✨ <strong>Last used number</strong> is auto-remembered.<br>
             🔗 Photo links are included so the recipient can view them.<br>
             💕 Sends only the <strong>latest picked outfit</strong> — history is not cleared.
         </div>
@@ -1962,14 +2164,16 @@ html, body { max-width: 100%; overflow-x: hidden; }
     // ============================================================
     // SUPABASE CONFIG — PUT YOUR URL & KEY HERE
     // ============================================================
-    const SUPABASE_URL = 'https://uskzenvzqlwmarjijidr.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVza3plbnZ6cWx3bWFyamlqaWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjg4MTQsImV4cCI6MjEwNTIwNDgxNH0.IjW2SnsHHscEPjdiD_WaJ7u1ladgNr4OZAx1GWvKJKE';
-
-    // NOTE: No default WhatsApp number. The modal asks for it every time.
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
     const TABLE_ITEMS   = 'outfit_items';
     const TABLE_HISTORY = 'outfit_history';
     const TABLE_PICKED  = 'outfit_picked';
+
+    // localStorage keys for WhatsApp recipients + last used
+    const LS_SAVED_RECIPIENTS = 'outfitPicker_savedRecipients';
+    const LS_LAST_USED_NUMBER = 'outfitPicker_lastUsedNumber';
 
     let supabaseClient = null;
     try {
@@ -1991,10 +2195,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
     let pendingCloth = null;
     let pendingInner = null;
-
-    // Keeps the currently displayed outfit (from popup area)
-    // Set whenever a new outfit is confirmed or when history is cleared/reloaded
     let currentlyDisplayedEntry = null;
+
+    // WhatsApp recipients state
+    let savedRecipients = [];    // [{ name, number }]
+    let selectedRecipient = null; // { name, number } or null
+    let lastUsedNumber = '';
 
     // DOM
     const itemGrid = document.getElementById('itemList');
@@ -2105,7 +2311,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
     // WhatsApp DOM
     const waModal = document.getElementById('waModal');
-    const waPhoneInput = document.getElementById('waPhoneInput');
+    const waRecipients = document.getElementById('waRecipients');
+    const waAddNewToggle = document.getElementById('waAddNewToggle');
+    const waAddForm = document.getElementById('waAddForm');
+    const waNewName = document.getElementById('waNewName');
+    const waNewNumber = document.getElementById('waNewNumber');
+    const waAddSaveBtn = document.getElementById('waAddSaveBtn');
+    const waAddCancelBtn = document.getElementById('waAddCancelBtn');
     const waPreview = document.getElementById('waPreview');
     const waCancelBtn = document.getElementById('waCancelBtn');
     const waSendBtn = document.getElementById('waSendBtn');
@@ -2164,6 +2376,150 @@ html, body { max-width: 100%; overflow-x: hidden; }
         else lastSyncInfo.textContent = `✅ synced ${Math.floor(s/60)}m ago`;
     }
     setInterval(updateLastSyncInfo, 5000);
+
+    // ============================================================
+    // RECIPIENT STORAGE (localStorage)
+    // ============================================================
+    function loadRecipients() {
+        try {
+            const raw = localStorage.getItem(LS_SAVED_RECIPIENTS);
+            savedRecipients = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(savedRecipients)) savedRecipients = [];
+        } catch (e) { savedRecipients = []; }
+
+        try {
+            lastUsedNumber = localStorage.getItem(LS_LAST_USED_NUMBER) || '';
+        } catch (e) { lastUsedNumber = ''; }
+    }
+    function saveRecipients() {
+        try {
+            localStorage.setItem(LS_SAVED_RECIPIENTS, JSON.stringify(savedRecipients));
+        } catch (e) {}
+    }
+    function saveLastUsed(number) {
+        try {
+            lastUsedNumber = number;
+            localStorage.setItem(LS_LAST_USED_NUMBER, number);
+        } catch (e) {}
+    }
+
+    function addRecipient(name, number) {
+        number = (number || '').replace(/\D/g, '');
+        name = (name || '').trim();
+        if (!name) { showToast('⚠️ Enter a name.', 2000); return false; }
+        if (!number || number.length < 8) { showToast('⚠️ Enter a valid number.', 2500); return false; }
+        // Check duplicate number
+        if (savedRecipients.some(r => r.number === number)) {
+            showToast('⚠️ This number is already saved.', 2500);
+            return false;
+        }
+        savedRecipients.push({ name, number });
+        saveRecipients();
+        renderRecipients();
+        showToast(`💾 Saved: ${name}`, 2000);
+        return true;
+    }
+
+    function removeRecipient(number) {
+        savedRecipients = savedRecipients.filter(r => r.number !== number);
+        saveRecipients();
+        if (selectedRecipient && selectedRecipient.number === number) {
+            selectedRecipient = null;
+        }
+        renderRecipients();
+        updateSendButtonState();
+        showToast('🗑️ Removed', 1500);
+    }
+
+    function renderRecipients() {
+        if (!waRecipients) return;
+        waRecipients.innerHTML = '';
+
+        if (savedRecipients.length === 0 && !lastUsedNumber) {
+            const empty = document.createElement('div');
+            empty.className = 'wa-empty-recipients';
+            empty.textContent = '💭 No saved recipients yet. Tap "➕ Add new" to save one.';
+            waRecipients.appendChild(empty);
+            return;
+        }
+
+        // Show "Last used" as a pseudo-recipient if not already in saved list
+        if (lastUsedNumber && !savedRecipients.some(r => r.number === lastUsedNumber)) {
+            const lastRow = document.createElement('div');
+            lastRow.className = 'wa-recipient';
+            lastRow.dataset.number = lastUsedNumber;
+            lastRow.innerHTML = `
+                <div class="wa-avatar">🕐</div>
+                <div class="wa-info">
+                    <div class="wa-name">Last used</div>
+                    <div class="wa-number">+${lastUsedNumber}</div>
+                </div>
+            `;
+            lastRow.addEventListener('click', () => {
+                selectedRecipient = { name: 'Last used', number: lastUsedNumber };
+                renderRecipients();
+                updateSendButtonState();
+            });
+            if (selectedRecipient && selectedRecipient.number === lastUsedNumber) {
+                lastRow.classList.add('selected');
+            }
+            waRecipients.appendChild(lastRow);
+        }
+
+        // Saved recipients
+        savedRecipients.forEach(r => {
+            const row = document.createElement('div');
+            row.className = 'wa-recipient';
+            row.dataset.number = r.number;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'wa-avatar';
+            avatar.textContent = r.name.charAt(0).toUpperCase() || '?';
+
+            const info = document.createElement('div');
+            info.className = 'wa-info';
+            const nameEl = document.createElement('div');
+            nameEl.className = 'wa-name';
+            nameEl.textContent = r.name;
+            const numEl = document.createElement('div');
+            numEl.className = 'wa-number';
+            numEl.textContent = '+' + r.number;
+            info.appendChild(nameEl);
+            info.appendChild(numEl);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'wa-remove';
+            removeBtn.textContent = '×';
+            removeBtn.title = 'Remove';
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm(`Remove "${r.name}" from saved recipients?`)) {
+                    removeRecipient(r.number);
+                }
+            });
+
+            row.appendChild(avatar);
+            row.appendChild(info);
+            row.appendChild(removeBtn);
+
+            row.addEventListener('click', () => {
+                selectedRecipient = { name: r.name, number: r.number };
+                renderRecipients();
+                updateSendButtonState();
+            });
+
+            if (selectedRecipient && selectedRecipient.number === r.number) {
+                row.classList.add('selected');
+            }
+
+            waRecipients.appendChild(row);
+        });
+    }
+
+    function updateSendButtonState() {
+        if (!waSendBtn) return;
+        waSendBtn.disabled = !selectedRecipient;
+    }
 
     // ============================================================
     // PICKED / ITEM HELPERS
@@ -2515,7 +2871,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         else if (e.wearer === 'deep' && wearer === 'honey') e.wearer = 'both';
         else if (e.wearer === 'honey' && wearer === 'deep') e.wearer = 'both';
         else if (e.wearer === 'both') e.wearer = (wearer === 'deep') ? 'honey' : 'deep';
-        // If the current display is the same entry, update it too
         if (currentlyDisplayedEntry && currentlyDisplayedEntry === e) {
             updatePopup(currentlyDisplayedEntry);
         }
@@ -2691,7 +3046,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         picked.push(keyFor('cloth', c.name));
         if (!pendingInner.noInner) picked.push(keyFor('inner', pendingInner.item.name));
 
-        // Set the currently displayed entry to this new one
         currentlyDisplayedEntry = entry;
 
         updatePopup(entry);
@@ -3126,7 +3480,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
                     const ii = picked.indexOf(ik);
                     if (ii !== -1) picked.splice(ii, 1);
                 }
-                // If we deleted the currently displayed entry, clear popup
                 if (currentlyDisplayedEntry === e) {
                     currentlyDisplayedEntry = null;
                     updatePopup(null);
@@ -3202,7 +3555,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // EMAIL — ROMANTIC HTML + subject everywhere
+    // EMAIL — romantic HTML
     // ============================================================
     function generateFullHTMLEmail() {
         const subjectLine = getSubjectLine();
@@ -3384,11 +3737,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // WHATSAPP — sends ONLY the currently displayed outfit
-    // Bold *formatting* for important words. Does NOT clear history.
+    // WHATSAPP — sends only the currently displayed outfit
+    // with saved recipients + auto-save last used
     // ============================================================
     function buildWhatsAppMessage() {
-        // Prefer currently displayed entry; fallback to latest history
         let entry = currentlyDisplayedEntry;
         if (!entry && history.length > 0) entry = history[history.length - 1];
 
@@ -3402,7 +3754,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         msg += `📅 *${todayStr}*\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-        // CLOTH block
         msg += `👔 *CLOTH*\n`;
         msg += `Name: *${entry.cloth}*\n`;
         if (entry.clothCategory) msg += `Category: *${entry.clothCategory}*\n`;
@@ -3413,7 +3764,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         msg += `\n`;
 
-        // INNER block
         msg += `🩲 *INNER*\n`;
         if (entry.noInner || !entry.inner) {
             msg += `*🚫 No Inner*\n`;
@@ -3427,7 +3777,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         msg += `\n`;
 
-        // DATE + WEARER block
         if (entry.dateTag) msg += `${entry.dateTag}\n`;
         if (entry.wearer) {
             const w = entry.wearer === 'both' ? '*👤👤 Both*' :
@@ -3442,37 +3791,52 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     function openWhatsAppModal() {
-        // Require at least one entry (current popup or history)
         if (!currentlyDisplayedEntry && history.length === 0) {
             showToast('📭 No outfit picked yet!', 2500);
             return;
         }
-        // ALWAYS empty input — no default recipient
-        if (waPhoneInput) waPhoneInput.value = '';
-        // Show live preview of the latest outfit
+        // Reset selection
+        selectedRecipient = null;
+        updateSendButtonState();
+
+        // Hide add form
+        waAddForm.classList.remove('visible');
+        waNewName.value = '';
+        waNewNumber.value = '';
+
+        // Render recipients (includes "Last used" + saved list)
+        renderRecipients();
+
+        // Preview message
         if (waPreview) waPreview.textContent = buildWhatsAppMessage();
+
         waModal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        setTimeout(() => { if (waPhoneInput) waPhoneInput.focus(); }, 100);
     }
 
     function closeWhatsAppModal() {
         waModal.classList.remove('active');
         document.body.style.overflow = '';
+        // reset selection
+        selectedRecipient = null;
+        updateSendButtonState();
+        waAddForm.classList.remove('visible');
     }
 
     function sendWhatsApp() {
-        let phone = (waPhoneInput.value || '').replace(/\D/g, ''); // strip non-digits
-        if (!phone || phone.length < 8) {
-            showToast('⚠️ Enter a valid phone number with country code.', 2500);
-            waPhoneInput.focus();
+        if (!selectedRecipient || !selectedRecipient.number) {
+            showToast('⚠️ Please select a recipient first.', 2500);
             return;
         }
+        const phone = selectedRecipient.number.replace(/\D/g, '');
         const message = buildWhatsAppMessage();
         const encoded = encodeURIComponent(message);
         const url = `https://wa.me/${phone}?text=${encoded}`;
 
         const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+        // Auto-save last used number
+        saveLastUsed(phone);
 
         if (isMobile) {
             window.location.href = url;
@@ -3480,9 +3844,32 @@ html, body { max-width: 100%; overflow-x: hidden; }
             window.open(url, '_blank');
         }
 
-        // ❌ DO NOT clear history after WhatsApp (per user request)
-        showToast('💬 WhatsApp opening! History preserved 💕', 2500);
+        // Do NOT clear history after WhatsApp
+        showToast(`💬 WhatsApp opening for ${selectedRecipient.name}! History preserved 💕`, 2800);
         closeWhatsAppModal();
+    }
+
+    function toggleAddForm() {
+        waAddForm.classList.toggle('visible');
+        if (waAddForm.classList.contains('visible')) {
+            setTimeout(() => waNewName.focus(), 100);
+        }
+    }
+
+    function saveNewRecipient() {
+        const name = (waNewName.value || '').trim();
+        const number = (waNewNumber.value || '').replace(/\D/g, '');
+        if (!name) { showToast('⚠️ Enter a name.', 2000); waNewName.focus(); return; }
+        if (!number || number.length < 8) { showToast('⚠️ Enter a valid number.', 2500); waNewNumber.focus(); return; }
+        if (addRecipient(name, number)) {
+            waNewName.value = '';
+            waNewNumber.value = '';
+            waAddForm.classList.remove('visible');
+            // Auto-select the newly saved recipient
+            selectedRecipient = { name, number };
+            renderRecipients();
+            updateSendButtonState();
+        }
     }
 
     // ============================================================
@@ -3596,7 +3983,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         ALL_ITEMS = pulled.items.length > 0 ? pulled.items : TEST_ITEMS.slice();
         history = pulled.history;
         picked = pulled.picked;
-        // On pull, the "currently displayed" entry resets to the newest history item
         currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
         if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
         else updatePopup(null);
@@ -3684,9 +4070,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
     // ============================================================
     async function init() {
         loadLocalBackup();
+        loadRecipients();  // load saved WhatsApp recipients + last used
+
         if (ALL_ITEMS.length === 0) ALL_ITEMS = TEST_ITEMS.slice();
 
-        // On load, set currentlyDisplayedEntry to latest history entry (if any)
         if (history.length > 0) {
             currentlyDisplayedEntry = history[history.length - 1];
             updatePopup(currentlyDisplayedEntry);
@@ -3822,10 +4209,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (waCancelBtn) waCancelBtn.addEventListener('click', closeWhatsAppModal);
         if (waSendBtn) waSendBtn.addEventListener('click', sendWhatsApp);
         if (waModal) waModal.addEventListener('click', (e) => { if (e.target === waModal) closeWhatsAppModal(); });
-        if (waPhoneInput) waPhoneInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); sendWhatsApp(); }
-            if (e.key === 'Escape') closeWhatsAppModal();
-        });
+        if (waAddNewToggle) waAddNewToggle.addEventListener('click', (e) => { e.preventDefault(); toggleAddForm(); });
+        if (waAddSaveBtn) waAddSaveBtn.addEventListener('click', saveNewRecipient);
+        if (waAddCancelBtn) waAddCancelBtn.addEventListener('click', () => { waAddForm.classList.remove('visible'); waNewName.value = ''; waNewNumber.value = ''; });
+        if (waNewName) waNewName.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); waNewNumber.focus(); } });
+        if (waNewNumber) waNewNumber.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); saveNewRecipient(); } });
 
         if (newItemInput) newItemInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
         if (newCategoryInput) newCategoryInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
