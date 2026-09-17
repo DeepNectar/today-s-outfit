@@ -1,0 +1,2725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👕 Outfit Picker · Cloud Synced</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: linear-gradient(145deg, #eef4fc 0%, #e0ecf7 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    padding: 1.5rem;
+    margin: 0;
+}
+
+.card {
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(252, 254, 255, 0.94);
+    backdrop-filter: blur(6px);
+    border-radius: 56px;
+    padding: 2.5rem 2rem 2.8rem;
+    box-shadow: 0 20px 40px rgba(20, 40, 80, 0.12), 0 8px 20px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    border: 1px solid rgba(200, 220, 245, 0.7);
+}
+
+h2 {
+    font-weight: 500; font-size: 2.1rem; letter-spacing: -0.02em;
+    color: #1b2a3d; margin-bottom: 0.2rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.6rem; flex-wrap: wrap;
+}
+
+.sub {
+    color: #475f7a; font-weight: 400; font-size: 1rem;
+    margin-bottom: 1.5rem; opacity: 0.85;
+    border-bottom: 1px dashed rgba(90, 130, 170, 0.25);
+    padding-bottom: 0.75rem;
+}
+
+.status-badge {
+    display: inline-block; background: #22384f; color: #eaf3fc;
+    padding: 0.3rem 1.2rem; border-radius: 40px;
+    font-size: 0.9rem; margin-bottom: 0.8rem;
+}
+
+.sync-badge {
+    display: inline-block; padding: 0.2rem 1rem;
+    border-radius: 40px; font-size: 0.75rem; font-weight: 600;
+    margin-left: 0.5rem; background: #95a5a6; color: white;
+}
+.sync-badge.online { background: #27ae60; }
+.sync-badge.syncing { background: #f39c12; }
+.sync-badge.offline { background: #c0392b; }
+
+.delete-mode-indicator {
+    display: inline-block; padding: 0.2rem 1rem;
+    border-radius: 40px; font-size: 0.8rem; font-weight: 600;
+    margin-left: 0.5rem;
+}
+.delete-mode-indicator.active { background: #c0392b; color: white; }
+.delete-mode-indicator.inactive { background: #95a5a6; color: white; }
+
+.folder-tabs {
+    display: flex; justify-content: center; gap: 0.5rem;
+    flex-wrap: wrap; margin-bottom: 1rem;
+}
+.folder-tab {
+    padding: 0.5rem 1.4rem; border-radius: 60px;
+    border: 2px solid #c8d8ea; background: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem; font-weight: 600; color: #22384f;
+    cursor: pointer; font-family: inherit; transition: all 0.2s ease;
+}
+.folder-tab:hover { border-color: #7a9cbf; transform: scale(1.03); }
+.folder-tab.active { background: #22384f; color: white; border-color: #22384f; }
+
+.category-section, .add-section {
+    display: flex; justify-content: center; align-items: center;
+    gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+    padding: 0.8rem; background: rgba(220, 235, 250, 0.35);
+    border-radius: 60px; border: 1px solid rgba(150, 190, 225, 0.3);
+}
+.category-section label { font-weight: 500; color: #1b2a3d; font-size: 0.95rem; }
+
+.category-select {
+    padding: 0.6rem 1.2rem; border-radius: 60px;
+    border: 1px solid #b8cde2; background: rgba(255, 255, 255, 0.75);
+    font-size: 1rem; color: #1b2a3d; outline: none;
+    cursor: pointer; min-width: 200px; max-width: 320px; font-family: inherit;
+}
+.category-select:focus { border-color: #5a87b0; background: white; box-shadow: 0 0 0 3px rgba(90, 135, 176, 0.12); }
+
+.category-count {
+    font-size: 0.8rem; color: #475f7a;
+    background: rgba(150, 190, 225, 0.15);
+    padding: 0.2rem 0.8rem; border-radius: 40px; white-space: nowrap;
+}
+
+.drive-folder-btn {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 1rem; border-radius: 60px;
+    background: #1a73e8; color: white; border: none;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; text-decoration: none;
+}
+.drive-folder-btn:hover { background: #1557b0; transform: scale(1.03); }
+
+.add-section input[type="text"] {
+    flex: 1; min-width: 150px; padding: 0.7rem 1.2rem;
+    border-radius: 60px; border: 1px solid #b8cde2;
+    background: rgba(255, 255, 255, 0.75); font-size: 1rem;
+    color: #1b2a3d; outline: none; font-family: inherit;
+}
+.add-section input:focus { border-color: #5a87b0; background: white; box-shadow: 0 0 0 3px rgba(90, 135, 176, 0.12); }
+.add-section input::placeholder { color: #90a8c0; font-style: italic; }
+
+.btn-add {
+    background: #22384f; color: #eaf3fc; border: none;
+    padding: 0.7rem 1.6rem; border-radius: 60px;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s ease; display: inline-flex;
+    align-items: center; gap: 0.4rem; white-space: nowrap; font-family: inherit;
+}
+.btn-add:hover { background: #16283a; transform: scale(1.02); }
+
+.bulk-section {
+    display: flex; justify-content: center; align-items: center;
+    gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.bulk-section label {
+    background: rgba(220, 235, 250, 0.5);
+    padding: 0.5rem 1.2rem; border-radius: 60px;
+    font-size: 0.9rem; font-weight: 500; color: #1b2a3d;
+    cursor: pointer; border: 1px dashed #7a9cbf;
+}
+.bulk-section label:hover { background: rgba(220, 235, 250, 0.9); border-color: #22384f; }
+.bulk-section input[type="file"] { display: none; }
+
+.bulk-btn {
+    background: #475f7a; color: white; border: none;
+    padding: 0.5rem 1.4rem; border-radius: 60px;
+    font-size: 0.9rem; font-weight: 500; cursor: pointer; font-family: inherit;
+}
+.bulk-btn:hover { background: #22384f; transform: scale(1.02); }
+.bulk-btn.export-excel-btn { background: #1a6e3b; }
+
+.bulk-hint {
+    font-size: 0.75rem; color: #475f7a;
+    opacity: 0.7; width: 100%; text-align: center;
+}
+
+.list-container {
+    background: rgba(220, 235, 250, 0.4);
+    border-radius: 40px; padding: 1.5rem 1rem 1rem;
+    margin-bottom: 1.5rem; border: 1px solid rgba(200, 225, 250, 0.7);
+}
+
+.list-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 0.5rem 0.8rem 0.5rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.list-header .select-all-container {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.9rem; color: #1b2a3d;
+}
+.list-header .select-all-container input[type="checkbox"] {
+    width: 18px; height: 18px; cursor: pointer; accent-color: #22384f;
+}
+.list-header .bulk-delete-btn {
+    background: #c0392b; color: white; border: none;
+    padding: 0.4rem 1.2rem; border-radius: 40px;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    display: none; align-items: center; gap: 0.4rem; font-family: inherit;
+}
+.list-header .bulk-delete-btn.visible { display: inline-flex; }
+
+.item-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 0.7rem; max-height: 380px; overflow-y: auto; padding: 0.5rem;
+}
+.item-grid::-webkit-scrollbar { width: 6px; }
+.item-grid::-webkit-scrollbar-track { background: rgba(180, 200, 225, 0.2); border-radius: 10px; }
+.item-grid::-webkit-scrollbar-thumb { background: #7a9cbf; border-radius: 10px; }
+
+.item-card {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.4rem; padding: 0.5rem; border-radius: 16px;
+    border: 1px solid rgba(180, 205, 230, 0.5);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(20, 40, 80, 0.05);
+    position: relative; width: 110px; transition: all 0.2s ease;
+}
+.item-card:hover:not(.consumed) { transform: scale(1.04); border-color: #7a9cbf; }
+.item-card.consumed { opacity: 0.3; filter: grayscale(0.6); pointer-events: none; }
+.item-card .item-img {
+    width: 92px; height: 92px; border-radius: 12px;
+    object-fit: cover; background: #eef4fc; border: 2px solid #c8d8ea; display: block;
+}
+.item-card .item-name {
+    font-size: 0.75rem; font-weight: 600; color: #1b2a3d;
+    text-align: center; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.item-card .select-checkbox {
+    position: absolute; top: 6px; left: 6px;
+    width: 18px; height: 18px; cursor: pointer;
+    accent-color: #c0392b; display: none;
+}
+.item-card.delete-mode-active .select-checkbox { display: block; }
+.item-card.selected-for-delete {
+    background: #fce4e4; border-color: #c0392b;
+    box-shadow: 0 0 0 2px #c0392b;
+}
+.item-card .delete-btn {
+    position: absolute; top: 6px; right: 6px;
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 22px; height: 22px;
+    font-size: 13px; cursor: pointer; padding: 0;
+    display: none; align-items: center; justify-content: center;
+    font-weight: bold; font-family: inherit;
+}
+.item-card.delete-mode-active .delete-btn { display: flex; }
+.item-card .delete-btn:hover { background: #e74c3c; }
+
+.popup-area {
+    background: #dce8f5; border-radius: 80px;
+    padding: 1.2rem 1.5rem; margin: 1.5rem 0 1.8rem;
+    border: 1px solid rgba(200, 225, 250, 0.7);
+}
+.popup-display {
+    font-size: 2.6rem; font-weight: 600; color: #16283a;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 1.2rem 1.5rem; border-radius: 60px;
+    min-height: 8rem; display: flex; align-items: center;
+    justify-content: center; gap: 1rem; flex-wrap: wrap;
+    border: 1px solid rgba(220, 235, 250, 0.8);
+}
+.popup-display .popup-empty {
+    font-size: 1.8rem; font-weight: 400;
+    opacity: 0.7; color: #475f7a;
+}
+.popup-display .outfit-card {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0.6rem; width: 100%;
+}
+.popup-display .outfit-row {
+    display: flex; align-items: center;
+    gap: 0.9rem; flex-wrap: wrap; justify-content: center;
+}
+.popup-display .outfit-photo {
+    width: 80px; height: 80px; border-radius: 16px;
+    object-fit: cover; border: 3px solid #22384f; background: #eef4fc;
+}
+.popup-display .outfit-photo.inner-photo { border-color: #2d6a4f; }
+.popup-display .no-photo {
+    width: 80px; height: 80px; border-radius: 16px;
+    background: #dce8f5; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; border: 3px solid #7f8c8d;
+}
+.popup-display .popup-text { color: #16283a; font-weight: 600; font-size: 1.5rem; }
+.popup-display .popup-text.inner-text { color: #2d6a4f; font-size: 1.3rem; }
+.popup-display .popup-tag {
+    background: #22384f; color: #eaf3fc;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.9rem;
+}
+.popup-display .popup-category {
+    background: #2d6a4f; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.8rem;
+}
+.popup-display .popup-date {
+    background: #8e44ad; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.8rem;
+}
+.popup-display .no-inner-badge {
+    background: #7f8c8d; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.9rem;
+}
+
+.btn-group {
+    display: flex; justify-content: center; align-items: center;
+    gap: 1.2rem; flex-wrap: wrap; margin-top: 0.5rem;
+}
+.btn {
+    border: none; padding: 0.85rem 2rem; border-radius: 80px;
+    font-size: 1.1rem; font-weight: 600; color: #1b2a3d;
+    cursor: pointer; display: inline-flex; align-items: center;
+    gap: 0.6rem; box-shadow: 0 6px 14px rgba(20, 40, 80, 0.06);
+    border: 1px solid rgba(220, 235, 250, 0.8);
+    transition: all 0.25s ease; background: rgba(255, 255, 255, 0.9);
+    font-family: inherit;
+}
+.btn-primary { background: #22384f; color: #eaf3fc; box-shadow: 0 8px 18px rgba(20, 40, 80, 0.25); }
+.btn-primary:hover:not(:disabled) { background: #16283a; transform: scale(1.02); }
+.btn-outline { background: rgba(255, 255, 255, 0.5); border: 1px solid #b8cde2; }
+.btn-outline:hover { background: rgba(255, 255, 255, 0.9); border-color: #7a9cbf; transform: scale(1.02); }
+.btn-email { background: #2d6a4f; color: #eaf3fc; }
+.btn-email:hover { background: #1d4d38; transform: scale(1.02); }
+.btn-danger { background: #c0392b; color: #eaf3fc; }
+.btn-danger:hover { background: #e74c3c; transform: scale(1.02); }
+.btn-clear { background: #8e44ad; color: #eaf3fc; }
+.btn-clear:hover { background: #6c3483; transform: scale(1.02); }
+.btn-sync { background: #3498db; color: #eaf3fc; }
+.btn-sync:hover { background: #2980b9; transform: scale(1.02); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn i { font-style: normal; font-size: 1.3rem; line-height: 1; }
+
+.history-section {
+    margin-top: 1.8rem; background: rgba(220, 235, 250, 0.35);
+    border-radius: 40px; padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(150, 190, 225, 0.3);
+    max-height: 340px; overflow-y: auto;
+}
+.history-section h3 {
+    font-size: 1.1rem; color: #22384f; font-weight: 500;
+    margin-bottom: 0.8rem; display: flex; align-items: center;
+    justify-content: center; gap: 0.5rem; flex-wrap: wrap;
+}
+.history-list { display: flex; flex-direction: column; gap: 0.4rem; text-align: left; }
+.history-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0.8rem; background: rgba(255, 255, 255, 0.75);
+    border-radius: 12px; border-left: 4px solid #7a9cbf;
+    font-size: 0.95rem; color: #1b2a3d; gap: 0.5rem; flex-wrap: wrap;
+}
+.history-item .cloth-photo {
+    width: 40px; height: 40px; border-radius: 8px;
+    object-fit: cover; border: 2px solid #c8d8ea; flex-shrink: 0;
+}
+.history-item .dish-name { font-weight: 500; flex: 1; min-width: 120px; }
+.history-item .dish-category {
+    font-size: 0.7rem; background: #2d6a4f; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
+}
+.history-item .inner-tag {
+    font-size: 0.7rem; background: #2c3e50; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
+}
+.history-item .inner-tag.no-inner { background: #7f8c8d; }
+.history-item .dish-date { color: #475f7a; font-size: 0.85rem; }
+.history-item .dish-date-tag {
+    font-size: 0.7rem; background: #8e44ad; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
+}
+.history-item .cook-tags { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+.cook-tag {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.15rem 0.6rem; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 500; cursor: pointer;
+    border: 2px solid transparent; background: #e8eef5; color: #3a5470;
+}
+.cook-tag:hover { transform: scale(1.05); }
+.cook-tag.active-deep { background: #2c3e50; color: white; }
+.cook-tag.active-honey { background: #d4a373; color: white; }
+.cook-tag.inactive { opacity: 0.5; }
+
+.history-delete-btn {
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 24px; height: 24px;
+    font-size: 13px; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center;
+    justify-content: center; opacity: 0.6; font-family: inherit;
+}
+.history-delete-btn:hover { opacity: 1; background: #e74c3c; }
+
+.history-empty { color: #90a8c0; font-style: italic; padding: 0.5rem; text-align: center; }
+
+.footer-meta {
+    margin-top: 1.8rem; color: #475f7a; font-size: 0.85rem;
+    opacity: 0.75; border-top: 1px solid rgba(90, 130, 170, 0.15);
+    padding-top: 1.5rem; display: flex; justify-content: center;
+    gap: 1.2rem; flex-wrap: wrap;
+}
+.footer-meta span { background: rgba(20, 40, 80, 0.03); padding: 0.2rem 1rem; border-radius: 40px; }
+
+.reset-notice {
+    font-size: 0.9rem; color: #475f7a;
+    background: rgba(150, 190, 225, 0.15);
+    padding: 0.3rem 1.2rem; border-radius: 60px;
+    display: inline-block; margin-top: 0.6rem;
+}
+
+.toast-message {
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%); background: #22384f;
+    color: #eaf3fc; padding: 0.8rem 2rem;
+    border-radius: 60px; font-size: 1rem; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none; z-index: 1000;
+}
+.toast-message.show { opacity: 1; }
+
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px); z-index: 2000;
+    justify-content: center; align-items: center; padding: 1rem;
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+    background: white; border-radius: 40px; padding: 2rem;
+    max-width: 460px; width: 90%; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.modal h3 { color: #1b2a3d; margin-bottom: 0.5rem; font-size: 1.4rem; }
+.modal p { color: #475f7a; margin-bottom: 1.5rem; font-size: 0.95rem; }
+.modal input, .modal select {
+    width: 100%; padding: 0.8rem 1.2rem;
+    border-radius: 60px; border: 2px solid #b8cde2;
+    font-size: 1rem; margin-bottom: 1rem;
+    outline: none; font-family: inherit; background: white;
+}
+.modal input:focus, .modal select:focus { border-color: #5a87b0; }
+.modal .modal-buttons { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+.modal .modal-buttons button {
+    padding: 0.7rem 1.8rem; border-radius: 60px;
+    border: none; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+}
+.modal .modal-buttons .modal-confirm { background: #c0392b; color: white; }
+.modal .modal-buttons .modal-confirm:hover { background: #e74c3c; }
+.modal .modal-buttons .modal-cancel { background: #dce8f5; color: #1b2a3d; }
+.modal .modal-buttons .modal-cancel:hover { background: #c8d8ea; }
+
+.modal .error-text {
+    color: #c0392b; font-size: 0.9rem;
+    margin-top: -0.5rem; margin-bottom: 0.8rem; display: none;
+}
+.modal .error-text.show { display: block; }
+
+.modal .date-option {
+    display: flex; gap: 0.6rem; justify-content: center;
+    margin-bottom: 1rem; flex-wrap: wrap;
+}
+.modal .date-option label {
+    display: flex; align-items: center; gap: 0.4rem;
+    cursor: pointer; padding: 0.4rem 1rem;
+    border-radius: 40px; border: 2px solid #b8cde2;
+    font-size: 0.9rem; transition: all 0.2s ease;
+}
+.modal .date-option label.selected { border-color: #22384f; background: rgba(34, 56, 79, 0.08); }
+.modal .date-option label:hover { border-color: #7a9cbf; }
+
+.custom-date-row {
+    display: none; align-items: center; gap: 0.8rem;
+    justify-content: center; flex-wrap: wrap;
+    margin-bottom: 1rem; padding: 0.8rem 1rem;
+    background: #f4f8fc; border-radius: 20px;
+    border: 1px dashed #7a9cbf;
+}
+.custom-date-row.visible { display: flex; }
+.custom-date-row label {
+    font-size: 0.9rem; font-weight: 500;
+    color: #22384f; white-space: nowrap;
+}
+.custom-date-row input[type="date"] {
+    padding: 0.5rem 1rem; border-radius: 40px;
+    border: 2px solid #b8cde2; font-size: 0.95rem;
+    font-family: inherit; color: #1b2a3d;
+    background: white; outline: none;
+    cursor: pointer; margin-bottom: 0; width: auto;
+}
+.custom-date-row .custom-date-preview {
+    font-size: 0.8rem; color: #2d6a4f;
+    background: #e8f5e9; padding: 0.2rem 0.8rem;
+    border-radius: 40px; white-space: nowrap; font-weight: 500;
+}
+
+.photo-popup {
+    background: white; border-radius: 32px;
+    padding: 1.5rem; max-width: 560px; width: 92%;
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+.photo-popup h3 { color: #1b2a3d; font-size: 1.3rem; margin-bottom: 0.6rem; }
+.photo-popup .big-photo {
+    width: 100%; max-width: 420px; max-height: 480px;
+    object-fit: contain; border-radius: 20px;
+    background: #eef4fc; border: 3px solid #c8d8ea;
+    margin: 0 auto 1rem; display: block;
+}
+.photo-popup .popup-meta {
+    display: flex; justify-content: center;
+    gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+}
+.photo-popup .popup-meta span {
+    padding: 0.25rem 0.9rem; border-radius: 40px;
+    font-size: 0.85rem; font-weight: 600;
+}
+.photo-popup .popup-meta .cat { background: #2d6a4f; color: white; }
+.photo-popup .popup-meta .date { background: #8e44ad; color: white; }
+.photo-popup .popup-buttons { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+.photo-popup .popup-buttons button {
+    padding: 0.8rem 1.6rem; border-radius: 60px;
+    border: none; font-size: 1rem; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.2s ease;
+}
+.photo-popup .popup-buttons .btn-next { background: #2d6a4f; color: white; }
+.photo-popup .popup-buttons .btn-next:hover { background: #1d4d38; transform: scale(1.03); }
+.photo-popup .popup-buttons .btn-again { background: #f39c12; color: white; }
+.photo-popup .popup-buttons .btn-again:hover { background: #d68910; transform: scale(1.03); }
+.photo-popup .popup-buttons .btn-cancel { background: #dce8f5; color: #1b2a3d; }
+.photo-popup .popup-buttons .btn-cancel:hover { background: #c8d8ea; }
+
+.inner-grid {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    justify-content: center; max-height: 340px;
+    overflow-y: auto; padding: 0.5rem; margin-bottom: 1rem;
+}
+.inner-option {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.3rem; padding: 0.5rem; border-radius: 14px;
+    border: 2px solid #b8cde2; background: white;
+    cursor: pointer; width: 96px; transition: all 0.2s ease; font-family: inherit;
+}
+.inner-option:hover { border-color: #5a87b0; transform: scale(1.05); }
+.inner-option.selected { border-color: #2d6a4f; background: #e8f5e9; box-shadow: 0 0 0 2px #2d6a4f; }
+.inner-option img {
+    width: 76px; height: 76px; border-radius: 10px;
+    object-fit: cover; border: 2px solid #c8d8ea;
+    background: #eef4fc; display: block;
+}
+.inner-option .no-inner-ph {
+    width: 76px; height: 76px; border-radius: 10px;
+    background: #ecf0f1; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; border: 2px solid #bdc3c7;
+}
+.inner-option .inner-label {
+    font-size: 0.72rem; font-weight: 600; color: #1b2a3d;
+    max-width: 90px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
+}
+.inner-option.no-inner-option { border-color: #7f8c8d; }
+.inner-option.no-inner-option.selected { border-color: #7f8c8d; background: #ecf0f1; box-shadow: 0 0 0 2px #7f8c8d; }
+
+.modal .bulk-delete-count { font-size: 2rem; font-weight: bold; color: #c0392b; margin: 0.5rem 0; }
+
+.email-options-modal {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7);
+    z-index: 3000; justify-content: center; align-items: center; padding: 2rem;
+}
+.email-options-modal.active { display: flex; }
+.email-options-content {
+    background: white; border-radius: 24px;
+    max-width: 700px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    padding: 2rem; position: relative;
+}
+.email-options-content .close-btn {
+    position: sticky; top: 0; float: right;
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 36px; height: 36px;
+    font-size: 20px; cursor: pointer; font-family: inherit;
+}
+.email-options-content h3 { color: #22384f; font-size: 1.6rem; margin-bottom: 0.5rem; text-align: center; }
+.email-options-content .subtitle { color: #475f7a; text-align: center; margin-bottom: 1.5rem; }
+
+.email-option-card {
+    background: #f4f8fc; border-radius: 16px;
+    padding: 1.2rem 1.5rem; margin-bottom: 1rem;
+    border: 2px solid #dce8f5;
+}
+.email-option-card .header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem; }
+.email-option-card .header .icon { font-size: 1.8rem; }
+.email-option-card .header .title { font-size: 1.1rem; font-weight: 600; color: #1b2a3d; }
+.email-option-card .header .badge {
+    background: #2d6a4f; color: white;
+    padding: 0.15rem 0.7rem; border-radius: 20px;
+    font-size: 0.7rem; margin-left: auto;
+}
+.email-option-card .description { color: #475f7a; font-size: 0.9rem; padding-left: 2.6rem; }
+.email-option-card .action-btn {
+    margin-top: 0.5rem; margin-left: 2.6rem;
+    padding: 0.4rem 1.2rem; border-radius: 60px;
+    border: none; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; background: #22384f; color: white; font-family: inherit;
+}
+.email-option-card .action-btn.html-btn { background: #2d6a4f; }
+.email-option-card .action-btn.plain-btn { background: #475f7a; }
+
+.email-subject-box {
+    background: #f4f8fc; padding: 12px 15px;
+    border-radius: 12px; margin: 10px 0 15px 0;
+    border-left: 4px solid #22384f;
+}
+.email-subject-box code { background: white; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; }
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
+@media (max-width: 600px) {
+    body { padding: 0.5rem; align-items: flex-start; }
+    .card { padding: 1.2rem 0.85rem 1.4rem; border-radius: 28px; }
+    h2 { font-size: 1.25rem; }
+    .sub { font-size: 0.78rem; }
+    .status-badge { font-size: 0.7rem; padding: 0.25rem 0.8rem; }
+    .category-section, .add-section {
+        flex-direction: column; align-items: stretch;
+        gap: 0.5rem; padding: 0.7rem; border-radius: 22px;
+    }
+    .category-select, .add-section input[type="text"] {
+        min-width: 0; max-width: 100%; width: 100%; font-size: 16px;
+    }
+    .btn-add { width: 100%; justify-content: center; }
+    .bulk-section label, .bulk-btn {
+        font-size: 0.75rem; padding: 0.4rem 0.85rem;
+        flex: 1 1 auto; justify-content: center; display: inline-flex;
+    }
+    .popup-display { font-size: 1.4rem; min-height: 5rem; padding: 0.8rem; }
+    .popup-display .outfit-photo { width: 56px; height: 56px; }
+    .popup-display .no-photo { width: 56px; height: 56px; font-size: 1.5rem; }
+    .popup-display .popup-text { font-size: 1.2rem; }
+    .btn-group { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .btn { width: 100%; justify-content: center; padding: 0.7rem 1rem; font-size: 0.9rem; }
+    .history-section { padding: 0.8rem; }
+    .history-item { flex-direction: column; align-items: stretch; gap: 0.35rem; }
+    .footer-meta { flex-direction: column; align-items: center; }
+    .toast-message { bottom: 1rem; left: 1rem; right: 1rem; transform: none; font-size: 0.85rem; }
+    .modal { padding: 1.4rem 1.1rem; width: 94%; }
+    .modal .modal-buttons { flex-direction: column; }
+    .modal .modal-buttons button { width: 100%; }
+    .folder-tab { font-size: 0.75rem; padding: 0.4rem 0.85rem; }
+    .item-card { width: 92px; }
+    .item-card .item-img { width: 76px; height: 76px; }
+    .inner-option { width: 84px; }
+    .inner-option img, .inner-option .no-inner-ph { width: 64px; height: 64px; }
+    .photo-popup .big-photo { max-height: 360px; }
+    .photo-popup .popup-buttons button { width: 100%; }
+}
+@media (max-width: 600px) {
+    input, select, textarea, button { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="card" role="main">
+    <h2><span>👕</span> today's outfit</h2>
+    <div class="sub">cloud synced · Google Drive photos · click refresh to pick</div>
+
+    <div class="status-badge" id="statusBadge">
+        🔁 0 / 0 picked
+        <span class="sync-badge" id="syncBadge">🔄 connecting...</span>
+        <span class="delete-mode-indicator inactive" id="deleteIndicator">🔒 locked</span>
+    </div>
+
+    <div class="folder-tabs">
+        <button class="folder-tab active" data-folder="cloth" id="tabCloth">👔 Cloth Folder</button>
+        <button class="folder-tab" data-folder="inner" id="tabInner">🩲 Inner Folder</button>
+    </div>
+
+    <div class="category-section">
+        <label for="categorySelect">📂 Category:</label>
+        <select class="category-select" id="categorySelect">
+            <option value="__all__">📋 All Categories</option>
+        </select>
+        <span class="category-count" id="categoryCount">0 items</span>
+        <button class="drive-folder-btn" id="openDriveFolderBtn" title="Open this category's Google Drive folder">📂 Open Drive Folder</button>
+    </div>
+
+    <div class="add-section" id="addSection">
+        <input type="text" id="newItemInput" placeholder="e.g. Blue Office Shirt" maxlength="80">
+        <input type="text" id="newCategoryInput" placeholder="Category" maxlength="60">
+        <input type="text" id="newItemLink" placeholder="Google Drive share link" style="flex:2;min-width:200px;">
+        <button class="btn-add" id="addItemBtn">➕ add</button>
+    </div>
+
+    <div class="bulk-section">
+        <label for="bulkFileInput">📂 Import CSV</label>
+        <input type="file" id="bulkFileInput" accept=".csv">
+        <button class="bulk-btn export-excel-btn" id="exportExcelBtn">📤 Export CSV</button>
+        <span class="bulk-hint">CSV format: "Item Name, Category, Drive Link" · saved to cloud automatically</span>
+    </div>
+
+    <div class="list-container">
+        <div class="list-header" id="listHeader">
+            <div class="select-all-container" id="selectAllContainer" style="display:none;">
+                <input type="checkbox" id="selectAllCheckbox">
+                <label for="selectAllCheckbox">Select All</label>
+                <span id="selectedCount" style="font-size:0.8rem; color:#475f7a;">(0 selected)</span>
+            </div>
+            <button class="bulk-delete-btn" id="bulkDeleteBtn">🗑️ Delete Selected</button>
+        </div>
+        <div class="item-grid" id="itemList"></div>
+    </div>
+
+    <div class="popup-area">
+        <div class="popup-display" id="popupDisplay">
+            <span class="popup-empty">✨ click refresh to pick an outfit</span>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="refreshBtn"><i>⟳</i> refresh</button>
+        <button class="btn btn-outline" id="resetBtn"><i>↺</i> reset all</button>
+        <button class="btn btn-clear" id="clearHistoryBtn"><i>🗑️</i> clear history</button>
+        <button class="btn btn-email" id="emailBtn"><i>✉</i> email</button>
+        <button class="btn btn-danger" id="deleteModeBtn"><i>🔒</i> delete mode</button>
+        <button class="btn btn-outline" id="manualAddBtn"><i>✍️</i> add manually</button>
+        <button class="btn btn-sync" id="syncBtn"><i>🔄</i> force sync</button>
+    </div>
+
+    <div class="reset-notice" id="resetNotice">add some items to get started!</div>
+
+    <div class="history-section">
+        <h3>📜 outfit history <span style="font-size:0.8rem; color:#475f7a;">(click tags · 🗑️ to delete)</span></h3>
+        <div class="history-list" id="historyList">
+            <div class="history-empty">no outfits picked yet</div>
+        </div>
+    </div>
+
+    <div class="footer-meta">
+        <span id="remainingCount">📋 0 remaining</span>
+        <span id="historyCount">📚 0 total picked</span>
+        <span id="lastSyncInfo">🔄 never synced</span>
+    </div>
+</div>
+
+<!-- Category + Date Modal -->
+<div class="modal-overlay" id="categoryModal">
+    <div class="modal" style="max-width:520px;">
+        <h3>📂 Select Category & Date</h3>
+        <p>Choose a category and when you want to wear this outfit</p>
+        <select id="categoryModalSelect"><option value="__all__">📋 All Categories</option></select>
+        <div style="font-size:0.85rem; color:#475f7a; margin-bottom:0.8rem;" id="categoryModalCount"></div>
+
+        <div class="date-option" id="dateOptionGroup">
+            <label class="selected" id="todayLabel"><input type="radio" name="outfitDate" value="today" checked> 📅 Today</label>
+            <label id="tomorrowLabel"><input type="radio" name="outfitDate" value="tomorrow"> 📅 Tomorrow</label>
+            <label id="yesterdayLabel"><input type="radio" name="outfitDate" value="yesterday"> 📅 Yesterday</label>
+            <label id="customLabel"><input type="radio" name="outfitDate" value="custom"> 📅 Custom</label>
+        </div>
+
+        <div class="custom-date-row" id="customDateRow">
+            <label for="customDateInput">🗓️ Pick a date:</label>
+            <input type="date" id="customDateInput">
+            <span class="custom-date-preview" id="customDatePreview"></span>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="categoryModalCancel">Cancel</button>
+            <button class="modal-confirm" id="categoryModalConfirm" style="background:#2d6a4f;">🎲 Pick Cloth</button>
+        </div>
+    </div>
+</div>
+
+<!-- BIG PHOTO POPUP -->
+<div class="modal-overlay" id="photoPopup">
+    <div class="photo-popup">
+        <h3 id="photoPopupTitle">👔 Cloth Picked</h3>
+        <img class="big-photo" id="photoPopupImg" alt="Picked cloth">
+        <div class="popup-meta">
+            <span class="cat" id="photoPopupCat">—</span>
+            <span class="date" id="photoPopupDate">—</span>
+        </div>
+        <div class="popup-buttons">
+            <button class="btn-cancel" id="photoPopupCancel">Cancel</button>
+            <button class="btn-again" id="photoPopupAgain">🔄 Pick Again</button>
+            <button class="btn-next" id="photoPopupNext">✅ OK, Pick Inner →</button>
+        </div>
+    </div>
+</div>
+
+<!-- Inner Selection Modal -->
+<div class="modal-overlay" id="innerModal">
+    <div class="modal" style="max-width:560px;">
+        <h3>🩲 Choose an Inner</h3>
+        <p id="innerModalSubtitle">Pick an inner to go with your cloth</p>
+        <div class="inner-grid" id="innerGrid"></div>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="innerModalCancel">Cancel</button>
+            <button class="modal-confirm" id="innerModalConfirm" style="background:#2d6a4f;">✅ Confirm Outfit</button>
+        </div>
+    </div>
+</div>
+
+<!-- Final Confirmation Modal -->
+<div class="modal-overlay" id="finalModal">
+    <div class="photo-popup">
+        <h3>🎉 Final Outfit</h3>
+        <div id="finalOutfitPreview" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="finalCancel" style="background:#dce8f5;color:#1b2a3d;">Back</button>
+            <button class="modal-confirm" id="finalConfirm" style="background:#2d6a4f;">✅ Save to History</button>
+        </div>
+    </div>
+</div>
+
+<!-- History Delete Modal -->
+<div class="modal-overlay" id="historyDeleteModal">
+    <div class="modal">
+        <h3>🔒 Delete History Entry</h3>
+        <p>Enter the password to delete this history entry</p>
+        <input type="password" id="historyDeletePassword" placeholder="Enter password" autocomplete="off">
+        <div class="error-text" id="historyDeleteError">❌ Incorrect password</div>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="historyDeleteCancel">Cancel</button>
+            <button class="modal-confirm" id="historyDeleteConfirm">🗑️ Delete Entry</button>
+        </div>
+    </div>
+</div>
+
+<!-- Password Modal -->
+<div class="modal-overlay" id="passwordModal">
+    <div class="modal">
+        <h3>🔒 Delete Items</h3>
+        <p>Enter the password to enable item deletion</p>
+        <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="off">
+        <div class="error-text" id="passwordError">❌ Incorrect password</div>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="modalCancel">Cancel</button>
+            <button class="modal-confirm" id="modalConfirm">Unlock</button>
+        </div>
+    </div>
+</div>
+
+<!-- Clear History Modal -->
+<div class="modal-overlay" id="clearHistoryModal">
+    <div class="modal">
+        <h3>🗑️ Clear All History</h3>
+        <p>This will delete all outfit history and reset all items to available.<br><strong>Also cleared from the cloud!</strong></p>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="clearHistoryCancel">Cancel</button>
+            <button class="modal-confirm" id="clearHistoryConfirm">Yes, Clear All</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Delete Modal -->
+<div class="modal-overlay" id="bulkDeleteModal">
+    <div class="modal">
+        <h3>🗑️ Bulk Delete Items</h3>
+        <p>Are you sure you want to delete the following items?</p>
+        <div class="bulk-delete-count" id="bulkDeleteCount">0</div>
+        <p style="font-size:0.85rem; color:#475f7a;" id="bulkDeleteList"></p>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="bulkDeleteCancel">Cancel</button>
+            <button class="modal-confirm" id="bulkDeleteConfirm">🗑️ Delete All</button>
+        </div>
+    </div>
+</div>
+
+<!-- Manual Add Modal -->
+<div class="modal-overlay" id="manualAddModal">
+    <div class="modal" style="max-width:520px;">
+        <h3>✍️ Add History Entry Manually</h3>
+        <p>Fill in the details below to add an entry directly to your history</p>
+        <input type="text" id="manualItemName" placeholder="👔 Cloth name (required)" maxlength="80" autocomplete="off">
+        <input type="text" id="manualCategory" placeholder="📂 Category (optional)" maxlength="60" autocomplete="off">
+        <input type="text" id="manualInnerName" placeholder="🩲 Inner name (optional — blank = No Inner)" maxlength="80" autocomplete="off">
+
+        <div style="text-align:left; margin-bottom:0.4rem; font-size:0.85rem; color:#475f7a; font-weight:500; padding-left:0.5rem;">📅 Date:</div>
+        <select id="manualDateSelect">
+            <option value="today" selected>📅 Today</option>
+            <option value="tomorrow">📅 Tomorrow</option>
+            <option value="yesterday">📅 Yesterday</option>
+            <option value="custom">📅 Custom...</option>
+            <option value="none">🚫 No date tag</option>
+        </select>
+
+        <div class="custom-date-row" id="manualCustomDateRow">
+            <label for="manualCustomDateInput">🗓️ Pick a date:</label>
+            <input type="date" id="manualCustomDateInput">
+            <span class="custom-date-preview" id="manualCustomDatePreview"></span>
+        </div>
+
+        <select id="manualWearer" style="margin-top:0.3rem;">
+            <option value="">— Wearer not assigned —</option>
+            <option value="deep">👤 Deep</option>
+            <option value="honey">👤 Honey</option>
+            <option value="both">👤👤 Both</option>
+        </select>
+        <div class="error-text" id="manualAddError">❌ Please enter a cloth name</div>
+        <div class="modal-buttons">
+            <button class="modal-cancel" id="manualAddCancel" type="button">Cancel</button>
+            <button class="modal-confirm" id="manualAddConfirm" type="button" style="background:#2d6a4f;">✍️ Add to History</button>
+        </div>
+    </div>
+</div>
+
+<!-- Email Options Modal -->
+<div class="email-options-modal" id="emailOptionsModal">
+    <div class="email-options-content">
+        <button class="close-btn" id="emailOptionsClose">✕</button>
+        <h3>📧 Email Options</h3>
+        <p class="subtitle">Choose how you want to send your outfit log · history will clear after</p>
+        <div class="email-subject-box">
+            <strong>📌 Subject:</strong> <code id="emailSubjectPreview">👕 Honey Outfit Log Selected by Me {Shinu} - —</code>
+        </div>
+        <div class="email-option-card">
+            <div class="header"><span class="icon">🎨</span><span class="title">HTML Formatting</span><span class="badge">Best Visual + Photos</span></div>
+            <div class="description">Beautiful formatted email with cloth & inner photos inline. Subject line is included at the top.</div>
+            <button class="action-btn html-btn" id="htmlOptionBtn">📋 Copy HTML</button>
+        </div>
+        <div class="email-option-card">
+            <div class="header"><span class="icon">📄</span><span class="title">Plain Text</span><span class="badge">Universal</span></div>
+            <div class="description">Clean plain text email (no photos, subject auto-filled).</div>
+            <button class="action-btn plain-btn" id="plainOptionBtn">📧 Open Email</button>
+        </div>
+        <div class="email-option-card">
+            <div class="header"><span class="icon">🔄</span><span class="title">Copy HTML for Outlook</span><span class="badge">Recommended</span></div>
+            <div class="description">Copies HTML with photos and subject line for pasting into Outlook.</div>
+            <button class="action-btn html-btn" id="hybridOptionBtn">📋 Copy HTML</button>
+        </div>
+        <div class="email-option-card">
+            <div class="header"><span class="icon">📧</span><span class="title">Open Email Client</span><span class="badge">Quick</span></div>
+            <div class="description">Opens your email client with plain text content and subject pre-filled.</div>
+            <button class="action-btn plain-btn" id="openOptionBtn">📧 Open Email</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-message" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function() {
+    "use strict";
+
+    // ============================================================
+    // ⚠️⚠️⚠️ TEST DATA BLOCK — REPLACE WITH YOUR REAL DATA LATER ⚠️⚠️⚠️
+    // ============================================================
+
+    const FIXED_CATEGORIES = {
+        cloth: ['Regular', 'Office', 'Night', 'While Going Out on Day and Night'],
+        inner: ['Inner Wear']
+    };
+
+    // 🔗 GOOGLE DRIVE FOLDER LINKS — for the "📂 Open Drive Folder" button
+    // Replace these reference links with your real folder links later.
+    const DRIVE_FOLDER_LINKS = {
+        'Regular': 'https://drive.google.com/drive/folders/1REF_REGULAR_FOLDER_ID_REFERENCE',
+        'Office': 'https://drive.google.com/drive/folders/1REF_OFFICE_FOLDER_ID_REFERENCE',
+        'Night': 'https://drive.google.com/drive/folders/1REF_NIGHT_FOLDER_ID_REFERENCE',
+        'While Going Out on Day and Night': 'https://drive.google.com/drive/folders/1REF_OUTING_FOLDER_ID_REFERENCE',
+        'Inner Wear': 'https://drive.google.com/drive/folders/1REF_INNER_FOLDER_ID_REFERENCE'
+    };
+
+    // ⚠️ TEST ITEMS — one reference link per category (replace this whole array later)
+    const TEST_ITEMS = [
+        // Regular
+        { name: 'Regular 1',  category: 'Regular', folder: 'cloth', link: 'https://drive.google.com/file/d/1hCgSf99Xoyu0s5M3D96YKFQttQAQzQlx/view?usp=drive_link' },
+        // Office
+        { name: 'Office 1',   category: 'Office', folder: 'cloth', link: 'https://drive.google.com/file/d/1Y6Iso7-Noa_h9tFzjS1vUJJhDUhjSg0E/view?usp=drive_link' },
+        // Inner
+        { name: 'Inner 1',    category: 'Inner Wear', folder: 'inner', link: 'https://drive.google.com/file/d/1X5aKXRcKZZLNVg_A-iEQvHBMhOvSQwDf/view?usp=drive_link' },
+        // Night
+        { name: 'Night 1',    category: 'Night', folder: 'cloth', link: 'https://drive.google.com/file/d/1C8Jz4j6SpEL5-GdHBzYGB0MmDLvHItAh/view?usp=drive_link' },
+        // Outing
+        { name: 'Outing 1',   category: 'While Going Out on Day and Night', folder: 'cloth', link: 'https://drive.google.com/file/d/1-dpTTFoeN9poefeG7d0TL7MTxufPbkz6/view?usp=drive_link' }
+    ];
+
+    // ⚠️⚠️⚠️ END TEST DATA BLOCK ⚠️⚠️⚠️
+
+    // ============================================================
+    // SUPABASE CONFIG — fill these in yourself
+    // ============================================================
+    const SUPABASE_URL = 'https://uskzenvzqlwmarjijidr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVza3plbnZ6cWx3bWFyamlqaWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjg4MTQsImV4cCI6MjEwNTIwNDgxNH0.IjW2SnsHHscEPjdiD_WaJ7u1ladgNr4OZAx1GWvKJKE';
+
+    const TABLE_ITEMS   = 'outfit_items';
+    const TABLE_HISTORY = 'outfit_history';
+    const TABLE_PICKED  = 'outfit_picked';
+
+    let supabaseClient = null;
+    try {
+        if (SUPABASE_URL && SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE' && window.supabase) {
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+    } catch (e) {
+        console.error('Supabase init failed:', e);
+    }
+
+    const PASSWORD = "Deepnectar@1612@";
+    let deleteMode = false;
+
+    let ALL_ITEMS = [];
+    let history = [];
+    let picked = [];
+    let selectedForDelete = new Set();
+    let currentFolder = 'cloth';
+
+    let pendingCloth = null;
+    let pendingInner = null;
+
+    // DOM
+    const itemGrid = document.getElementById('itemList');
+    const popupDisplay = document.getElementById('popupDisplay');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const emailBtn = document.getElementById('emailBtn');
+    const deleteModeBtn = document.getElementById('deleteModeBtn');
+    const statusBadge = document.getElementById('statusBadge');
+    const syncBadge = document.getElementById('syncBadge');
+    const remainingCount = document.getElementById('remainingCount');
+    const historyCount = document.getElementById('historyCount');
+    const lastSyncInfo = document.getElementById('lastSyncInfo');
+    const resetNotice = document.getElementById('resetNotice');
+    const newItemInput = document.getElementById('newItemInput');
+    const newCategoryInput = document.getElementById('newCategoryInput');
+    const newItemLink = document.getElementById('newItemLink');
+    const addItemBtn = document.getElementById('addItemBtn');
+    const historyList = document.getElementById('historyList');
+    const toast = document.getElementById('toast');
+    const categorySelect = document.getElementById('categorySelect');
+    const categoryCount = document.getElementById('categoryCount');
+    const selectAllContainer = document.getElementById('selectAllContainer');
+    const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+    const selectedCount = document.getElementById('selectedCount');
+    const bulkDeleteBtn = document.getElementById('bulkDeleteBtn');
+    const syncBtn = document.getElementById('syncBtn');
+    const deleteIndicator = document.getElementById('deleteIndicator');
+    const tabCloth = document.getElementById('tabCloth');
+    const tabInner = document.getElementById('tabInner');
+    const openDriveFolderBtn = document.getElementById('openDriveFolderBtn');
+
+    const manualAddBtn = document.getElementById('manualAddBtn');
+    const manualAddModal = document.getElementById('manualAddModal');
+    const manualItemName = document.getElementById('manualItemName');
+    const manualCategory = document.getElementById('manualCategory');
+    const manualInnerName = document.getElementById('manualInnerName');
+    const manualWearer = document.getElementById('manualWearer');
+    const manualAddConfirm = document.getElementById('manualAddConfirm');
+    const manualAddCancel = document.getElementById('manualAddCancel');
+    const manualAddError = document.getElementById('manualAddError');
+    const manualDateSelect = document.getElementById('manualDateSelect');
+    const manualCustomDateRow = document.getElementById('manualCustomDateRow');
+    const manualCustomDateInput = document.getElementById('manualCustomDateInput');
+    const manualCustomDatePreview = document.getElementById('manualCustomDatePreview');
+
+    const categoryModal = document.getElementById('categoryModal');
+    const categoryModalSelect = document.getElementById('categoryModalSelect');
+    const categoryModalCount = document.getElementById('categoryModalCount');
+    const categoryModalConfirm = document.getElementById('categoryModalConfirm');
+    const categoryModalCancel = document.getElementById('categoryModalCancel');
+
+    const customDateRow = document.getElementById('customDateRow');
+    const customDateInput = document.getElementById('customDateInput');
+    const customDatePreview = document.getElementById('customDatePreview');
+
+    const photoPopup = document.getElementById('photoPopup');
+    const photoPopupTitle = document.getElementById('photoPopupTitle');
+    const photoPopupImg = document.getElementById('photoPopupImg');
+    const photoPopupCat = document.getElementById('photoPopupCat');
+    const photoPopupDate = document.getElementById('photoPopupDate');
+    const photoPopupCancel = document.getElementById('photoPopupCancel');
+    const photoPopupAgain = document.getElementById('photoPopupAgain');
+    const photoPopupNext = document.getElementById('photoPopupNext');
+
+    const innerModal = document.getElementById('innerModal');
+    const innerModalSubtitle = document.getElementById('innerModalSubtitle');
+    const innerGrid = document.getElementById('innerGrid');
+    const innerModalCancel = document.getElementById('innerModalCancel');
+    const innerModalConfirm = document.getElementById('innerModalConfirm');
+
+    const finalModal = document.getElementById('finalModal');
+    const finalOutfitPreview = document.getElementById('finalOutfitPreview');
+    const finalCancel = document.getElementById('finalCancel');
+    const finalConfirm = document.getElementById('finalConfirm');
+
+    const historyDeleteModal = document.getElementById('historyDeleteModal');
+    const historyDeletePassword = document.getElementById('historyDeletePassword');
+    const historyDeleteError = document.getElementById('historyDeleteError');
+    const historyDeleteConfirm = document.getElementById('historyDeleteConfirm');
+    const historyDeleteCancel = document.getElementById('historyDeleteCancel');
+
+    const modal = document.getElementById('passwordModal');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordError = document.getElementById('passwordError');
+    const modalConfirm = document.getElementById('modalConfirm');
+    const modalCancel = document.getElementById('modalCancel');
+
+    const clearHistoryModal = document.getElementById('clearHistoryModal');
+    const clearHistoryConfirm = document.getElementById('clearHistoryConfirm');
+    const clearHistoryCancel = document.getElementById('clearHistoryCancel');
+
+    const bulkDeleteModal = document.getElementById('bulkDeleteModal');
+    const bulkDeleteConfirm = document.getElementById('bulkDeleteConfirm');
+    const bulkDeleteCancel = document.getElementById('bulkDeleteCancel');
+    const bulkDeleteCount = document.getElementById('bulkDeleteCount');
+    const bulkDeleteList = document.getElementById('bulkDeleteList');
+
+    const emailOptionsModal = document.getElementById('emailOptionsModal');
+    const emailOptionsClose = document.getElementById('emailOptionsClose');
+    const htmlOptionBtn = document.getElementById('htmlOptionBtn');
+    const plainOptionBtn = document.getElementById('plainOptionBtn');
+    const hybridOptionBtn = document.getElementById('hybridOptionBtn');
+    const openOptionBtn = document.getElementById('openOptionBtn');
+    const emailSubjectPreview = document.getElementById('emailSubjectPreview');
+
+    const bulkFileInput = document.getElementById('bulkFileInput');
+    const exportExcelBtn = document.getElementById('exportExcelBtn');
+
+    let toastTimeout = null;
+    let historyEntryToDelete = null;
+    let lastSyncTime = null;
+    let isSyncing = false;
+
+    // ============================================================
+    // GOOGLE DRIVE HELPERS
+    // ============================================================
+    function extractDriveId(link) {
+        if (!link) return '';
+        let m = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (m) return m[1];
+        m = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        if (m) return m[1];
+        return '';
+    }
+    function driveThumbUrl(linkOrId, size) {
+        const id = linkOrId && linkOrId.startsWith('http') ? extractDriveId(linkOrId) : linkOrId;
+        if (!id) return '';
+        return `https://drive.google.com/thumbnail?id=${id}&sz=w${size || 400}`;
+    }
+
+    // ============================================================
+    // TOAST / SYNC BADGE
+    // ============================================================
+    function showToast(msg, duration) {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), duration || 2500);
+    }
+    function setSyncStatus(status, msg) {
+        if (!syncBadge) return;
+        syncBadge.className = 'sync-badge ' + status;
+        syncBadge.textContent = msg;
+    }
+    function updateLastSyncInfo() {
+        if (!lastSyncInfo) return;
+        if (!lastSyncTime) { lastSyncInfo.textContent = '🔄 never synced'; return; }
+        const s = Math.floor((Date.now() - lastSyncTime) / 1000);
+        if (s < 5) lastSyncInfo.textContent = '✅ synced just now';
+        else if (s < 60) lastSyncInfo.textContent = `✅ synced ${s}s ago`;
+        else lastSyncInfo.textContent = `✅ synced ${Math.floor(s/60)}m ago`;
+    }
+    setInterval(updateLastSyncInfo, 5000);
+
+    // ============================================================
+    // PICKED / ITEM HELPERS
+    // ============================================================
+    function keyFor(folder, name) { return folder + '::' + name; }
+    function isPicked(folder, name) { return picked.includes(keyFor(folder, name)); }
+    function getItemsByFolder(folder) { return ALL_ITEMS.filter(it => it.folder === folder); }
+    function getAvailableByFolder(folder) { return getItemsByFolder(folder).filter(it => !isPicked(folder, it.name)); }
+    function getAvailableByCategory(folder, category) {
+        const avail = getAvailableByFolder(folder);
+        if (category === '__all__') return avail;
+        return avail.filter(it => it.category === category);
+    }
+
+    // ============================================================
+    // DATE HELPERS
+    // ============================================================
+    function getDateForOption(opt, custom) {
+        const n = new Date();
+        if (opt === 'today') return n;
+        if (opt === 'tomorrow') { const t = new Date(n); t.setDate(t.getDate()+1); return t; }
+        if (opt === 'yesterday') { const y = new Date(n); y.setDate(y.getDate()-1); return y; }
+        if (opt === 'custom' && custom) {
+            const p = custom.split('-');
+            if (p.length === 3) return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+            return new Date(custom);
+        }
+        return n;
+    }
+    function getFormattedDate(d) {
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    function getFullDateTime(d) {
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+    function getCurrentDateTime() { return getFullDateTime(new Date()); }
+
+    function getSubjectLine() {
+        const d = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        return `👕 Honey Outfit Log Selected by Me {Shinu} - ${d}`;
+    }
+
+    // ============================================================
+    // DELETE MODE
+    // ============================================================
+    function updateDeleteIndicator() {
+        if (deleteIndicator) {
+            deleteIndicator.className = deleteMode ? 'delete-mode-indicator active' : 'delete-mode-indicator inactive';
+            deleteIndicator.textContent = deleteMode ? '🔓 unlocked' : '🔒 locked';
+        }
+        if (deleteModeBtn) {
+            deleteModeBtn.innerHTML = deleteMode ? '<i>🔓</i> delete mode (active)' : '<i>🔒</i> delete mode';
+            deleteModeBtn.style.background = deleteMode ? '#27ae60' : '#c0392b';
+        }
+        if (selectAllContainer) selectAllContainer.style.display = deleteMode ? 'flex' : 'none';
+        if (!deleteMode) selectedForDelete.clear();
+    }
+
+    // ============================================================
+    // UI RENDER
+    // ============================================================
+    function updateUI() {
+        renderItemList();
+        renderHistory();
+        updateCategoryDropdown();
+        updateCategoryModalDropdown();
+        updateDriveFolderBtn();
+
+        const totalAll = ALL_ITEMS.length;
+        const pAll = ALL_ITEMS.filter(it => isPicked(it.folder, it.name)).length;
+
+        statusBadge.innerHTML = `🔁 ${pAll} / ${totalAll} picked
+            <span class="sync-badge ${syncBadge ? syncBadge.className.replace('sync-badge ','') : 'offline'}" id="syncBadge">${syncBadge ? syncBadge.textContent : '🔄'}</span>
+            <span class="delete-mode-indicator ${deleteMode ? 'active' : 'inactive'}" id="deleteIndicator">${deleteMode ? '🔓 unlocked' : '🔒 locked'}</span>`;
+
+        const folderItems = getItemsByFolder(currentFolder);
+        const pCount = folderItems.filter(it => isPicked(currentFolder, it.name)).length;
+        const remaining = folderItems.length - pCount;
+        remainingCount.textContent = `📋 ${remaining} ${currentFolder} remaining`;
+        historyCount.textContent = `📚 ${history.length} outfits picked`;
+
+        if (refreshBtn) refreshBtn.disabled = (getAvailableByFolder('cloth').length === 0);
+
+        if (totalAll === 0) resetNotice.textContent = '📭 Add cloths and inners to get started';
+        else if (getAvailableByFolder('cloth').length === 0) resetNotice.textContent = '🎉 All cloths picked! click "reset all"';
+        else resetNotice.textContent = `click refresh to pick an outfit (${currentFolder} folder)`;
+
+        if (totalAll === 0) updatePopup(null);
+        updateDeleteIndicator();
+        updateSelectedCount();
+    }
+
+    function updateDriveFolderBtn() {
+        if (!openDriveFolderBtn) return;
+        const cat = categorySelect.value;
+        let link = '';
+        if (cat !== '__all__') link = DRIVE_FOLDER_LINKS[cat] || '';
+        if (link && !link.includes('REFERENCE')) {
+            openDriveFolderBtn.style.display = 'inline-flex';
+            openDriveFolderBtn.onclick = () => window.open(link, '_blank');
+        } else {
+            openDriveFolderBtn.style.display = 'none';
+        }
+    }
+
+    function updateCategoryDropdown() {
+        const folderItems = getItemsByFolder(currentFolder);
+        const cats = new Set(folderItems.map(it => it.category));
+        (FIXED_CATEGORIES[currentFolder] || []).forEach(c => cats.add(c));
+
+        const currentVal = categorySelect.value;
+        categorySelect.innerHTML = '';
+        const allOpt = document.createElement('option');
+        allOpt.value = '__all__';
+        allOpt.textContent = '📋 All Categories';
+        categorySelect.appendChild(allOpt);
+        Array.from(cats).sort().forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            categorySelect.appendChild(opt);
+        });
+        if (currentVal && (currentVal === '__all__' || cats.has(currentVal))) categorySelect.value = currentVal;
+        else categorySelect.value = '__all__';
+        updateCategoryCount();
+    }
+
+    function updateCategoryCount() {
+        const sel = categorySelect.value;
+        const folderItems = getItemsByFolder(currentFolder);
+        const available = getAvailableByCategory(currentFolder, sel);
+        if (sel === '__all__') categoryCount.textContent = `${available.length} / ${folderItems.length} available`;
+        else {
+            const total = folderItems.filter(it => it.category === sel).length;
+            categoryCount.textContent = `${available.length} / ${total} in "${sel}"`;
+        }
+    }
+
+    function updateSelectedCount() {
+        const count = selectedForDelete.size;
+        if (selectedCount) selectedCount.textContent = `(${count} selected)`;
+        if (bulkDeleteBtn) {
+            bulkDeleteBtn.classList.toggle('visible', deleteMode && count > 0);
+            bulkDeleteBtn.textContent = count > 0 ? `🗑️ Delete Selected (${count})` : '🗑️ Delete Selected';
+        }
+        if (selectAllCheckbox) {
+            const filtered = getFilteredItems();
+            const avail = filtered.filter(it => !isPicked(currentFolder, it.name));
+            selectAllCheckbox.checked = count > 0 && count === avail.length;
+            selectAllCheckbox.indeterminate = count > 0 && count < avail.length;
+        }
+    }
+
+    function getFilteredItems() {
+        const sel = categorySelect.value;
+        const folderItems = getItemsByFolder(currentFolder);
+        return sel === '__all__' ? folderItems : folderItems.filter(it => it.category === sel);
+    }
+
+    function toggleSelectItem(name) {
+        if (!deleteMode) return;
+        if (isPicked(currentFolder, name)) return;
+        if (selectedForDelete.has(name)) selectedForDelete.delete(name);
+        else selectedForDelete.add(name);
+        updateSelectedCount();
+        renderItemList();
+    }
+
+    function selectAllItems() {
+        if (!deleteMode) return;
+        const avail = getFilteredItems().filter(it => !isPicked(currentFolder, it.name));
+        if (selectAllCheckbox.checked) avail.forEach(it => selectedForDelete.add(it.name));
+        else avail.forEach(it => selectedForDelete.delete(it.name));
+        updateSelectedCount();
+        renderItemList();
+    }
+
+    function renderItemList() {
+        if (!itemGrid) return;
+        itemGrid.innerHTML = '';
+        const folderItems = getItemsByFolder(currentFolder);
+        if (folderItems.length === 0) {
+            const e = document.createElement('span');
+            e.style.cssText = 'color:#90a8c0;font-style:italic;padding:0.5rem;';
+            e.textContent = currentFolder === 'cloth' ? 'no cloths yet' : 'no inners yet';
+            itemGrid.appendChild(e);
+            return;
+        }
+        const filtered = getFilteredItems();
+        if (filtered.length === 0) {
+            const e = document.createElement('span');
+            e.style.cssText = 'color:#90a8c0;font-style:italic;padding:0.5rem;';
+            e.textContent = `no items in "${categorySelect.value}"`;
+            itemGrid.appendChild(e);
+            return;
+        }
+        filtered.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            const pickedNow = isPicked(currentFolder, item.name);
+            if (pickedNow) card.classList.add('consumed');
+            if (deleteMode && !pickedNow) card.classList.add('delete-mode-active');
+
+            if (deleteMode && !pickedNow) {
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.className = 'select-checkbox';
+                cb.checked = selectedForDelete.has(item.name);
+                cb.addEventListener('change', (e) => { e.stopPropagation(); toggleSelectItem(item.name); });
+                card.appendChild(cb);
+            }
+
+            const img = document.createElement('img');
+            img.className = 'item-img';
+            img.alt = item.name;
+            img.loading = 'lazy';
+            img.referrerPolicy = 'no-referrer';
+            img.src = driveThumbUrl(item.link, 400) || '';
+            img.onerror = () => { img.style.background = '#ffe0e0'; img.alt = '⚠️ image unavailable'; };
+            card.appendChild(img);
+
+            const nm = document.createElement('div');
+            nm.className = 'item-name';
+            nm.textContent = item.name;
+            card.appendChild(nm);
+
+            if (deleteMode && !pickedNow) {
+                const db = document.createElement('button');
+                db.className = 'delete-btn';
+                db.textContent = '×';
+                db.addEventListener('click', (e) => { e.stopPropagation(); deleteItem(item.name); });
+                card.appendChild(db);
+            }
+
+            if (selectedForDelete.has(item.name) && !pickedNow) card.classList.add('selected-for-delete');
+
+            card.addEventListener('click', (e) => {
+                if (deleteMode && !pickedNow && !e.target.closest('.delete-btn') && !e.target.closest('.select-checkbox')) {
+                    toggleSelectItem(item.name);
+                }
+            });
+
+            itemGrid.appendChild(card);
+        });
+    }
+
+    function renderHistory() {
+        if (!historyList) return;
+        historyList.innerHTML = '';
+        if (history.length === 0) {
+            const e = document.createElement('div');
+            e.className = 'history-empty';
+            e.textContent = 'no outfits picked yet';
+            historyList.appendChild(e);
+            return;
+        }
+        const reversed = [...history].reverse();
+        reversed.forEach((entry, idx) => {
+            const originalIndex = history.length - 1 - idx;
+            const row = document.createElement('div');
+            row.className = 'history-item';
+
+            if (entry.clothLink) {
+                const img = document.createElement('img');
+                img.className = 'cloth-photo';
+                img.src = driveThumbUrl(entry.clothLink, 200);
+                img.alt = entry.cloth;
+                img.loading = 'lazy';
+                img.referrerPolicy = 'no-referrer';
+                img.onerror = () => { img.style.background = '#ffe0e0'; };
+                row.appendChild(img);
+            }
+
+            const nameWrap = document.createElement('div');
+            nameWrap.style.cssText = 'display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'dish-name';
+            nameSpan.textContent = entry.cloth;
+
+            const catSpan = document.createElement('span');
+            catSpan.className = 'dish-category';
+            catSpan.textContent = entry.clothCategory || '—';
+
+            const innerTag = document.createElement('span');
+            if (entry.noInner || !entry.inner) {
+                innerTag.className = 'inner-tag no-inner';
+                innerTag.textContent = '🚫 No Inner';
+            } else {
+                innerTag.className = 'inner-tag';
+                innerTag.textContent = `🩲 ${entry.inner}`;
+            }
+
+            nameWrap.appendChild(nameSpan);
+            nameWrap.appendChild(catSpan);
+            nameWrap.appendChild(innerTag);
+
+            const dateWrap = document.createElement('span');
+            dateWrap.style.cssText = 'display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;';
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'dish-date';
+            dateSpan.textContent = entry.displayDate || getCurrentDateTime();
+            dateWrap.appendChild(dateSpan);
+            if (entry.dateTag) {
+                const dt = document.createElement('span');
+                dt.className = 'dish-date-tag';
+                dt.textContent = entry.dateTag;
+                dateWrap.appendChild(dt);
+            }
+
+            const wearTags = document.createElement('div');
+            wearTags.className = 'cook-tags';
+            const deepTag = document.createElement('span');
+            deepTag.className = `cook-tag ${entry.wearer === 'deep' || entry.wearer === 'both' ? 'active-deep' : 'inactive'}`;
+            deepTag.textContent = '👤 Deep';
+            deepTag.addEventListener('click', () => toggleWearer(originalIndex, 'deep'));
+            const honeyTag = document.createElement('span');
+            honeyTag.className = `cook-tag ${entry.wearer === 'honey' || entry.wearer === 'both' ? 'active-honey' : 'inactive'}`;
+            honeyTag.textContent = '👤 Honey';
+            honeyTag.addEventListener('click', () => toggleWearer(originalIndex, 'honey'));
+            wearTags.appendChild(deepTag);
+            wearTags.appendChild(honeyTag);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'history-delete-btn';
+            delBtn.textContent = '🗑️';
+            delBtn.addEventListener('click', (e) => { e.stopPropagation(); openHistoryDeleteModal(originalIndex); });
+
+            row.appendChild(nameWrap);
+            row.appendChild(dateWrap);
+            row.appendChild(wearTags);
+            row.appendChild(delBtn);
+            historyList.appendChild(row);
+        });
+    }
+
+    async function toggleWearer(idx, wearer) {
+        if (idx < 0 || idx >= history.length) return;
+        const e = history[idx];
+        if (e.wearer === wearer) {
+            if (e.wearer === 'both') e.wearer = (wearer === 'deep') ? 'honey' : 'deep';
+            else e.wearer = '';
+        } else if (e.wearer === '') e.wearer = wearer;
+        else if (e.wearer === 'deep' && wearer === 'honey') e.wearer = 'both';
+        else if (e.wearer === 'honey' && wearer === 'deep') e.wearer = 'both';
+        else if (e.wearer === 'both') e.wearer = (wearer === 'deep') ? 'honey' : 'deep';
+        renderHistory();
+        await pushAllToCloud();
+    }
+
+    async function deleteItem(name) {
+        if (!deleteMode) { showToast('🔒 Locked.', 2000); return; }
+        if (isPicked(currentFolder, name)) { showToast('⚠️ Already picked.', 2000); return; }
+        const i = ALL_ITEMS.findIndex(it => it.folder === currentFolder && it.name === name);
+        if (i !== -1) {
+            ALL_ITEMS.splice(i, 1);
+            selectedForDelete.delete(name);
+            updateUI();
+            showToast(`🗑️ Deleted: ${name}`, 2500);
+            await pushAllToCloud();
+        }
+    }
+
+    // ============================================================
+    // PICK FLOW
+    // ============================================================
+    function pickClothFromCategory(category, dateOption, customDateValue) {
+        let available;
+        const clothCats = new Set(getItemsByFolder('cloth').map(it => it.category));
+        if (category === '__random__') {
+            const availCats = Array.from(clothCats).filter(cat => getAvailableByCategory('cloth', cat).length > 0);
+            if (availCats.length === 0) return null;
+            available = getAvailableByCategory('cloth', availCats[Math.floor(Math.random() * availCats.length)]);
+        } else {
+            available = getAvailableByCategory('cloth', category);
+        }
+        if (available.length === 0) return null;
+        const cloth = available[Math.floor(Math.random() * available.length)];
+        const dateObj = getDateForOption(dateOption, customDateValue);
+        let dateTag;
+        if (dateOption === 'today') dateTag = '📅 Today';
+        else if (dateOption === 'tomorrow') dateTag = '📅 Tomorrow';
+        else if (dateOption === 'yesterday') dateTag = '📅 Yesterday';
+        else if (dateOption === 'custom') dateTag = '📅 ' + getFormattedDate(dateObj);
+        else dateTag = '📅 Today';
+        return { cloth, dateTag, dateObj };
+    }
+
+    function showPhotoPopup(picked) {
+        pendingCloth = picked;
+        const thumb = driveThumbUrl(picked.cloth.link, 800);
+        photoPopupTitle.textContent = '👔 Cloth Picked';
+        photoPopupImg.src = thumb || '';
+        photoPopupImg.onerror = () => { photoPopupImg.style.background = '#ffe0e0'; };
+        photoPopupCat.textContent = picked.cloth.category;
+        photoPopupDate.textContent = picked.dateTag;
+        photoPopup.classList.add('active');
+    }
+
+    function closePhotoPopup() { photoPopup.classList.remove('active'); }
+
+    function openInnerModal() {
+        if (!pendingCloth) return;
+        innerModalSubtitle.textContent = `Cloth: ${pendingCloth.cloth.name} — now pick an inner`;
+        innerGrid.innerHTML = '';
+
+        const availableInners = getAvailableByFolder('inner');
+        availableInners.forEach(inner => {
+            const opt = document.createElement('div');
+            opt.className = 'inner-option';
+            const img = document.createElement('img');
+            img.src = driveThumbUrl(inner.link, 300) || '';
+            img.alt = inner.name;
+            img.loading = 'lazy';
+            img.referrerPolicy = 'no-referrer';
+            img.onerror = () => { img.style.background = '#ffe0e0'; };
+            opt.appendChild(img);
+            const lbl = document.createElement('div');
+            lbl.className = 'inner-label';
+            lbl.textContent = inner.name;
+            opt.appendChild(lbl);
+            opt.addEventListener('click', () => {
+                innerGrid.querySelectorAll('.inner-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                pendingInner = { item: inner };
+            });
+            innerGrid.appendChild(opt);
+        });
+
+        const ni = document.createElement('div');
+        ni.className = 'inner-option no-inner-option';
+        const ph = document.createElement('div');
+        ph.className = 'no-inner-ph';
+        ph.textContent = '🚫';
+        ni.appendChild(ph);
+        const niLbl = document.createElement('div');
+        niLbl.className = 'inner-label';
+        niLbl.textContent = 'No Inner';
+        ni.appendChild(niLbl);
+        ni.addEventListener('click', () => {
+            innerGrid.querySelectorAll('.inner-option').forEach(o => o.classList.remove('selected'));
+            ni.classList.add('selected');
+            pendingInner = { noInner: true };
+        });
+        innerGrid.appendChild(ni);
+        ni.classList.add('selected');
+        pendingInner = { noInner: true };
+
+        innerModal.classList.add('active');
+    }
+
+    function closeInnerModal() { innerModal.classList.remove('active'); }
+
+    function showFinalModal() {
+        if (!pendingCloth || !pendingInner) return;
+        finalOutfitPreview.innerHTML = '';
+
+        const clothBox = document.createElement('div');
+        clothBox.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:0.4rem;';
+        const cImg = document.createElement('img');
+        cImg.src = driveThumbUrl(pendingCloth.cloth.link, 400);
+        cImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #22384f;background:#eef4fc;';
+        cImg.onerror = () => { cImg.style.background = '#ffe0e0'; };
+        clothBox.appendChild(cImg);
+        const cTxt = document.createElement('div');
+        cTxt.style.cssText = 'font-weight:600;color:#22384f;font-size:0.9rem;';
+        cTxt.textContent = `👔 ${pendingCloth.cloth.name}`;
+        clothBox.appendChild(cTxt);
+        finalOutfitPreview.appendChild(clothBox);
+
+        const innerBox = document.createElement('div');
+        innerBox.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:0.4rem;';
+        if (pendingInner.noInner) {
+            const ni = document.createElement('div');
+            ni.style.cssText = 'width:180px;height:220px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:3px solid #7f8c8d;background:#ecf0f1;font-size:3rem;';
+            ni.textContent = '🚫';
+            innerBox.appendChild(ni);
+            const nTxt = document.createElement('div');
+            nTxt.style.cssText = 'font-weight:600;color:#7f8c8d;font-size:0.9rem;';
+            nTxt.textContent = 'No Inner';
+            innerBox.appendChild(nTxt);
+        } else {
+            const iImg = document.createElement('img');
+            iImg.src = driveThumbUrl(pendingInner.item.link, 400);
+            iImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #2d6a4f;background:#eef4fc;';
+            iImg.onerror = () => { iImg.style.background = '#ffe0e0'; };
+            innerBox.appendChild(iImg);
+            const iTxt = document.createElement('div');
+            iTxt.style.cssText = 'font-weight:600;color:#2d6a4f;font-size:0.9rem;';
+            iTxt.textContent = `🩲 ${pendingInner.item.name}`;
+            innerBox.appendChild(iTxt);
+        }
+        finalOutfitPreview.appendChild(innerBox);
+        finalModal.classList.add('active');
+    }
+
+    function closeFinalModal() { finalModal.classList.remove('active'); }
+
+    async function confirmFinalOutfit() {
+        if (!pendingCloth || !pendingInner) return;
+        const c = pendingCloth.cloth;
+        const d = pendingCloth.dateObj;
+        const entry = {
+            cloth: c.name,
+            clothCategory: c.category,
+            clothLink: c.link || '',
+            inner: pendingInner.noInner ? '' : pendingInner.item.name,
+            innerLink: pendingInner.noInner ? '' : (pendingInner.item.link || ''),
+            noInner: !!pendingInner.noInner,
+            date: getFullDateTime(d),
+            displayDate: getFormattedDate(d),
+            dateTag: pendingCloth.dateTag,
+            wearer: ''
+        };
+        history.push(entry);
+        picked.push(keyFor('cloth', c.name));
+        if (!pendingInner.noInner) picked.push(keyFor('inner', pendingInner.item.name));
+
+        updatePopup(entry);
+        updateUI();
+        closeFinalModal();
+        pendingCloth = null;
+        pendingInner = null;
+        if (navigator.vibrate) navigator.vibrate(12);
+        showToast(`✅ Saved: ${entry.cloth} + ${entry.noInner ? 'No Inner' : entry.inner}`, 2500);
+        await pushAllToCloud();
+    }
+
+    function updatePopup(entry) {
+        if (!popupDisplay) return;
+        if (!entry) {
+            popupDisplay.innerHTML = `<span class="popup-empty">✨ click refresh to pick an outfit</span>`;
+            return;
+        }
+        popupDisplay.innerHTML = '';
+        const wrap = document.createElement('div');
+        wrap.className = 'outfit-card';
+
+        const cRow = document.createElement('div');
+        cRow.className = 'outfit-row';
+        if (entry.clothLink) {
+            const img = document.createElement('img');
+            img.className = 'outfit-photo';
+            img.src = driveThumbUrl(entry.clothLink, 400);
+            img.onerror = () => { img.style.background = '#ffe0e0'; };
+            cRow.appendChild(img);
+        } else {
+            const ph = document.createElement('div');
+            ph.className = 'no-photo';
+            ph.textContent = '👔';
+            cRow.appendChild(ph);
+        }
+        const cTxt = document.createElement('span');
+        cTxt.className = 'popup-text';
+        cTxt.textContent = entry.cloth;
+        cRow.appendChild(cTxt);
+        const catTag = document.createElement('span');
+        catTag.className = 'popup-category';
+        catTag.textContent = entry.clothCategory || '—';
+        cRow.appendChild(catTag);
+        wrap.appendChild(cRow);
+
+        const iRow = document.createElement('div');
+        iRow.className = 'outfit-row';
+        if (entry.noInner || !entry.inner) {
+            const ni = document.createElement('span');
+            ni.className = 'no-inner-badge';
+            ni.textContent = '🚫 No Inner';
+            iRow.appendChild(ni);
+        } else {
+            if (entry.innerLink) {
+                const img = document.createElement('img');
+                img.className = 'outfit-photo inner-photo';
+                img.src = driveThumbUrl(entry.innerLink, 400);
+                img.onerror = () => { img.style.background = '#ffe0e0'; };
+                iRow.appendChild(img);
+            } else {
+                const ph = document.createElement('div');
+                ph.className = 'no-photo';
+                ph.textContent = '🩲';
+                iRow.appendChild(ph);
+            }
+            const iTxt = document.createElement('span');
+            iTxt.className = 'popup-text inner-text';
+            iTxt.textContent = entry.inner;
+            iRow.appendChild(iTxt);
+        }
+        const dTag = document.createElement('span');
+        dTag.className = 'popup-date';
+        dTag.textContent = entry.dateTag || '📅 Today';
+        iRow.appendChild(dTag);
+        const num = document.createElement('span');
+        num.className = 'popup-tag';
+        num.textContent = `#${history.length}`;
+        iRow.appendChild(num);
+        wrap.appendChild(iRow);
+
+        popupDisplay.appendChild(wrap);
+    }
+
+    // ============================================================
+    // CATEGORY MODAL
+    // ============================================================
+    function openCategoryModal() {
+        if (getItemsByFolder('cloth').length === 0) { showToast('📭 No cloths yet.', 2500); return; }
+        if (getAvailableByFolder('cloth').length === 0) { showToast('🎉 All cloths picked! Reset first.', 2500); return; }
+        const todayRadio = document.querySelector('input[name="outfitDate"][value="today"]');
+        if (todayRadio) todayRadio.checked = true;
+        document.querySelectorAll('.date-option label').forEach(l => l.classList.remove('selected'));
+        const tl = document.getElementById('todayLabel');
+        if (tl) tl.classList.add('selected');
+        if (customDateRow) customDateRow.classList.remove('visible');
+        if (customDateInput) customDateInput.value = '';
+        if (customDatePreview) customDatePreview.textContent = '';
+        updateCategoryModalDropdown();
+        categoryModal.classList.add('active');
+    }
+    function closeCategoryModal() {
+        categoryModal.classList.remove('active');
+        if (customDateRow) customDateRow.classList.remove('visible');
+    }
+    function updateCategoryModalDropdown() {
+        const currentVal = categoryModalSelect.value;
+        categoryModalSelect.innerHTML = '';
+        const allOpt = document.createElement('option');
+        allOpt.value = '__all__';
+        allOpt.textContent = '📋 All Categories';
+        categoryModalSelect.appendChild(allOpt);
+        const clothCats = new Set(getItemsByFolder('cloth').map(it => it.category));
+        (FIXED_CATEGORIES.cloth || []).forEach(c => clothCats.add(c));
+        Array.from(clothCats).sort().forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = `${cat} (${getAvailableByCategory('cloth', cat).length} available)`;
+            categoryModalSelect.appendChild(opt);
+        });
+        const rndOpt = document.createElement('option');
+        rndOpt.value = '__random__';
+        rndOpt.textContent = '🎲 Random Category';
+        categoryModalSelect.appendChild(rndOpt);
+        if (currentVal && (currentVal === '__all__' || currentVal === '__random__' || clothCats.has(currentVal))) categoryModalSelect.value = currentVal;
+        else categoryModalSelect.value = '__all__';
+        updateCategoryModalCount();
+    }
+    function updateCategoryModalCount() {
+        const sel = categoryModalSelect.value;
+        if (sel === '__random__') {
+            categoryModalCount.textContent = `🎲 ${getAvailableByFolder('cloth').length} cloths across all categories`;
+            return;
+        }
+        const avail = getAvailableByCategory('cloth', sel);
+        if (sel === '__all__') categoryModalCount.textContent = `${avail.length} / ${getItemsByFolder('cloth').length} cloths available`;
+        else {
+            const total = getItemsByFolder('cloth').filter(it => it.category === sel).length;
+            categoryModalCount.textContent = `${avail.length} / ${total} in "${sel}"`;
+        }
+    }
+    function confirmCategoryPick() {
+        const sel = categoryModalSelect.value;
+        let dateOpt = 'today';
+        document.querySelectorAll('input[name="outfitDate"]').forEach(r => { if (r.checked) dateOpt = r.value; });
+        if (dateOpt === 'custom' && (!customDateInput || !customDateInput.value)) {
+            showToast('⚠️ Please select a custom date.', 2500);
+            return;
+        }
+        const result = pickClothFromCategory(sel, dateOpt, customDateInput ? customDateInput.value : '');
+        if (result) {
+            closeCategoryModal();
+            showPhotoPopup(result);
+        } else showToast('No cloths available.', 2000);
+    }
+
+    function setupDateOptions() {
+        document.querySelectorAll('.date-option label').forEach(label => {
+            label.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                if (!radio) return;
+                radio.checked = true;
+                document.querySelectorAll('.date-option label').forEach(l => l.classList.remove('selected'));
+                this.classList.add('selected');
+                if (radio.value === 'custom') {
+                    if (customDateRow) customDateRow.classList.add('visible');
+                    if (customDateInput) {
+                        if (!customDateInput.value) {
+                            const t = new Date();
+                            customDateInput.value = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+                            updateCustomDatePreview();
+                        }
+                        setTimeout(() => customDateInput.focus(), 100);
+                    }
+                } else {
+                    if (customDateRow) customDateRow.classList.remove('visible');
+                }
+            });
+        });
+        if (customDateInput) {
+            customDateInput.addEventListener('change', updateCustomDatePreview);
+            customDateInput.addEventListener('input', updateCustomDatePreview);
+        }
+    }
+    function updateCustomDatePreview() {
+        if (!customDateInput || !customDatePreview) return;
+        if (!customDateInput.value) { customDatePreview.textContent = ''; return; }
+        const parts = customDateInput.value.split('-');
+        if (parts.length === 3) {
+            const d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+            customDatePreview.textContent = '→ ' + getFormattedDate(d);
+        }
+    }
+
+    // ============================================================
+    // RESET / CLEAR HISTORY
+    // ============================================================
+    async function handleReset() {
+        if (ALL_ITEMS.length === 0) { showToast('📭 No items to reset.', 2000); return; }
+        picked = [];
+        selectedForDelete.clear();
+        updatePopup(null);
+        updateUI();
+        showToast('🔄 All items available again! (history preserved)', 2000);
+        await pushAllToCloud();
+    }
+    function handleClearHistory() {
+        if (history.length === 0) { showToast('📭 No history to clear!', 2000); return; }
+        clearHistoryModal.classList.add('active');
+    }
+    async function confirmClearHistory() {
+        history = [];
+        picked = [];
+        selectedForDelete.clear();
+        updatePopup(null);
+        updateUI();
+        clearHistoryModal.classList.remove('active');
+        showToast('🗑️ All history cleared! (also from cloud)', 2500);
+        await pushAllToCloud();
+    }
+
+    // ============================================================
+    // ADD ITEM
+    // ============================================================
+    async function addNewItem() {
+        const name = (newItemInput.value || '').trim();
+        if (!name) { showToast('⚠️ Enter an item name.', 2000); return; }
+        const category = (newCategoryInput.value || '').trim() || (currentFolder === 'inner' ? 'Inner Wear' : 'Regular');
+        const link = (newItemLink.value || '').trim();
+        if (!link) { showToast('⚠️ Paste a Google Drive link.', 2000); return; }
+        const id = extractDriveId(link);
+        if (!id) { showToast('⚠️ Invalid Drive link.', 2500); return; }
+        if (ALL_ITEMS.some(it => it.folder === currentFolder && it.name.toLowerCase() === name.toLowerCase())) {
+            showToast(`⚠️ "${name}" already exists.`, 2500);
+            return;
+        }
+        ALL_ITEMS.push({ name, category, folder: currentFolder, link });
+        updateUI();
+        newItemInput.value = '';
+        newCategoryInput.value = '';
+        newItemLink.value = '';
+        newItemInput.focus();
+        showToast(`✅ Added: ${name}`, 2000);
+        await pushAllToCloud();
+    }
+
+    async function handleBulkImport(file) {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const content = e.target.result;
+            const lines = content.split(/\r?\n/).filter(l => l.trim() !== '');
+            let added = 0;
+            const dups = [];
+            lines.forEach((line, idx) => {
+                if (idx === 0 && (line.toLowerCase().includes('name') || line.toLowerCase().includes('category') || line.toLowerCase().includes('link'))) return;
+                const parts = line.split(',').map(s => s.trim().replace(/^"|"$/g, ''));
+                if (parts.length < 3) return;
+                const name = parts[0], category = parts[1], link = parts[2];
+                const id = extractDriveId(link);
+                if (!name || !id) return;
+                if (!ALL_ITEMS.some(it => it.folder === currentFolder && it.name.toLowerCase() === name.toLowerCase())) {
+                    ALL_ITEMS.push({ name, category: category || (currentFolder === 'inner' ? 'Inner Wear' : 'Regular'), folder: currentFolder, link });
+                    added++;
+                } else dups.push(name);
+            });
+            if (added > 0) {
+                updateUI();
+                showToast(`✅ Imported ${added} item(s)!`, 2500);
+                if (dups.length) showToast(`⚠️ Skipped ${dups.length} duplicates.`, 3000);
+                await pushAllToCloud();
+            } else showToast('ℹ️ No new items found.', 2500);
+            bulkFileInput.value = '';
+        };
+        reader.onerror = function() { showToast('❌ Error reading file.', 2000); bulkFileInput.value = ''; };
+        reader.readAsText(file);
+    }
+
+    function handleExportExcel() {
+        const folderItems = getItemsByFolder(currentFolder);
+        if (folderItems.length === 0) { showToast('📭 No items to export.', 2000); return; }
+        let content = 'Item Name,Category,Drive Link\n';
+        content += folderItems.map(it => `"${it.name}","${it.category}","${it.link}"`).join('\n');
+        const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentFolder}_export_${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('📤 Exported!', 2000);
+    }
+
+    // ============================================================
+    // MANUAL ADD
+    // ============================================================
+    function openManualAddModal() {
+        manualItemName.value = '';
+        manualCategory.value = '';
+        manualInnerName.value = '';
+        manualWearer.value = '';
+        manualAddError.classList.remove('show');
+        if (manualDateSelect) manualDateSelect.value = 'today';
+        if (manualCustomDateRow) manualCustomDateRow.classList.remove('visible');
+        if (manualCustomDateInput) manualCustomDateInput.value = '';
+        if (manualCustomDatePreview) manualCustomDatePreview.textContent = '';
+        manualAddModal.classList.add('active');
+        setTimeout(() => manualItemName.focus(), 100);
+    }
+    function closeManualAddModal() {
+        manualAddModal.classList.remove('active');
+        manualAddError.classList.remove('show');
+        if (manualCustomDateRow) manualCustomDateRow.classList.remove('visible');
+    }
+    async function confirmManualAdd() {
+        const clothName = (manualItemName.value || '').trim();
+        if (!clothName) {
+            manualAddError.classList.add('show');
+            manualItemName.focus();
+            setTimeout(() => manualAddError.classList.remove('show'), 3000);
+            return;
+        }
+        const category = (manualCategory.value || '').trim() || 'Regular';
+        const innerName = (manualInnerName.value || '').trim();
+        const wearer = manualWearer.value;
+        const dateOpt = manualDateSelect ? manualDateSelect.value : 'today';
+
+        if (dateOpt === 'custom' && (!manualCustomDateInput || !manualCustomDateInput.value)) {
+            showToast('⚠️ Please select a custom date.', 2500);
+            return;
+        }
+
+        let dateObj, dateTag;
+        if (dateOpt === 'none') { dateObj = new Date(); dateTag = ''; }
+        else {
+            dateObj = getDateForOption(dateOpt, manualCustomDateInput ? manualCustomDateInput.value : '');
+            if (dateOpt === 'today') dateTag = '📅 Today';
+            else if (dateOpt === 'tomorrow') dateTag = '📅 Tomorrow';
+            else if (dateOpt === 'yesterday') dateTag = '📅 Yesterday';
+            else if (dateOpt === 'custom') dateTag = '📅 ' + getFormattedDate(dateObj);
+            else dateTag = '📅 Today';
+        }
+
+        const clothItem = ALL_ITEMS.find(it => it.folder === 'cloth' && it.name.toLowerCase() === clothName.toLowerCase());
+        const innerItem = innerName ? ALL_ITEMS.find(it => it.folder === 'inner' && it.name.toLowerCase() === innerName.toLowerCase()) : null;
+
+        history.push({
+            cloth: clothName,
+            clothCategory: clothItem ? clothItem.category : category,
+            clothLink: clothItem ? (clothItem.link || '') : '',
+            inner: innerItem ? innerItem.name : (innerName || ''),
+            innerLink: innerItem ? (innerItem.link || '') : '',
+            noInner: !innerName,
+            date: getFullDateTime(dateObj),
+            displayDate: getFormattedDate(dateObj),
+            dateTag,
+            wearer
+        });
+        if (!isPicked('cloth', clothName)) picked.push(keyFor('cloth', clothName));
+        if (innerName && !isPicked('inner', innerName)) picked.push(keyFor('inner', innerName));
+
+        updateUI();
+        closeManualAddModal();
+        showToast('✍️ Added: ' + clothName, 2500);
+        await pushAllToCloud();
+    }
+    function setupManualDateDropdown() {
+        if (!manualDateSelect) return;
+        manualDateSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                if (manualCustomDateRow) manualCustomDateRow.classList.add('visible');
+                if (manualCustomDateInput) {
+                    if (!manualCustomDateInput.value) {
+                        const t = new Date();
+                        manualCustomDateInput.value = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+                        updateManualCustomDatePreview();
+                    }
+                    setTimeout(() => manualCustomDateInput.focus(), 100);
+                }
+            } else {
+                if (manualCustomDateRow) manualCustomDateRow.classList.remove('visible');
+            }
+        });
+        if (manualCustomDateInput) {
+            manualCustomDateInput.addEventListener('change', updateManualCustomDatePreview);
+            manualCustomDateInput.addEventListener('input', updateManualCustomDatePreview);
+        }
+    }
+    function updateManualCustomDatePreview() {
+        if (!manualCustomDateInput || !manualCustomDatePreview) return;
+        if (!manualCustomDateInput.value) { manualCustomDatePreview.textContent = ''; return; }
+        const parts = manualCustomDateInput.value.split('-');
+        if (parts.length === 3) {
+            const d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+            manualCustomDatePreview.textContent = '→ ' + getFormattedDate(d);
+        }
+    }
+
+    // ============================================================
+    // HISTORY DELETE
+    // ============================================================
+    function openHistoryDeleteModal(idx) {
+        if (idx < 0 || idx >= history.length) return;
+        historyEntryToDelete = idx;
+        historyDeletePassword.value = '';
+        historyDeleteError.classList.remove('show');
+        historyDeleteModal.classList.add('active');
+        historyDeletePassword.focus();
+    }
+    function closeHistoryDeleteModal() {
+        historyDeleteModal.classList.remove('active');
+        historyEntryToDelete = null;
+        historyDeletePassword.value = '';
+        historyDeleteError.classList.remove('show');
+    }
+    async function confirmHistoryDelete() {
+        if (historyDeletePassword.value === PASSWORD) {
+            if (historyEntryToDelete !== null && historyEntryToDelete >= 0 && historyEntryToDelete < history.length) {
+                const e = history[historyEntryToDelete];
+                history.splice(historyEntryToDelete, 1);
+                const ck = keyFor('cloth', e.cloth);
+                const ci = picked.indexOf(ck);
+                if (ci !== -1) picked.splice(ci, 1);
+                if (!e.noInner && e.inner) {
+                    const ik = keyFor('inner', e.inner);
+                    const ii = picked.indexOf(ik);
+                    if (ii !== -1) picked.splice(ii, 1);
+                }
+                closeHistoryDeleteModal();
+                updateUI();
+                showToast(`🗑️ Deleted: ${e.cloth}`, 2500);
+                await pushAllToCloud();
+            }
+        } else {
+            historyDeleteError.classList.add('show');
+            historyDeletePassword.value = '';
+            historyDeletePassword.focus();
+            setTimeout(() => historyDeleteError.classList.remove('show'), 3000);
+        }
+    }
+
+    // ============================================================
+    // PASSWORD MODAL
+    // ============================================================
+    function openModal() {
+        if (deleteMode) {
+            deleteMode = false;
+            selectedForDelete.clear();
+            updateUI();
+            showToast('🔒 Locked', 2000);
+            return;
+        }
+        modal.classList.add('active');
+        passwordInput.value = '';
+        passwordError.classList.remove('show');
+        passwordInput.focus();
+    }
+    function closeModal() { modal.classList.remove('active'); passwordError.classList.remove('show'); }
+    function verifyPassword() {
+        if (passwordInput.value === PASSWORD) {
+            deleteMode = true;
+            closeModal();
+            showToast('🔓 Delete mode ON', 3000);
+            updateUI();
+        } else {
+            passwordError.classList.add('show');
+            passwordInput.value = '';
+            passwordInput.focus();
+            setTimeout(() => passwordError.classList.remove('show'), 3000);
+        }
+    }
+
+    // ============================================================
+    // BULK DELETE
+    // ============================================================
+    function showBulkDeleteModal() {
+        if (selectedForDelete.size === 0) { showToast('No items selected.', 2000); return; }
+        const names = Array.from(selectedForDelete);
+        bulkDeleteCount.textContent = `${names.length} item(s)`;
+        bulkDeleteList.textContent = names.slice(0, 10).join(', ') + (names.length > 10 ? ` and ${names.length - 10} more...` : '');
+        bulkDeleteModal.classList.add('active');
+    }
+    async function confirmBulkDelete() {
+        const toDel = Array.from(selectedForDelete);
+        if (toDel.length === 0) { bulkDeleteModal.classList.remove('active'); return; }
+        toDel.forEach(name => {
+            const i = ALL_ITEMS.findIndex(it => it.folder === currentFolder && it.name === name);
+            if (i !== -1) ALL_ITEMS.splice(i, 1);
+            const p = picked.indexOf(keyFor(currentFolder, name));
+            if (p !== -1) picked.splice(p, 1);
+        });
+        selectedForDelete.clear();
+        bulkDeleteModal.classList.remove('active');
+        updateUI();
+        showToast(`🗑️ Deleted ${toDel.length} item(s)!`, 2500);
+        await pushAllToCloud();
+    }
+
+    // ============================================================
+    // EMAIL
+    // ============================================================
+
+    // HTML email — subject block at top + inline photos from Drive
+    function generateFullHTMLEmail() {
+        const subjectLine = getSubjectLine();
+
+        let html = `<div style="font-family:'Segoe UI',Arial,sans-serif;max-width:900px;margin:0 auto;background:#f4f8fc;padding:40px;border-radius:24px;">
+
+            <!-- ============================================================ -->
+            <!-- EMAIL SUBJECT BOX — copy this line into your email subject  -->
+            <!-- ============================================================ -->
+            <div style="background:#ffffff;padding:18px 22px;border-radius:12px;margin-bottom:24px;border-left:6px solid #22384f;box-shadow:0 2px 8px rgba(20,40,80,0.06);">
+                <p style="margin:0 0 8px 0;font-size:11px;color:#7a8fa5;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">📌 Email Subject (copy this line)</p>
+                <p style="margin:0;font-size:20px;font-weight:700;color:#22384f;font-family:'Segoe UI',Arial,sans-serif;line-height:1.3;">${subjectLine}</p>
+            </div>
+            <!-- ============================================================ -->
+
+            <h1 style="color:#22384f;border-bottom:3px solid #7a9cbf;padding-bottom:15px;text-align:center;margin-top:0;">👕 Honey Outfit Log Selected by Me {Shinu}</h1>
+            <p style="text-align:center;color:#475f7a;"><strong>📅 Generated:</strong> ${getCurrentDateTime()}</p>
+            <div style="font-size:20px;font-weight:bold;color:#22384f;text-align:center;margin:20px 0;">
+                📊 <span style="font-size:28px;">${history.length}</span> Total Outfits Worn
+            </div>`;
+
+        if (history.length === 0) {
+            html += `<p style="text-align:center;color:#90a8c0;font-style:italic;">No outfits yet.</p>`;
+        } else {
+            const byCat = {};
+            history.forEach(e => {
+                const c = e.clothCategory || 'Uncategorized';
+                if (!byCat[c]) byCat[c] = [];
+                byCat[c].push(e);
+            });
+            Object.keys(byCat).sort().forEach(cat => {
+                html += `<h3 style="color:white;background:#2d6a4f;padding:8px 16px;border-radius:8px;display:inline-block;">📂 ${cat}</h3>
+                <table style="width:100%;border-collapse:collapse;margin:15px 0;">
+                    <thead><tr>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:left;">#</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:center;">👔 Cloth Photo</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:left;">Cloth Name</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:center;">🩲 Inner Photo</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:left;">Inner Name</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:left;">📅 Date</th>
+                        <th style="background:#22384f;color:white;padding:10px;text-align:left;">Wearer</th>
+                    </tr></thead><tbody>`;
+                byCat[cat].forEach((entry, idx) => {
+                    let w = '—';
+                    if (entry.wearer === 'deep') w = '👤 Deep';
+                    else if (entry.wearer === 'honey') w = '👤 Honey';
+                    else if (entry.wearer === 'both') w = '👤👤 Both';
+
+                    // cloth photo cell
+                    let clothPhotoCell = '<span style="color:#90a8c0;">—</span>';
+                    if (entry.clothLink) {
+                        const cUrl = `https://drive.google.com/thumbnail?id=${extractDriveId(entry.clothLink)}&sz=w200`;
+                        clothPhotoCell = `<img src="${cUrl}" alt="cloth" style="width:90px;height:90px;object-fit:cover;border-radius:8px;border:2px solid #c8d8ea;background:#eef4fc;display:block;margin:0 auto;">`;
+                    }
+
+                    // inner photo cell
+                    let innerPhotoCell = '<span style="color:#7f8c8d;">🚫</span>';
+                    let innerNameCell = '🚫 No Inner';
+                    if (!entry.noInner && entry.inner) {
+                        innerNameCell = entry.inner;
+                        if (entry.innerLink) {
+                            const iUrl = `https://drive.google.com/thumbnail?id=${extractDriveId(entry.innerLink)}&sz=w200`;
+                            innerPhotoCell = `<img src="${iUrl}" alt="inner" style="width:90px;height:90px;object-fit:cover;border-radius:8px;border:2px solid #c8d8ea;background:#eef4fc;display:block;margin:0 auto;">`;
+                        } else {
+                            innerPhotoCell = '<span style="color:#90a8c0;">—</span>';
+                        }
+                    }
+
+                    html += `<tr style="border-bottom:1px solid #dce8f5;">
+                        <td style="padding:10px;vertical-align:middle;">${idx + 1}</td>
+                        <td style="padding:10px;vertical-align:middle;text-align:center;">${clothPhotoCell}</td>
+                        <td style="padding:10px;vertical-align:middle;font-weight:bold;">${entry.cloth}</td>
+                        <td style="padding:10px;vertical-align:middle;text-align:center;">${innerPhotoCell}</td>
+                        <td style="padding:10px;vertical-align:middle;color:#2d6a4f;">${innerNameCell}</td>
+                        <td style="padding:10px;vertical-align:middle;color:#475f7a;">${entry.displayDate || 'N/A'}${entry.dateTag ? ' ' + entry.dateTag : ''}</td>
+                        <td style="padding:10px;vertical-align:middle;">${w}</td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+            });
+        }
+
+        html += `<div style="background:#e8eef5;padding:15px;border-radius:8px;margin:20px 0;">
+            <p><strong>👔 Total cloths:</strong> ${getItemsByFolder('cloth').length}</p>
+            <p><strong>🩲 Total inners:</strong> ${getItemsByFolder('inner').length}</p>
+            <p><strong>📋 Total outfits worn:</strong> ${history.length}</p>
+        </div>
+        <p style="text-align:center;color:#475f7a;font-size:12px;">✨ Auto-generated by Outfit Picker</p></div>`;
+        return html;
+    }
+
+    function generatePlainTextEmail() {
+        let b = '👕 MY OUTFIT LOG\n' + '═'.repeat(50) + '\n\n';
+        b += '📅 Generated: ' + getCurrentDateTime() + '\n' + '━'.repeat(50) + '\n\n';
+        b += '📊 TOTAL OUTFITS WORN: ' + history.length + '\n' + '━'.repeat(50) + '\n\n';
+        if (history.length === 0) b += 'No outfits yet.\n';
+        else {
+            history.forEach((e, i) => {
+                b += `  ${i+1}. 👔 ${e.cloth} + ${e.noInner || !e.inner ? '🚫 No Inner' : '🩲 ' + e.inner}`;
+                b += ` — ${e.displayDate || 'N/A'}`;
+                if (e.dateTag) b += ` ${e.dateTag}`;
+                b += '\n';
+            });
+        }
+        b += '\n' + '═'.repeat(50) + '\n✨ Auto-generated';
+        return b;
+    }
+
+    // --- Clear history after email (Option D) ---
+    async function handlePostEmailClear() {
+        if (history.length === 0 && picked.length === 0) return;
+        history = [];
+        picked = [];
+        selectedForDelete.clear();
+        updatePopup(null);
+        updateUI();
+        showToast('🗑️ History cleared after email', 2500);
+        await pushAllToCloud();
+    }
+
+    function copyToClipboard(text, msg) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(msg, 3000);
+                closeEmailOptions();
+                handlePostEmailClear();
+            }).catch(() => fallbackCopy(text, msg));
+        } else fallbackCopy(text, msg);
+    }
+    function fallbackCopy(text, msg) {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try {
+            document.execCommand('copy');
+            showToast(msg, 2000);
+            closeEmailOptions();
+            handlePostEmailClear();
+        } catch (e) { showToast('❌ Copy failed.', 2000); }
+        document.body.removeChild(ta);
+    }
+
+    function optionHTML() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${generateFullHTMLEmail()}</body></html>`;
+        copyToClipboard(full, '🎨 HTML copied! History will clear now.');
+    }
+    function optionPlain() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const sub = encodeURIComponent(getSubjectLine());
+        const body = encodeURIComponent(generatePlainTextEmail());
+        window.location.href = `mailto:?subject=${sub}&body=${body}`;
+        showToast('📧 Email opened! History will clear shortly...', 2500);
+        closeEmailOptions();
+        setTimeout(handlePostEmailClear, 1500);
+    }
+    function optionHybrid() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${generateFullHTMLEmail()}</body></html>`;
+        copyToClipboard(full, '🔄 HTML copied! History will clear now.');
+    }
+    function optionOpen() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const sub = encodeURIComponent(getSubjectLine());
+        const body = encodeURIComponent(generatePlainTextEmail());
+        window.location.href = `mailto:?subject=${sub}&body=${body}`;
+        showToast('📧 Email opened! History will clear shortly...', 2500);
+        closeEmailOptions();
+        setTimeout(handlePostEmailClear, 1500);
+    }
+    function openEmailOptions() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        // Fill subject preview with the real subject line
+        if (emailSubjectPreview) emailSubjectPreview.textContent = getSubjectLine();
+        emailOptionsModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeEmailOptions() {
+        emailOptionsModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // SUPABASE SYNC
+    // ============================================================
+    async function pushAllToCloud() {
+        if (!supabaseClient) return false;
+        if (isSyncing) return false;
+        isSyncing = true;
+        setSyncStatus('syncing', '🔄 saving...');
+        try {
+            await supabaseClient.from(TABLE_ITEMS).delete().neq('id', 0);
+            if (ALL_ITEMS.length > 0) {
+                const rows = ALL_ITEMS.map(it => ({
+                    name: it.name,
+                    category: it.category || '',
+                    folder: it.folder,
+                    drive_link: it.link || ''
+                }));
+                const { error } = await supabaseClient.from(TABLE_ITEMS).insert(rows);
+                if (error) console.warn('items insert warn:', error);
+            }
+            await supabaseClient.from(TABLE_HISTORY).delete().neq('id', 0);
+            if (history.length > 0) {
+                const rows = history.map(h => ({
+                    cloth_name: h.cloth || '',
+                    cloth_category: h.clothCategory || '',
+                    cloth_link: h.clothLink || '',
+                    inner_name: h.inner || '',
+                    inner_link: h.innerLink || '',
+                    no_inner: !!h.noInner,
+                    display_date: h.displayDate || '',
+                    date_tag: h.dateTag || '',
+                    wearer: h.wearer || ''
+                }));
+                const { error } = await supabaseClient.from(TABLE_HISTORY).insert(rows);
+                if (error) console.warn('history insert warn:', error);
+            }
+            await supabaseClient.from(TABLE_PICKED).delete().neq('id', 0);
+            if (picked.length > 0) {
+                const rows = picked.map(k => {
+                    const [folder, name] = k.split('::');
+                    return { folder, item_name: name };
+                });
+                const { error } = await supabaseClient.from(TABLE_PICKED).insert(rows);
+                if (error) console.warn('picked insert warn:', error);
+            }
+            lastSyncTime = Date.now();
+            setSyncStatus('online', '☁️ synced');
+            updateLastSyncInfo();
+            isSyncing = false;
+            return true;
+        } catch (e) {
+            console.error('pushAllToCloud failed:', e);
+            setSyncStatus('offline', '⚠️ save failed');
+            isSyncing = false;
+            return false;
+        }
+    }
+
+    async function pullAllFromCloud() {
+        if (!supabaseClient) return null;
+        try {
+            const [iRes, hRes, pRes] = await Promise.all([
+                supabaseClient.from(TABLE_ITEMS).select('*').order('id', { ascending: true }),
+                supabaseClient.from(TABLE_HISTORY).select('*').order('id', { ascending: true }),
+                supabaseClient.from(TABLE_PICKED).select('*').order('id', { ascending: true })
+            ]);
+            if (iRes.error || hRes.error || pRes.error) {
+                console.warn('pull errors:', iRes.error, hRes.error, pRes.error);
+                return null;
+            }
+            const items = (iRes.data || []).map(r => ({
+                name: r.name,
+                category: r.category || '',
+                folder: r.folder || 'cloth',
+                link: r.drive_link || ''
+            }));
+            const hist = (hRes.data || []).map(r => ({
+                cloth: r.cloth_name || '',
+                clothCategory: r.cloth_category || '',
+                clothLink: r.cloth_link || '',
+                inner: r.inner_name || '',
+                innerLink: r.inner_link || '',
+                noInner: !!r.no_inner,
+                displayDate: r.display_date || '',
+                dateTag: r.date_tag || '',
+                wearer: r.wearer || ''
+            }));
+            const pk = (pRes.data || []).map(r => keyFor(r.folder || 'cloth', r.item_name));
+            return { items, history: hist, picked: pk };
+        } catch (e) {
+            console.error('pullAllFromCloud failed:', e);
+            return null;
+        }
+    }
+
+    async function syncNow(silent) {
+        if (!supabaseClient) {
+            if (!silent) showToast('⚠️ Cloud not configured. Add Supabase URL & key.', 3000);
+            setSyncStatus('offline', '⚠️ no cloud');
+            return;
+        }
+        setSyncStatus('syncing', '🔄 syncing...');
+        const pulled = await pullAllFromCloud();
+        if (!pulled) {
+            setSyncStatus('offline', '⚠️ offline');
+            if (!silent) showToast('⚠️ Sync failed', 2500);
+            return;
+        }
+        ALL_ITEMS = pulled.items.length > 0 ? pulled.items : TEST_ITEMS.slice();
+        history = pulled.history;
+        picked = pulled.picked;
+        lastSyncTime = Date.now();
+        setSyncStatus('online', '☁️ synced');
+        updateLastSyncInfo();
+        updateUI();
+        if (!silent) showToast('🔄 Synced from cloud!', 2000);
+    }
+
+    let autoSyncInterval = null;
+    function startAutoSync() {
+        if (autoSyncInterval) clearInterval(autoSyncInterval);
+        autoSyncInterval = setInterval(async () => {
+            if (isSyncing || !supabaseClient || document.hidden) return;
+            const before = JSON.stringify({ h: history, d: ALL_ITEMS, p: picked });
+            const pulled = await pullAllFromCloud();
+            if (pulled) {
+                const after = JSON.stringify({ h: pulled.history, d: pulled.items, p: pulled.picked });
+                if (before !== after) {
+                    ALL_ITEMS = pulled.items;
+                    history = pulled.history;
+                    picked = pulled.picked;
+                    lastSyncTime = Date.now();
+                    setSyncStatus('online', '☁️ synced');
+                    updateLastSyncInfo();
+                    updateUI();
+                    showToast('🔄 Updated from other device', 2000);
+                }
+            }
+        }, 10000);
+    }
+
+    // ============================================================
+    // LOCAL BACKUP
+    // ============================================================
+    function saveLocalBackup() {
+        try {
+            localStorage.setItem('outfitPickerData', JSON.stringify({
+                history, allItems: ALL_ITEMS, picked, savedAt: Date.now()
+            }));
+        } catch (e) {}
+    }
+    function loadLocalBackup() {
+        try {
+            const saved = localStorage.getItem('outfitPickerData');
+            if (!saved) return false;
+            const p = JSON.parse(saved);
+            if (p.history && Array.isArray(p.history)) history = p.history;
+            if (p.allItems && Array.isArray(p.allItems)) {
+                ALL_ITEMS = p.allItems.map(it => {
+                    if (typeof it === 'string') return { name: it, category: 'Regular', folder: 'cloth', link: '' };
+                    return {
+                        name: it.name,
+                        category: it.category || '',
+                        folder: it.folder || 'cloth',
+                        link: it.link || ''
+                    };
+                });
+            }
+            if (p.picked && Array.isArray(p.picked)) picked = p.picked;
+            return true;
+        } catch (e) { return false; }
+    }
+
+    // ============================================================
+    // FOLDER SWITCH
+    // ============================================================
+    function switchFolder(folder) {
+        currentFolder = folder;
+        tabCloth.classList.toggle('active', folder === 'cloth');
+        tabInner.classList.toggle('active', folder === 'inner');
+        newItemInput.placeholder = folder === 'cloth' ? 'e.g. Blue Office Shirt' : 'e.g. White Cotton Inner';
+        newCategoryInput.placeholder = folder === 'cloth' ? 'Category (Regular/Office/Night/Outing)' : 'Category (Inner Wear)';
+        if (folder === 'inner') newCategoryInput.value = 'Inner Wear';
+        else if (newCategoryInput.value === 'Inner Wear') newCategoryInput.value = '';
+        selectedForDelete.clear();
+        updateUI();
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    async function init() {
+        loadLocalBackup();
+        if (ALL_ITEMS.length === 0) ALL_ITEMS = TEST_ITEMS.slice();
+
+        updateUI();
+        updatePopup(null);
+        setupDateOptions();
+        setupManualDateDropdown();
+
+        if (supabaseClient) {
+            setSyncStatus('syncing', '🔄 connecting...');
+            const ok = await pullAllFromCloud();
+            if (ok) {
+                if (ok.items.length > 0) ALL_ITEMS = ok.items;
+                history = ok.history;
+                picked = ok.picked;
+                lastSyncTime = Date.now();
+                setSyncStatus('online', '☁️ synced');
+                updateLastSyncInfo();
+                updateUI();
+                showToast('☁️ Loaded from cloud!', 2000);
+            } else {
+                setSyncStatus('offline', '⚠️ offline');
+            }
+            startAutoSync();
+        } else {
+            setSyncStatus('offline', '⚠️ add Supabase keys');
+            setTimeout(() => showToast('⚠️ Add your Supabase URL & Key to enable cloud sync', 4000), 800);
+        }
+
+        if (tabCloth) tabCloth.addEventListener('click', () => switchFolder('cloth'));
+        if (tabInner) tabInner.addEventListener('click', () => switchFolder('inner'));
+
+        if (refreshBtn) refreshBtn.addEventListener('click', openCategoryModal);
+        if (categoryModalConfirm) categoryModalConfirm.addEventListener('click', confirmCategoryPick);
+        if (categoryModalCancel) categoryModalCancel.addEventListener('click', closeCategoryModal);
+        if (categoryModal) categoryModal.addEventListener('click', (e) => { if (e.target === categoryModal) closeCategoryModal(); });
+        if (categoryModalSelect) categoryModalSelect.addEventListener('change', updateCategoryModalCount);
+
+        if (photoPopupCancel) photoPopupCancel.addEventListener('click', () => { closePhotoPopup(); pendingCloth = null; pendingInner = null; });
+        if (photoPopupAgain) photoPopupAgain.addEventListener('click', () => {
+            if (!pendingCloth) return;
+            const cat = pendingCloth.cloth.category;
+            const dateTag = pendingCloth.dateTag;
+            const dateObj = pendingCloth.dateObj;
+            const avail = getAvailableByCategory('cloth', cat);
+            const others = avail.filter(it => it.name !== pendingCloth.cloth.name);
+            const pool = others.length > 0 ? others : avail;
+            if (pool.length === 0) { showToast('No other options.', 2000); return; }
+            const next = pool[Math.floor(Math.random() * pool.length)];
+            pendingCloth = { cloth: next, dateTag, dateObj };
+            showPhotoPopup(pendingCloth);
+        });
+        if (photoPopupNext) photoPopupNext.addEventListener('click', () => {
+            closePhotoPopup();
+            openInnerModal();
+        });
+        if (photoPopup) photoPopup.addEventListener('click', (e) => { if (e.target === photoPopup) { closePhotoPopup(); pendingCloth = null; } });
+
+        if (innerModalCancel) innerModalCancel.addEventListener('click', () => { closeInnerModal(); pendingCloth = null; pendingInner = null; });
+        if (innerModalConfirm) innerModalConfirm.addEventListener('click', () => {
+            if (!pendingInner) { showToast('⚠️ Choose an inner or No Inner.', 2000); return; }
+            closeInnerModal();
+            showFinalModal();
+        });
+        if (innerModal) innerModal.addEventListener('click', (e) => { if (e.target === innerModal) { closeInnerModal(); pendingCloth = null; pendingInner = null; } });
+
+        if (finalCancel) finalCancel.addEventListener('click', () => { closeFinalModal(); openInnerModal(); });
+        if (finalConfirm) finalConfirm.addEventListener('click', confirmFinalOutfit);
+        if (finalModal) finalModal.addEventListener('click', (e) => { if (e.target === finalModal) closeFinalModal(); });
+
+        if (historyDeleteConfirm) historyDeleteConfirm.addEventListener('click', confirmHistoryDelete);
+        if (historyDeleteCancel) historyDeleteCancel.addEventListener('click', closeHistoryDeleteModal);
+        if (historyDeleteModal) historyDeleteModal.addEventListener('click', (e) => { if (e.target === historyDeleteModal) closeHistoryDeleteModal(); });
+        if (historyDeletePassword) historyDeletePassword.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); confirmHistoryDelete(); }
+            if (e.key === 'Escape') closeHistoryDeleteModal();
+        });
+
+        if (resetBtn) resetBtn.addEventListener('click', handleReset);
+        if (clearHistoryBtn) clearHistoryBtn.addEventListener('click', handleClearHistory);
+        if (emailBtn) emailBtn.addEventListener('click', openEmailOptions);
+        if (addItemBtn) addItemBtn.addEventListener('click', addNewItem);
+        if (deleteModeBtn) deleteModeBtn.addEventListener('click', openModal);
+        if (syncBtn) syncBtn.addEventListener('click', () => syncNow(false));
+
+        if (manualAddBtn) manualAddBtn.addEventListener('click', openManualAddModal);
+        if (manualAddConfirm) manualAddConfirm.addEventListener('click', confirmManualAdd);
+        if (manualAddCancel) manualAddCancel.addEventListener('click', closeManualAddModal);
+        if (manualAddModal) manualAddModal.addEventListener('click', (e) => { if (e.target === manualAddModal) closeManualAddModal(); });
+        if (manualItemName) manualItemName.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); confirmManualAdd(); }
+            if (e.key === 'Escape') closeManualAddModal();
+        });
+
+        if (bulkDeleteBtn) bulkDeleteBtn.addEventListener('click', showBulkDeleteModal);
+        if (bulkDeleteConfirm) bulkDeleteConfirm.addEventListener('click', confirmBulkDelete);
+        if (bulkDeleteCancel) bulkDeleteCancel.addEventListener('click', () => bulkDeleteModal.classList.remove('active'));
+        if (bulkDeleteModal) bulkDeleteModal.addEventListener('click', (e) => { if (e.target === bulkDeleteModal) bulkDeleteModal.classList.remove('active'); });
+
+        if (selectAllCheckbox) selectAllCheckbox.addEventListener('change', selectAllItems);
+        if (categorySelect) categorySelect.addEventListener('change', () => {
+            selectedForDelete.clear();
+            updateCategoryCount();
+            updateDriveFolderBtn();
+            renderItemList();
+            updateSelectedCount();
+        });
+
+        if (bulkFileInput) bulkFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleBulkImport(e.target.files[0]);
+        });
+        if (exportExcelBtn) exportExcelBtn.addEventListener('click', handleExportExcel);
+
+        if (clearHistoryConfirm) clearHistoryConfirm.addEventListener('click', confirmClearHistory);
+        if (clearHistoryCancel) clearHistoryCancel.addEventListener('click', () => clearHistoryModal.classList.remove('active'));
+        if (clearHistoryModal) clearHistoryModal.addEventListener('click', (e) => { if (e.target === clearHistoryModal) clearHistoryModal.classList.remove('active'); });
+
+        if (emailOptionsClose) emailOptionsClose.addEventListener('click', closeEmailOptions);
+        if (htmlOptionBtn) htmlOptionBtn.addEventListener('click', optionHTML);
+        if (plainOptionBtn) plainOptionBtn.addEventListener('click', optionPlain);
+        if (hybridOptionBtn) hybridOptionBtn.addEventListener('click', optionHybrid);
+        if (openOptionBtn) openOptionBtn.addEventListener('click', optionOpen);
+        if (emailOptionsModal) emailOptionsModal.addEventListener('click', (e) => { if (e.target === emailOptionsModal) closeEmailOptions(); });
+
+        if (newItemInput) newItemInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
+        if (newCategoryInput) newCategoryInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
+        if (newItemLink) newItemLink.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addNewItem(); } });
+
+        if (modalConfirm) modalConfirm.addEventListener('click', verifyPassword);
+        if (modalCancel) modalCancel.addEventListener('click', closeModal);
+        if (passwordInput) passwordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); verifyPassword(); }
+            if (e.key === 'Escape') closeModal();
+        });
+        if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+            if ((e.key === 'r' || e.key === 'R') && !refreshBtn?.disabled) { e.preventDefault(); openCategoryModal(); }
+            if (e.key === 'Escape') {
+                if (categoryModal.classList.contains('active')) closeCategoryModal();
+                else if (photoPopup.classList.contains('active')) { closePhotoPopup(); pendingCloth = null; pendingInner = null; }
+                else if (innerModal.classList.contains('active')) { closeInnerModal(); pendingCloth = null; pendingInner = null; }
+                else if (finalModal.classList.contains('active')) closeFinalModal();
+                else if (historyDeleteModal.classList.contains('active')) closeHistoryDeleteModal();
+                else if (manualAddModal.classList.contains('active')) closeManualAddModal();
+                else if (modal.classList.contains('active')) closeModal();
+                else if (emailOptionsModal.classList.contains('active')) closeEmailOptions();
+                else if (clearHistoryModal.classList.contains('active')) clearHistoryModal.classList.remove('active');
+                else if (bulkDeleteModal.classList.contains('active')) bulkDeleteModal.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('visibilitychange', async () => {
+            if (!document.hidden && supabaseClient) {
+                const before = JSON.stringify({ h: history, d: ALL_ITEMS, p: picked });
+                const ok = await pullAllFromCloud();
+                if (ok) {
+                    const after = JSON.stringify({ h: ok.history, d: ok.items, p: ok.picked });
+                    if (before !== after) {
+                        if (ok.items.length > 0) ALL_ITEMS = ok.items;
+                        history = ok.history;
+                        picked = ok.picked;
+                        updateUI();
+                        showToast('🔄 Refreshed from cloud', 2000);
+                    }
+                }
+            }
+        });
+
+        setInterval(saveLocalBackup, 5000);
+        console.log('👕 Outfit Picker ready!');
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+})();
+</script>
+
+</body>
+</html>
