@@ -597,10 +597,7 @@ h2 {
     border-radius: 12px; margin: 10px 0 15px 0;
     border-left: 4px solid #22384f;
 }
-.email-subject-box code {
-    background: white; padding: 2px 8px;
-    border-radius: 4px; font-size: 0.9rem;
-}
+.email-subject-box code { background: white; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; }
 
 /* WhatsApp modal */
 .wa-modal {
@@ -1009,25 +1006,25 @@ html, body { max-width: 100%; overflow-x: hidden; }
     </div>
 </div>
 
-<!-- Email Options Modal — ONLY 2 OPTIONS -->
+<!-- Email Options Modal — 2 OPTIONS + AUTO-CLEAR -->
 <div class="email-options-modal" id="emailOptionsModal">
     <div class="email-options-content">
         <button class="close-btn" id="emailOptionsClose">✕</button>
         <h3>📧 Email Options</h3>
-        <p class="subtitle">Choose how you want to send your outfit log</p>
+        <p class="subtitle">History will auto-clear 3 seconds after you send or copy</p>
         <div class="email-subject-box">
             <strong>📌 Subject:</strong> <code id="emailSubjectPreview">👕 Honey Outfit Log Selected by Me {Shinu} - —</code>
         </div>
 
         <div class="email-option-card">
             <div class="header"><span class="icon">📧</span><span class="title">Open in Default Mail App</span><span class="badge">Plain Text</span></div>
-            <div class="description">Opens your default mail app with a plain-text version of the outfit log and subject pre-filled.</div>
+            <div class="description">Opens your mail app with a plain-text version + subject. <strong>History clears in 3s.</strong></div>
             <button class="action-btn plain-btn" id="openOptionBtn">📧 Open Email</button>
         </div>
 
         <div class="email-option-card">
             <div class="header"><span class="icon">💕</span><span class="title">Copy HTML</span><span class="badge">Best Visual</span></div>
-            <div class="description">Copies the full romantic HTML log to your clipboard. Paste it into Gmail, Outlook, or any email service.</div>
+            <div class="description">Copies the full romantic HTML. <strong>History clears in 3s.</strong></div>
             <button class="action-btn html-btn" id="htmlOptionBtn">💕 Copy HTML</button>
         </div>
     </div>
@@ -1076,7 +1073,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     "use strict";
 
     // ============================================================
-    // ⚠️ TEST DATA — REPLACE WITH YOUR REAL DATA
+    // TEST DATA — REPLACE WITH YOUR REAL DATA LATER
     // ============================================================
     const FIXED_CATEGORIES = {
         cloth: ['Regular', 'Office', 'Night', 'While Going Out on Day and Night'],
@@ -1100,10 +1097,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
     ];
 
     // ============================================================
-    // SUPABASE CONFIG — PUT YOUR OWN URL & KEY HERE
+    // SUPABASE CONFIG
     // ============================================================
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+    const SUPABASE_URL = 'https://uskzenvzqlwmarjijidr.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVza3plbnZ6cWx3bWFyamlqaWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjg4MTQsImV4cCI6MjEwNTIwNDgxNH0.IjW2SnsHHscEPjdiD_WaJ7u1ladgNr4OZAx1GWvKJKE';
 
     const TABLE_ITEMS   = 'outfit_items';
     const TABLE_HISTORY = 'outfit_history';
@@ -2580,7 +2577,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // EMAIL — only 2 options now
+    // EMAIL
     // ============================================================
     function generateFullHTMLEmail() {
         const subjectLine = getSubjectLine();
@@ -2688,10 +2685,30 @@ html, body { max-width: 100%; overflow-x: hidden; }
         return b;
     }
 
+    // ⬇️⬇️ EMAIL HANDLERS — WITH AUTO-CLEAR AFTER 3 SECONDS ⬇️⬇️
+    async function clearHistoryAfterEmail() {
+        if (history.length === 0 && picked.length === 0) return;
+        history = [];
+        picked = [];
+        selectedForDelete.clear();
+        currentlyDisplayedEntry = null;
+        updatePopup(null);
+        updateUI();
+        showToast('🗑️ History cleared after email', 2500);
+        await pushAllToCloud();
+    }
+
+    function scheduleHistoryClear() {
+        setTimeout(async () => {
+            await clearHistoryAfterEmail();
+        }, 3000);
+    }
+
     function optionHTML() {
         if (history.length === 0) { showToast('📭 No history!', 2500); return; }
         const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#fff0f8;">${generateFullHTMLEmail()}</body></html>`;
-        copyToClipboard(full, '💕 HTML copied! Paste it in your email client.');
+        copyToClipboard(full, '💕 HTML copied! History will clear in 3 seconds...');
+        scheduleHistoryClear();
     }
 
     function optionOpen() {
@@ -2699,8 +2716,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
         const sub = encodeURIComponent(getSubjectLine());
         const body = encodeURIComponent(generatePlainTextEmail());
         window.location.href = `mailto:?subject=${sub}&body=${body}`;
-        showToast('📧 Opening your email app...', 2500);
+        showToast('📧 Email opening! History will clear in 3 seconds...', 2500);
         closeEmailOptions();
+        scheduleHistoryClear();
     }
 
     function copyToClipboard(text, msg) {
