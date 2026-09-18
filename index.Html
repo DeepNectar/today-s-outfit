@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💕 Honey Outfit Picker</title>
+<title>👕 Outfit Picker · Cloud Synced</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    background: linear-gradient(135deg, #ffe0ec 0%, #ffd0e0 25%, #ffe8f0 50%, #ffd6e8 75%, #ffe0ec 100%);
-    background-size: 400% 400%;
-    animation: romanticGradient 20s ease infinite;
+    background: linear-gradient(145deg, #eef4fc 0%, #e0ecf7 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -18,1712 +16,701 @@ body {
     font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
     padding: 1.5rem;
     margin: 0;
-    position: relative;
-    overflow-x: hidden;
-}
-
-@keyframes romanticGradient {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.romantic-bg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-.romantic-bg .heart {
-    position: absolute;
-    bottom: -60px;
-    font-size: 24px;
-    opacity: 0;
-    animation: floatUp 14s linear infinite;
-    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.6));
-}
-.romantic-bg .heart:nth-child(1)  { left: 5%;  animation-delay: 0s;   font-size: 18px; }
-.romantic-bg .heart:nth-child(2)  { left: 15%; animation-delay: 2s;   font-size: 26px; }
-.romantic-bg .heart:nth-child(3)  { left: 25%; animation-delay: 4s;   font-size: 16px; }
-.romantic-bg .heart:nth-child(4)  { left: 35%; animation-delay: 1s;   font-size: 30px; }
-.romantic-bg .heart:nth-child(5)  { left: 45%; animation-delay: 3.5s; font-size: 22px; }
-.romantic-bg .heart:nth-child(6)  { left: 55%; animation-delay: 5s;   font-size: 20px; }
-.romantic-bg .heart:nth-child(7)  { left: 65%; animation-delay: 2.5s; font-size: 28px; }
-.romantic-bg .heart:nth-child(8)  { left: 75%; animation-delay: 4.5s; font-size: 18px; }
-.romantic-bg .heart:nth-child(9)  { left: 85%; animation-delay: 1.5s; font-size: 24px; }
-.romantic-bg .heart:nth-child(10) { left: 92%; animation-delay: 6s;   font-size: 20px; }
-.romantic-bg .heart:nth-child(11) { left: 50%; animation-delay: 7s;   font-size: 22px; }
-.romantic-bg .heart:nth-child(12) { left: 30%; animation-delay: 8s;   font-size: 26px; }
-
-@keyframes floatUp {
-    0% { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
-    10% { opacity: 0.9; }
-    90% { opacity: 0.7; }
-    100% { transform: translateY(-110vh) rotate(360deg) scale(1.2); opacity: 0; }
-}
-
-.sparkles {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-.sparkles .sparkle {
-    position: absolute;
-    width: 6px; height: 6px;
-    background: radial-gradient(circle, #fff 0%, #ffb6c1 60%, transparent 100%);
-    border-radius: 50%;
-    animation: twinkle 3s ease-in-out infinite;
-    box-shadow: 0 0 12px #ff69b4;
-}
-.sparkles .sparkle:nth-child(1)  { top: 10%; left: 8%;  animation-delay: 0s; }
-.sparkles .sparkle:nth-child(2)  { top: 20%; left: 92%; animation-delay: 0.5s; }
-.sparkles .sparkle:nth-child(3)  { top: 35%; left: 15%; animation-delay: 1s; }
-.sparkles .sparkle:nth-child(4)  { top: 50%; left: 80%; animation-delay: 1.5s; }
-.sparkles .sparkle:nth-child(5)  { top: 65%; left: 25%; animation-delay: 2s; }
-.sparkles .sparkle:nth-child(6)  { top: 75%; left: 70%; animation-delay: 0.8s; }
-.sparkles .sparkle:nth-child(7)  { top: 15%; left: 50%; animation-delay: 1.3s; }
-.sparkles .sparkle:nth-child(8)  { top: 85%; left: 40%; animation-delay: 2.5s; }
-.sparkles .sparkle:nth-child(9)  { top: 45%; left: 60%; animation-delay: 0.3s; }
-.sparkles .sparkle:nth-child(10) { top: 60%; left: 5%;  animation-delay: 1.8s; }
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(0.6); }
-    50%      { opacity: 1; transform: scale(1.4); }
 }
 
 .card {
     max-width: 1000px;
     width: 100%;
-    background: linear-gradient(145deg, rgba(255, 250, 253, 0.96) 0%, rgba(255, 240, 248, 0.96) 100%);
-    backdrop-filter: blur(12px);
+    background: rgba(252, 254, 255, 0.94);
+    backdrop-filter: blur(6px);
     border-radius: 56px;
     padding: 2.5rem 2rem 2.8rem;
-    box-shadow: 0 24px 60px rgba(255, 105, 180, 0.25),
-                0 8px 24px rgba(255, 20, 147, 0.12),
-                inset 0 1px 3px rgba(255, 255, 255, 0.9),
-                0 0 80px rgba(255, 182, 193, 0.4);
+    box-shadow: 0 20px 40px rgba(20, 40, 80, 0.12), 0 8px 20px rgba(0, 0, 0, 0.05);
     text-align: center;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    position: relative;
-    z-index: 1;
-    animation: cardFloat 6s ease-in-out infinite, cardGlow 4s ease-in-out infinite alternate;
-}
-
-@keyframes cardFloat {
-    0%, 100% { transform: translateY(0px); }
-    50%      { transform: translateY(-8px); }
-}
-
-@keyframes cardGlow {
-    0%   { box-shadow: 0 24px 60px rgba(255, 105, 180, 0.25), 0 8px 24px rgba(255, 20, 147, 0.12), inset 0 1px 3px rgba(255,255,255,0.9), 0 0 80px rgba(255, 182, 193, 0.4); }
-    100% { box-shadow: 0 24px 60px rgba(255, 105, 180, 0.4),  0 8px 24px rgba(255, 20, 147, 0.25), inset 0 1px 3px rgba(255,255,255,0.9), 0 0 120px rgba(255, 105, 180, 0.55); }
-}
-
-.card::before,
-.card::after {
-    content: '💕';
-    position: absolute;
-    font-size: 26px;
-    opacity: 0.7;
-    animation: pulseHeart 2s ease-in-out infinite;
-}
-.card::before { top: 22px; left: 30px; }
-.card::after  { top: 22px; right: 30px; animation-delay: 1s; }
-
-@keyframes pulseHeart {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50%      { transform: scale(1.25); opacity: 1; }
+    border: 1px solid rgba(200, 220, 245, 0.7);
 }
 
 h2 {
-    font-weight: 600;
-    font-size: 2.3rem;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #d63384 0%, #ff1493 40%, #ff69b4 70%, #d63384 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    margin-bottom: 0.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    animation: shimmerText 4s ease infinite;
-}
-
-@keyframes shimmerText {
-    0%, 100% { background-position: 0% 50%; }
-    50%      { background-position: 100% 50%; }
-}
-
-h2 span:first-child {
-    display: inline-block;
-    animation: heartbeat 1.5s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    25%      { transform: scale(1.2); }
-    50%      { transform: scale(1); }
-    75%      { transform: scale(1.15); }
+    font-weight: 500; font-size: 2.1rem; letter-spacing: -0.02em;
+    color: #1b2a3d; margin-bottom: 0.2rem;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.6rem; flex-wrap: wrap;
 }
 
 .sub {
-    color: #a04a6d;
-    font-weight: 400;
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    opacity: 0.9;
-    border-bottom: 1px dashed rgba(214, 51, 132, 0.3);
+    color: #475f7a; font-weight: 400; font-size: 1rem;
+    margin-bottom: 1.5rem; opacity: 0.85;
+    border-bottom: 1px dashed rgba(90, 130, 170, 0.25);
     padding-bottom: 0.75rem;
-    font-style: italic;
-    letter-spacing: 0.02em;
 }
 
 .status-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: #fff5fa;
-    padding: 0.35rem 1.3rem;
-    border-radius: 40px;
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    box-shadow: 0 6px 16px rgba(214, 51, 132, 0.35);
-    animation: badgePulse 3s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-    0%, 100% { box-shadow: 0 6px 16px rgba(214, 51, 132, 0.35); }
-    50%      { box-shadow: 0 6px 24px rgba(255, 20, 147, 0.6); }
+    display: inline-block; background: #22384f; color: #eaf3fc;
+    padding: 0.3rem 1.2rem; border-radius: 40px;
+    font-size: 0.9rem; margin-bottom: 0.8rem;
 }
 
 .sync-badge {
-    display: inline-block;
-    padding: 0.2rem 1rem;
-    border-radius: 40px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-left: 0.5rem;
-    background: #c8a8b8;
-    color: white;
+    display: inline-block; padding: 0.2rem 1rem;
+    border-radius: 40px; font-size: 0.75rem; font-weight: 600;
+    margin-left: 0.5rem; background: #95a5a6; color: white;
 }
 .sync-badge.online { background: #27ae60; }
 .sync-badge.syncing { background: #f39c12; }
 .sync-badge.offline { background: #c0392b; }
 
 .delete-mode-indicator {
-    display: inline-block;
-    padding: 0.2rem 1rem;
-    border-radius: 40px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    display: inline-block; padding: 0.2rem 1rem;
+    border-radius: 40px; font-size: 0.8rem; font-weight: 600;
     margin-left: 0.5rem;
 }
 .delete-mode-indicator.active { background: #c0392b; color: white; }
-.delete-mode-indicator.inactive { background: #c8a8b8; color: white; }
+.delete-mode-indicator.inactive { background: #95a5a6; color: white; }
 
 .folder-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    display: flex; justify-content: center; gap: 0.5rem;
+    flex-wrap: wrap; margin-bottom: 1rem;
 }
 .folder-tab {
-    padding: 0.55rem 1.5rem;
-    border-radius: 60px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    background: rgba(255, 240, 248, 0.8);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #d63384;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.5rem 1.4rem; border-radius: 60px;
+    border: 2px solid #c8d8ea; background: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem; font-weight: 600; color: #22384f;
+    cursor: pointer; font-family: inherit; transition: all 0.2s ease;
 }
-.folder-tab:hover {
-    border-color: #ff1493;
-    transform: scale(1.06) translateY(-2px);
-    box-shadow: 0 6px 16px rgba(255, 20, 147, 0.25);
-}
-.folder-tab.active {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 8px 22px rgba(214, 51, 132, 0.45);
-    animation: tabGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes tabGlow {
-    0%   { box-shadow: 0 8px 22px rgba(214, 51, 132, 0.45); }
-    100% { box-shadow: 0 8px 32px rgba(255, 20, 147, 0.7); }
-}
+.folder-tab:hover { border-color: #7a9cbf; transform: scale(1.03); }
+.folder-tab.active { background: #22384f; color: white; border-color: #22384f; }
 
 .category-section, .add-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.2rem;
-    padding: 0.85rem;
-    background: linear-gradient(135deg, rgba(255, 228, 240, 0.6), rgba(255, 240, 248, 0.6));
-    border-radius: 60px;
-    border: 1px solid rgba(255, 182, 193, 0.5);
-    transition: all 0.3s ease;
+    display: flex; justify-content: center; align-items: center;
+    gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+    padding: 0.8rem; background: rgba(220, 235, 250, 0.35);
+    border-radius: 60px; border: 1px solid rgba(150, 190, 225, 0.3);
 }
-.category-section:hover, .add-section:hover {
-    box-shadow: 0 8px 24px rgba(255, 105, 180, 0.15);
-}
-.category-section label { font-weight: 500; color: #a04a6d; font-size: 0.95rem; }
+.category-section label { font-weight: 500; color: #1b2a3d; font-size: 0.95rem; }
 
 .category-select {
-    padding: 0.6rem 1.2rem;
-    border-radius: 60px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    background: rgba(255, 250, 253, 0.9);
-    font-size: 1rem;
-    color: #a04a6d;
-    outline: none;
-    cursor: pointer;
-    min-width: 200px;
-    max-width: 320px;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    padding: 0.6rem 1.2rem; border-radius: 60px;
+    border: 1px solid #b8cde2; background: rgba(255, 255, 255, 0.75);
+    font-size: 1rem; color: #1b2a3d; outline: none;
+    cursor: pointer; min-width: 200px; max-width: 320px; font-family: inherit;
 }
-.category-select:focus {
-    border-color: #ff1493;
-    background: white;
-    box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.15);
-}
+.category-select:focus { border-color: #5a87b0; background: white; box-shadow: 0 0 0 3px rgba(90, 135, 176, 0.12); }
 
 .category-count {
-    font-size: 0.8rem;
-    color: #a04a6d;
-    background: rgba(255, 182, 193, 0.3);
-    padding: 0.25rem 0.9rem;
-    border-radius: 40px;
-    white-space: nowrap;
+    font-size: 0.8rem; color: #475f7a;
+    background: rgba(150, 190, 225, 0.15);
+    padding: 0.2rem 0.8rem; border-radius: 40px; white-space: nowrap;
 }
 
 .drive-folder-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 1rem;
-    border-radius: 60px;
-    background: linear-gradient(135deg, #4285f4, #1a73e8);
-    color: white;
-    border: none;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
-    transition: all 0.3s ease;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 1rem; border-radius: 60px;
+    background: #1a73e8; color: white; border: none;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: inherit; text-decoration: none;
 }
-.drive-folder-btn:hover {
-    background: linear-gradient(135deg, #1a73e8, #1557b0);
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.4);
-}
+.drive-folder-btn:hover { background: #1557b0; transform: scale(1.03); }
 
 .add-section input[type="text"] {
-    flex: 1;
-    min-width: 150px;
-    padding: 0.7rem 1.2rem;
-    border-radius: 60px;
-    border: 2px solid rgba(214, 51, 132, 0.2);
-    background: rgba(255, 250, 253, 0.9);
-    font-size: 1rem;
-    color: #a04a6d;
-    outline: none;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    flex: 1; min-width: 150px; padding: 0.7rem 1.2rem;
+    border-radius: 60px; border: 1px solid #b8cde2;
+    background: rgba(255, 255, 255, 0.75); font-size: 1rem;
+    color: #1b2a3d; outline: none; font-family: inherit;
 }
-.add-section input:focus {
-    border-color: #ff1493;
-    background: white;
-    box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.15);
-}
-.add-section input::placeholder { color: #d4a0b8; font-style: italic; }
+.add-section input:focus { border-color: #5a87b0; background: white; box-shadow: 0 0 0 3px rgba(90, 135, 176, 0.12); }
+.add-section input::placeholder { color: #90a8c0; font-style: italic; }
 
 .btn-add {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: #fff5fa;
-    border: none;
-    padding: 0.7rem 1.8rem;
-    border-radius: 60px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    white-space: nowrap;
-    font-family: inherit;
-    box-shadow: 0 6px 16px rgba(214, 51, 132, 0.35);
+    background: #22384f; color: #eaf3fc; border: none;
+    padding: 0.7rem 1.6rem; border-radius: 60px;
+    font-size: 1rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s ease; display: inline-flex;
+    align-items: center; gap: 0.4rem; white-space: nowrap; font-family: inherit;
 }
-.btn-add:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 10px 26px rgba(255, 20, 147, 0.5);
-}
+.btn-add:hover { background: #16283a; transform: scale(1.02); }
 
 .bulk-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    display: flex; justify-content: center; align-items: center;
+    gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;
 }
 .bulk-section label {
-    background: rgba(255, 228, 240, 0.7);
-    padding: 0.55rem 1.3rem;
-    border-radius: 60px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #d63384;
-    cursor: pointer;
-    border: 2px dashed rgba(214, 51, 132, 0.4);
-    transition: all 0.3s ease;
+    background: rgba(220, 235, 250, 0.5);
+    padding: 0.5rem 1.2rem; border-radius: 60px;
+    font-size: 0.9rem; font-weight: 500; color: #1b2a3d;
+    cursor: pointer; border: 1px dashed #7a9cbf;
 }
-.bulk-section label:hover {
-    background: rgba(255, 210, 230, 0.9);
-    border-color: #ff1493;
-    transform: translateY(-2px);
-}
+.bulk-section label:hover { background: rgba(220, 235, 250, 0.9); border-color: #22384f; }
 .bulk-section input[type="file"] { display: none; }
 
 .bulk-btn {
-    background: linear-gradient(135deg, #ff69b4, #d63384);
-    color: white;
-    border: none;
-    padding: 0.55rem 1.5rem;
-    border-radius: 60px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.3);
+    background: #475f7a; color: white; border: none;
+    padding: 0.5rem 1.4rem; border-radius: 60px;
+    font-size: 0.9rem; font-weight: 500; cursor: pointer; font-family: inherit;
 }
-.bulk-btn:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.5);
-}
-.bulk-btn.export-excel-btn { background: linear-gradient(135deg, #27ae60, #1a6e3b); }
-.bulk-btn.export-excel-btn:hover { box-shadow: 0 8px 20px rgba(39, 174, 96, 0.5); }
+.bulk-btn:hover { background: #22384f; transform: scale(1.02); }
+.bulk-btn.export-excel-btn { background: #1a6e3b; }
 
 .bulk-hint {
-    font-size: 0.75rem;
-    color: #a04a6d;
-    opacity: 0.8;
-    width: 100%;
-    text-align: center;
-    font-style: italic;
+    font-size: 0.75rem; color: #475f7a;
+    opacity: 0.7; width: 100%; text-align: center;
 }
 
 .list-container {
-    background: linear-gradient(135deg, rgba(255, 228, 240, 0.6), rgba(255, 240, 248, 0.6));
-    border-radius: 40px;
-    padding: 1.5rem 1rem 1rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 182, 193, 0.5);
-    transition: all 0.3s ease;
-}
-.list-container:hover {
-    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.15);
+    background: rgba(220, 235, 250, 0.4);
+    border-radius: 40px; padding: 1.5rem 1rem 1rem;
+    margin-bottom: 1.5rem; border: 1px solid rgba(200, 225, 250, 0.7);
 }
 
 .list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 0.5rem 0.8rem 0.5rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 0.5rem 0.8rem 0.5rem; flex-wrap: wrap; gap: 0.5rem;
 }
 .list-header .select-all-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: #a04a6d;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.9rem; color: #1b2a3d;
 }
 .list-header .select-all-container input[type="checkbox"] {
-    width: 18px; height: 18px; cursor: pointer; accent-color: #ff1493;
+    width: 18px; height: 18px; cursor: pointer; accent-color: #22384f;
 }
 .list-header .bulk-delete-btn {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    color: white;
-    border: none;
-    padding: 0.45rem 1.3rem;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: none;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: inherit;
-    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
-    transition: all 0.3s ease;
+    background: #c0392b; color: white; border: none;
+    padding: 0.4rem 1.2rem; border-radius: 40px;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    display: none; align-items: center; gap: 0.4rem; font-family: inherit;
 }
 .list-header .bulk-delete-btn.visible { display: inline-flex; }
-.list-header .bulk-delete-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(192, 57, 43, 0.5); }
 
 .item-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.75rem;
-    max-height: 380px;
-    overflow-y: auto;
-    padding: 0.5rem;
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 0.7rem; max-height: 380px; overflow-y: auto; padding: 0.5rem;
 }
-.item-grid::-webkit-scrollbar { width: 8px; }
-.item-grid::-webkit-scrollbar-track { background: rgba(255, 182, 193, 0.2); border-radius: 10px; }
-.item-grid::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #ff69b4, #d63384);
-    border-radius: 10px;
-}
+.item-grid::-webkit-scrollbar { width: 6px; }
+.item-grid::-webkit-scrollbar-track { background: rgba(180, 200, 225, 0.2); border-radius: 10px; }
+.item-grid::-webkit-scrollbar-thumb { background: #7a9cbf; border-radius: 10px; }
 
 .item-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.55rem;
-    border-radius: 18px;
-    border: 2px solid rgba(255, 182, 193, 0.5);
-    background: rgba(255, 250, 253, 0.95);
-    box-shadow: 0 6px 14px rgba(255, 105, 180, 0.12);
-    position: relative;
-    width: 112px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.4rem; padding: 0.5rem; border-radius: 16px;
+    border: 1px solid rgba(180, 205, 230, 0.5);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(20, 40, 80, 0.05);
+    position: relative; width: 110px; transition: all 0.2s ease;
 }
-.item-card:hover:not(.consumed) {
-    transform: translateY(-4px) scale(1.05);
-    border-color: #ff1493;
-    box-shadow: 0 12px 28px rgba(255, 20, 147, 0.3);
-}
-.item-card.consumed {
-    opacity: 0.35;
-    filter: grayscale(0.7);
-    pointer-events: none;
-}
+.item-card:hover:not(.consumed) { transform: scale(1.04); border-color: #7a9cbf; }
+.item-card.consumed { opacity: 0.3; filter: grayscale(0.6); pointer-events: none; }
 .item-card .item-img {
-    width: 94px;
-    height: 94px;
-    border-radius: 14px;
-    object-fit: cover;
-    background: #ffe8f0;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    display: block;
-    transition: all 0.3s ease;
-}
-.item-card:hover .item-img {
-    border-color: #ff1493;
-    box-shadow: 0 0 20px rgba(255, 20, 147, 0.4);
+    width: 92px; height: 92px; border-radius: 12px;
+    object-fit: cover; background: #eef4fc; border: 2px solid #c8d8ea; display: block;
 }
 .item-card .item-name {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #a04a6d;
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 0.75rem; font-weight: 600; color: #1b2a3d;
+    text-align: center; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .item-card .select-checkbox {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 18px; height: 18px;
-    cursor: pointer;
-    accent-color: #ff1493;
-    display: none;
+    position: absolute; top: 6px; left: 6px;
+    width: 18px; height: 18px; cursor: pointer;
+    accent-color: #c0392b; display: none;
 }
 .item-card.delete-mode-active .select-checkbox { display: block; }
 .item-card.selected-for-delete {
-    background: #fce4e4;
-    border-color: #c0392b;
+    background: #fce4e4; border-color: #c0392b;
     box-shadow: 0 0 0 2px #c0392b;
 }
 .item-card .delete-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 22px; height: 22px;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-family: inherit;
+    position: absolute; top: 6px; right: 6px;
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 22px; height: 22px;
+    font-size: 13px; cursor: pointer; padding: 0;
+    display: none; align-items: center; justify-content: center;
+    font-weight: bold; font-family: inherit;
 }
 .item-card.delete-mode-active .delete-btn { display: flex; }
+.item-card .delete-btn:hover { background: #e74c3c; }
 
 .popup-area {
-    background: linear-gradient(135deg, #ffe0ec 0%, #ffd0e0 100%);
-    border-radius: 80px;
-    padding: 1.3rem 1.5rem;
-    margin: 1.5rem 0 1.8rem;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    box-shadow: inset 0 2px 8px rgba(255, 20, 147, 0.1), 0 8px 24px rgba(255, 105, 180, 0.15);
-    animation: popupGlow 3s ease-in-out infinite alternate;
+    background: #dce8f5; border-radius: 80px;
+    padding: 1.2rem 1.5rem; margin: 1.5rem 0 1.8rem;
+    border: 1px solid rgba(200, 225, 250, 0.7);
 }
-
-@keyframes popupGlow {
-    0%   { box-shadow: inset 0 2px 8px rgba(255, 20, 147, 0.1), 0 8px 24px rgba(255, 105, 180, 0.15); }
-    100% { box-shadow: inset 0 2px 8px rgba(255, 20, 147, 0.15), 0 8px 32px rgba(255, 20, 147, 0.35); }
-}
-
 .popup-display {
-    font-size: 2.6rem;
-    font-weight: 600;
-    color: #a04a6d;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 1.3rem 1.5rem;
-    border-radius: 60px;
-    min-height: 8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    border: 2px solid rgba(255, 182, 193, 0.6);
+    font-size: 2.6rem; font-weight: 600; color: #16283a;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 1.2rem 1.5rem; border-radius: 60px;
+    min-height: 8rem; display: flex; align-items: center;
+    justify-content: center; gap: 1rem; flex-wrap: wrap;
+    border: 1px solid rgba(220, 235, 250, 0.8);
 }
 .popup-display .popup-empty {
-    font-size: 1.8rem;
-    font-weight: 400;
-    opacity: 0.75;
-    color: #d63384;
-    font-style: italic;
+    font-size: 1.8rem; font-weight: 400;
+    opacity: 0.7; color: #475f7a;
 }
 .popup-display .outfit-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    width: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 0.6rem; width: 100%;
 }
 .popup-display .outfit-row {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: flex; align-items: center;
+    gap: 0.9rem; flex-wrap: wrap; justify-content: center;
 }
 .popup-display .outfit-photo {
-    width: 80px;
-    height: 80px;
-    border-radius: 18px;
-    object-fit: cover;
-    border: 3px solid #d63384;
-    background: #ffe8f0;
-    box-shadow: 0 6px 16px rgba(214, 51, 132, 0.3);
+    width: 80px; height: 80px; border-radius: 16px;
+    object-fit: cover; border: 3px solid #22384f; background: #eef4fc;
 }
-.popup-display .outfit-photo.inner-photo { border-color: #27ae60; }
+.popup-display .outfit-photo.inner-photo { border-color: #2d6a4f; }
 .popup-display .no-photo {
-    width: 80px; height: 80px;
-    border-radius: 18px;
-    background: #ffe0ec;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 3px solid #c8a8b8;
+    width: 80px; height: 80px; border-radius: 16px;
+    background: #dce8f5; display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; border: 3px solid #7f8c8d;
 }
-.popup-display .popup-text { color: #a04a6d; font-weight: 600; font-size: 1.5rem; }
-.popup-display .popup-text.inner-text { color: #1a6e3b; font-size: 1.3rem; }
+.popup-display .popup-text { color: #16283a; font-weight: 600; font-size: 1.5rem; }
+.popup-display .popup-text.inner-text { color: #2d6a4f; font-size: 1.3rem; }
 .popup-display .popup-tag {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: white;
-    padding: 0.25rem 1.1rem;
-    border-radius: 60px;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.4);
+    background: #22384f; color: #eaf3fc;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.9rem;
 }
 .popup-display .popup-category {
-    background: linear-gradient(135deg, #27ae60, #1a6e3b);
-    color: white;
-    padding: 0.25rem 1.1rem;
-    border-radius: 60px;
-    font-size: 0.8rem;
+    background: #2d6a4f; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.8rem;
 }
 .popup-display .popup-date {
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
-    color: white;
-    padding: 0.25rem 1.1rem;
-    border-radius: 60px;
-    font-size: 0.8rem;
+    background: #8e44ad; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.8rem;
 }
 .popup-display .no-inner-badge {
-    background: #95a5a6;
-    color: white;
-    padding: 0.25rem 1.1rem;
-    border-radius: 60px;
-    font-size: 0.9rem;
+    background: #7f8c8d; color: white;
+    padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.9rem;
 }
 
 .btn-group {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.1rem;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
+    display: flex; justify-content: center; align-items: center;
+    gap: 1.2rem; flex-wrap: wrap; margin-top: 0.5rem;
 }
 .btn {
-    border: none;
-    padding: 0.85rem 2rem;
-    border-radius: 80px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: #a04a6d;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    box-shadow: 0 6px 16px rgba(255, 105, 180, 0.15);
-    border: 2px solid rgba(255, 182, 193, 0.5);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(255, 250, 253, 0.95);
+    border: none; padding: 0.85rem 2rem; border-radius: 80px;
+    font-size: 1.1rem; font-weight: 600; color: #1b2a3d;
+    cursor: pointer; display: inline-flex; align-items: center;
+    gap: 0.6rem; box-shadow: 0 6px 14px rgba(20, 40, 80, 0.06);
+    border: 1px solid rgba(220, 235, 250, 0.8);
+    transition: all 0.25s ease; background: rgba(255, 255, 255, 0.9);
     font-family: inherit;
 }
-.btn:hover:not(:disabled) {
-    transform: translateY(-3px) scale(1.04);
-}
-.btn-primary {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: #fff5fa;
-    border-color: transparent;
-    box-shadow: 0 8px 22px rgba(214, 51, 132, 0.4);
-}
-.btn-primary:hover:not(:disabled) {
-    box-shadow: 0 12px 32px rgba(255, 20, 147, 0.6);
-}
-.btn-outline {
-    background: rgba(255, 250, 253, 0.7);
-    border: 2px solid rgba(214, 51, 132, 0.3);
-    color: #d63384;
-}
-.btn-outline:hover {
-    background: rgba(255, 240, 248, 0.95);
-    border-color: #ff1493;
-}
-.btn-email {
-    background: linear-gradient(135deg, #27ae60, #1a6e3b);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 8px 22px rgba(39, 174, 96, 0.3);
-}
-.btn-email:hover { box-shadow: 0 12px 32px rgba(39, 174, 96, 0.5); }
-.btn-whatsapp {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 8px 22px rgba(37, 211, 102, 0.35);
-}
-.btn-whatsapp:hover { box-shadow: 0 12px 32px rgba(37, 211, 102, 0.55); }
-.btn-danger {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 8px 22px rgba(192, 57, 43, 0.3);
-}
-.btn-clear {
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
-    color: white;
-    border-color: transparent;
-}
-.btn-sync {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    border-color: transparent;
-}
-.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+.btn-primary { background: #22384f; color: #eaf3fc; box-shadow: 0 8px 18px rgba(20, 40, 80, 0.25); }
+.btn-primary:hover:not(:disabled) { background: #16283a; transform: scale(1.02); }
+.btn-outline { background: rgba(255, 255, 255, 0.5); border: 1px solid #b8cde2; }
+.btn-outline:hover { background: rgba(255, 255, 255, 0.9); border-color: #7a9cbf; transform: scale(1.02); }
+.btn-email { background: #2d6a4f; color: #eaf3fc; }
+.btn-email:hover { background: #1d4d38; transform: scale(1.02); }
+.btn-whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
+.btn-whatsapp:hover { background: linear-gradient(135deg, #1fa855, #0d6d62); transform: scale(1.02); }
+.btn-danger { background: #c0392b; color: #eaf3fc; }
+.btn-danger:hover { background: #e74c3c; transform: scale(1.02); }
+.btn-clear { background: #8e44ad; color: #eaf3fc; }
+.btn-clear:hover { background: #6c3483; transform: scale(1.02); }
+.btn-sync { background: #3498db; color: #eaf3fc; }
+.btn-sync:hover { background: #2980b9; transform: scale(1.02); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn i { font-style: normal; font-size: 1.3rem; line-height: 1; }
 
-#refreshBtn {
-    position: relative;
-    overflow: hidden;
-    animation: refreshPulse 2s ease-in-out infinite;
-}
-@keyframes refreshPulse {
-    0%, 100% { box-shadow: 0 8px 22px rgba(214, 51, 132, 0.4); }
-    50%      { box-shadow: 0 8px 32px rgba(255, 20, 147, 0.75), 0 0 40px rgba(255, 105, 180, 0.6); }
-}
-#refreshBtn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    animation: shimmer 3s infinite;
-}
-@keyframes shimmer {
-    0%   { left: -100%; }
-    100% { left: 100%; }
-}
-
 .history-section {
-    margin-top: 1.8rem;
-    background: linear-gradient(135deg, rgba(255, 228, 240, 0.5), rgba(255, 240, 248, 0.5));
-    border-radius: 40px;
-    padding: 1.2rem 1.5rem;
-    border: 1px solid rgba(255, 182, 193, 0.4);
-    max-height: 340px;
-    overflow-y: auto;
+    margin-top: 1.8rem; background: rgba(220, 235, 250, 0.35);
+    border-radius: 40px; padding: 1.2rem 1.5rem;
+    border: 1px solid rgba(150, 190, 225, 0.3);
+    max-height: 340px; overflow-y: auto;
 }
 .history-section h3 {
-    font-size: 1.1rem;
-    color: #d63384;
-    font-weight: 600;
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    font-size: 1.1rem; color: #22384f; font-weight: 500;
+    margin-bottom: 0.8rem; display: flex; align-items: center;
+    justify-content: center; gap: 0.5rem; flex-wrap: wrap;
 }
-.history-list { display: flex; flex-direction: column; gap: 0.5rem; text-align: left; }
+.history-list { display: flex; flex-direction: column; gap: 0.4rem; text-align: left; }
 .history-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.6rem 0.9rem;
-    background: rgba(255, 250, 253, 0.85);
-    border-radius: 14px;
-    border-left: 5px solid #ff1493;
-    font-size: 0.95rem;
-    color: #a04a6d;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    transition: all 0.3s ease;
-}
-.history-item:hover {
-    background: rgba(255, 240, 248, 1);
-    transform: translateX(4px);
-    box-shadow: 0 6px 16px rgba(255, 105, 180, 0.2);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0.8rem; background: rgba(255, 255, 255, 0.75);
+    border-radius: 12px; border-left: 4px solid #7a9cbf;
+    font-size: 0.95rem; color: #1b2a3d; gap: 0.5rem; flex-wrap: wrap;
 }
 .history-item .cloth-photo {
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 2px solid rgba(214, 51, 132, 0.4);
-    flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 8px;
+    object-fit: cover; border: 2px solid #c8d8ea; flex-shrink: 0;
 }
-.history-item .dish-name { font-weight: 600; flex: 1; min-width: 120px; color: #a04a6d; }
+.history-item .dish-name { font-weight: 500; flex: 1; min-width: 120px; }
 .history-item .dish-category {
-    font-size: 0.7rem;
-    background: linear-gradient(135deg, #27ae60, #1a6e3b);
-    color: white;
-    padding: 0.15rem 0.8rem;
-    border-radius: 40px;
-    white-space: nowrap;
+    font-size: 0.7rem; background: #2d6a4f; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
 }
 .history-item .inner-tag {
-    font-size: 0.7rem;
-    background: #2c3e50;
-    color: white;
-    padding: 0.15rem 0.8rem;
-    border-radius: 40px;
-    white-space: nowrap;
+    font-size: 0.7rem; background: #2c3e50; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
 }
-.history-item .inner-tag.no-inner { background: #95a5a6; }
-.history-item .dish-date { color: #a04a6d; font-size: 0.85rem; }
+.history-item .inner-tag.no-inner { background: #7f8c8d; }
+.history-item .dish-date { color: #475f7a; font-size: 0.85rem; }
 .history-item .dish-date-tag {
-    font-size: 0.7rem;
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
-    color: white;
-    padding: 0.15rem 0.8rem;
-    border-radius: 40px;
-    white-space: nowrap;
+    font-size: 0.7rem; background: #8e44ad; color: white;
+    padding: 0.1rem 0.7rem; border-radius: 40px; white-space: nowrap;
 }
 .history-item .cook-tags { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
 .cook-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.2rem 0.7rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    border: 2px solid transparent;
-    background: #ffe0ec;
-    color: #a04a6d;
-    transition: all 0.25s ease;
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.15rem 0.6rem; border-radius: 20px;
+    font-size: 0.8rem; font-weight: 500; cursor: pointer;
+    border: 2px solid transparent; background: #e8eef5; color: #3a5470;
 }
-.cook-tag:hover { transform: scale(1.08); }
-.cook-tag.active-deep { background: linear-gradient(135deg, #2c3e50, #1a252f); color: white; }
-.cook-tag.active-honey { background: linear-gradient(135deg, #d4a373, #a67b4a); color: white; }
-.cook-tag.inactive { opacity: 0.55; }
+.cook-tag:hover { transform: scale(1.05); }
+.cook-tag.active-deep { background: #2c3e50; color: white; }
+.cook-tag.active-honey { background: #d4a373; color: white; }
+.cook-tag.inactive { opacity: 0.5; }
 
 .history-delete-btn {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 26px; height: 26px;
-    font-size: 13px;
-    cursor: pointer;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.7;
-    font-family: inherit;
-    transition: all 0.25s ease;
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 24px; height: 24px;
+    font-size: 13px; cursor: pointer; padding: 0;
+    display: inline-flex; align-items: center;
+    justify-content: center; opacity: 0.6; font-family: inherit;
 }
-.history-delete-btn:hover {
-    opacity: 1;
-    transform: scale(1.15) rotate(8deg);
-    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.5);
-}
+.history-delete-btn:hover { opacity: 1; background: #e74c3c; }
 
-.history-empty {
-    color: #d4a0b8;
-    font-style: italic;
-    padding: 0.5rem;
-    text-align: center;
-}
+.history-empty { color: #90a8c0; font-style: italic; padding: 0.5rem; text-align: center; }
 
 .footer-meta {
-    margin-top: 1.8rem;
-    color: #a04a6d;
-    font-size: 0.85rem;
-    opacity: 0.85;
-    border-top: 1px solid rgba(214, 51, 132, 0.2);
-    padding-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
+    margin-top: 1.8rem; color: #475f7a; font-size: 0.85rem;
+    opacity: 0.75; border-top: 1px solid rgba(90, 130, 170, 0.15);
+    padding-top: 1.5rem; display: flex; justify-content: center;
+    gap: 1.2rem; flex-wrap: wrap;
 }
-.footer-meta span {
-    background: rgba(255, 228, 240, 0.6);
-    padding: 0.25rem 1rem;
-    border-radius: 40px;
-    border: 1px solid rgba(255, 182, 193, 0.4);
-}
+.footer-meta span { background: rgba(20, 40, 80, 0.03); padding: 0.2rem 1rem; border-radius: 40px; }
 
 .reset-notice {
-    font-size: 0.9rem;
-    color: #a04a6d;
-    background: rgba(255, 182, 193, 0.25);
-    padding: 0.4rem 1.3rem;
-    border-radius: 60px;
-    display: inline-block;
-    margin-top: 0.6rem;
-    border: 1px solid rgba(255, 182, 193, 0.4);
-    font-style: italic;
+    font-size: 0.9rem; color: #475f7a;
+    background: rgba(150, 190, 225, 0.15);
+    padding: 0.3rem 1.2rem; border-radius: 60px;
+    display: inline-block; margin-top: 0.6rem;
 }
 
 .toast-message {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: #fff5fa;
-    padding: 0.85rem 2rem;
-    border-radius: 60px;
-    font-size: 1rem;
-    font-weight: 500;
-    box-shadow: 0 10px 30px rgba(214, 51, 132, 0.5), 0 0 40px rgba(255, 105, 180, 0.4);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 1000;
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%); background: #22384f;
+    color: #eaf3fc; padding: 0.8rem 2rem;
+    border-radius: 60px; font-size: 1rem; font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0; transition: opacity 0.4s ease;
+    pointer-events: none; z-index: 1000;
 }
-.toast-message.show { opacity: 1; animation: toastBounce 0.5s ease; }
-
-@keyframes toastBounce {
-    0% { transform: translateX(-50%) translateY(20px) scale(0.9); }
-    50% { transform: translateX(-50%) translateY(-4px) scale(1.05); }
-    100% { transform: translateX(-50%) translateY(0) scale(1); }
-}
+.toast-message.show { opacity: 1; }
 
 .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(160, 74, 109, 0.4);
-    backdrop-filter: blur(8px);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px); z-index: 2000;
+    justify-content: center; align-items: center; padding: 1rem;
 }
 .modal-overlay.active { display: flex; }
 
 .modal {
-    background: linear-gradient(145deg, #fffafd, #fff0f8);
-    border-radius: 40px;
-    padding: 2rem;
-    max-width: 460px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 24px 60px rgba(214, 51, 132, 0.35), 0 0 60px rgba(255, 105, 180, 0.3);
+    background: white; border-radius: 40px; padding: 2rem;
+    max-width: 460px; width: 90%; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     text-align: center;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-@keyframes modalPop {
-    0%   { transform: scale(0.85) translateY(20px); opacity: 0; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-.modal h3 {
-    color: #d63384;
-    margin-bottom: 0.5rem;
-    font-size: 1.4rem;
-}
-.modal p { color: #a04a6d; margin-bottom: 1.5rem; font-size: 0.95rem; }
+.modal h3 { color: #1b2a3d; margin-bottom: 0.5rem; font-size: 1.4rem; }
+.modal p { color: #475f7a; margin-bottom: 1.5rem; font-size: 0.95rem; }
 .modal input, .modal select {
-    width: 100%;
-    padding: 0.8rem 1.2rem;
-    border-radius: 60px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    outline: none;
-    font-family: inherit;
-    background: white;
-    color: #a04a6d;
-    transition: all 0.3s ease;
+    width: 100%; padding: 0.8rem 1.2rem;
+    border-radius: 60px; border: 2px solid #b8cde2;
+    font-size: 1rem; margin-bottom: 1rem;
+    outline: none; font-family: inherit; background: white;
 }
-.modal input:focus, .modal select:focus {
-    border-color: #ff1493;
-    box-shadow: 0 0 0 4px rgba(255, 20, 147, 0.15);
-}
+.modal input:focus, .modal select:focus { border-color: #5a87b0; }
 .modal .modal-buttons { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
 .modal .modal-buttons button {
-    padding: 0.75rem 1.9rem;
-    border-radius: 60px;
-    border: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    padding: 0.7rem 1.8rem; border-radius: 60px;
+    border: none; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; font-family: inherit;
 }
-.modal .modal-buttons .modal-confirm {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: white;
-    box-shadow: 0 6px 16px rgba(214, 51, 132, 0.4);
-}
-.modal .modal-buttons .modal-confirm:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 10px 26px rgba(255, 20, 147, 0.6);
-}
-.modal .modal-buttons .modal-cancel {
-    background: #ffe0ec;
-    color: #a04a6d;
-}
-.modal .modal-buttons .modal-cancel:hover {
-    background: #ffd0e0;
-    transform: translateY(-2px);
-}
+.modal .modal-buttons .modal-confirm { background: #c0392b; color: white; }
+.modal .modal-buttons .modal-confirm:hover { background: #e74c3c; }
+.modal .modal-buttons .modal-cancel { background: #dce8f5; color: #1b2a3d; }
+.modal .modal-buttons .modal-cancel:hover { background: #c8d8ea; }
 
 .modal .error-text {
-    color: #c0392b;
-    font-size: 0.9rem;
-    margin-top: -0.5rem;
-    margin-bottom: 0.8rem;
-    display: none;
+    color: #c0392b; font-size: 0.9rem;
+    margin-top: -0.5rem; margin-bottom: 0.8rem; display: none;
 }
 .modal .error-text.show { display: block; }
 
 .modal .date-option {
-    display: flex;
-    gap: 0.6rem;
-    justify-content: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+    display: flex; gap: 0.6rem; justify-content: center;
+    margin-bottom: 1rem; flex-wrap: wrap;
 }
 .modal .date-option label {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    padding: 0.45rem 1.1rem;
-    border-radius: 40px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    color: #a04a6d;
-    background: white;
+    display: flex; align-items: center; gap: 0.4rem;
+    cursor: pointer; padding: 0.4rem 1rem;
+    border-radius: 40px; border: 2px solid #b8cde2;
+    font-size: 0.9rem; transition: all 0.2s ease;
 }
-.modal .date-option label.selected {
-    border-color: #ff1493;
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.1), rgba(214, 51, 132, 0.1));
-    box-shadow: 0 4px 12px rgba(255, 20, 147, 0.2);
-}
-.modal .date-option label:hover {
-    border-color: #ff1493;
-    transform: translateY(-2px);
-}
+.modal .date-option label.selected { border-color: #22384f; background: rgba(34, 56, 79, 0.08); }
+.modal .date-option label:hover { border-color: #7a9cbf; }
 
 .custom-date-row {
-    display: none;
-    align-items: center;
-    gap: 0.8rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    padding: 0.8rem 1rem;
-    background: linear-gradient(135deg, #fff0f8, #ffe0ec);
-    border-radius: 20px;
-    border: 2px dashed rgba(214, 51, 132, 0.4);
+    display: none; align-items: center; gap: 0.8rem;
+    justify-content: center; flex-wrap: wrap;
+    margin-bottom: 1rem; padding: 0.8rem 1rem;
+    background: #f4f8fc; border-radius: 20px;
+    border: 1px dashed #7a9cbf;
 }
 .custom-date-row.visible { display: flex; }
 .custom-date-row label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #d63384;
-    white-space: nowrap;
+    font-size: 0.9rem; font-weight: 500;
+    color: #22384f; white-space: nowrap;
 }
 .custom-date-row input[type="date"] {
-    padding: 0.5rem 1rem;
-    border-radius: 40px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    font-size: 0.95rem;
-    font-family: inherit;
-    color: #a04a6d;
-    background: white;
-    outline: none;
-    cursor: pointer;
-    margin-bottom: 0;
-    width: auto;
+    padding: 0.5rem 1rem; border-radius: 40px;
+    border: 2px solid #b8cde2; font-size: 0.95rem;
+    font-family: inherit; color: #1b2a3d;
+    background: white; outline: none;
+    cursor: pointer; margin-bottom: 0; width: auto;
 }
 .custom-date-row .custom-date-preview {
-    font-size: 0.8rem;
-    color: #1a6e3b;
-    background: #e8f5e9;
-    padding: 0.25rem 0.9rem;
-    border-radius: 40px;
-    white-space: nowrap;
-    font-weight: 500;
+    font-size: 0.8rem; color: #2d6a4f;
+    background: #e8f5e9; padding: 0.2rem 0.8rem;
+    border-radius: 40px; white-space: nowrap; font-weight: 500;
 }
 
 .photo-popup {
-    background: linear-gradient(145deg, #fffafd, #fff0f8);
-    border-radius: 32px;
-    padding: 1.5rem;
-    max-width: 560px;
-    width: 92%;
-    max-height: 92vh;
-    overflow-y: auto;
-    box-shadow: 0 24px 60px rgba(214, 51, 132, 0.4), 0 0 80px rgba(255, 105, 180, 0.3);
+    background: white; border-radius: 32px;
+    padding: 1.5rem; max-width: 560px; width: 92%;
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     text-align: center;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.photo-popup h3 {
-    color: #d63384;
-    font-size: 1.4rem;
-    margin-bottom: 0.6rem;
-}
+.photo-popup h3 { color: #1b2a3d; font-size: 1.3rem; margin-bottom: 0.6rem; }
 .photo-popup .big-photo {
-    width: 100%;
-    max-width: 420px;
-    max-height: 480px;
-    object-fit: contain;
-    border-radius: 22px;
-    background: #ffe8f0;
-    border: 3px solid rgba(214, 51, 132, 0.5);
-    margin: 0 auto 1rem;
-    display: block;
-    box-shadow: 0 10px 30px rgba(214, 51, 132, 0.25);
-    animation: photoGlow 2.5s ease-in-out infinite alternate;
-}
-@keyframes photoGlow {
-    0%   { box-shadow: 0 10px 30px rgba(214, 51, 132, 0.25); }
-    100% { box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5), 0 0 50px rgba(255, 105, 180, 0.4); }
+    width: 100%; max-width: 420px; max-height: 480px;
+    object-fit: contain; border-radius: 20px;
+    background: #eef4fc; border: 3px solid #c8d8ea;
+    margin: 0 auto 1rem; display: block;
 }
 .photo-popup .popup-meta {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1.2rem;
+    display: flex; justify-content: center;
+    gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem;
 }
 .photo-popup .popup-meta span {
-    padding: 0.3rem 1rem;
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    padding: 0.25rem 0.9rem; border-radius: 40px;
+    font-size: 0.85rem; font-weight: 600;
 }
-.photo-popup .popup-meta .cat {
-    background: linear-gradient(135deg, #27ae60, #1a6e3b);
-    color: white;
-}
-.photo-popup .popup-meta .date {
-    background: linear-gradient(135deg, #8e44ad, #6c3483);
-    color: white;
-}
+.photo-popup .popup-meta .cat { background: #2d6a4f; color: white; }
+.photo-popup .popup-meta .date { background: #8e44ad; color: white; }
 .photo-popup .popup-buttons { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
 .photo-popup .popup-buttons button {
-    padding: 0.85rem 1.7rem;
-    border-radius: 60px;
-    border: none;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0.8rem 1.6rem; border-radius: 60px;
+    border: none; font-size: 1rem; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.2s ease;
 }
-.photo-popup .popup-buttons .btn-next {
-    background: linear-gradient(135deg, #27ae60, #1a6e3b);
-    color: white;
-    box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
-}
-.photo-popup .popup-buttons .btn-next:hover {
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 12px 28px rgba(39, 174, 96, 0.55);
-}
-.photo-popup .popup-buttons .btn-again {
-    background: linear-gradient(135deg, #f39c12, #d68910);
-    color: white;
-    box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4);
-}
-.photo-popup .popup-buttons .btn-again:hover {
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 12px 28px rgba(243, 156, 18, 0.55);
-}
-.photo-popup .popup-buttons .btn-cancel {
-    background: #ffe0ec;
-    color: #a04a6d;
-}
-.photo-popup .popup-buttons .btn-cancel:hover {
-    background: #ffd0e0;
-    transform: translateY(-2px);
-}
+.photo-popup .popup-buttons .btn-next { background: #2d6a4f; color: white; }
+.photo-popup .popup-buttons .btn-next:hover { background: #1d4d38; transform: scale(1.03); }
+.photo-popup .popup-buttons .btn-again { background: #f39c12; color: white; }
+.photo-popup .popup-buttons .btn-again:hover { background: #d68910; transform: scale(1.03); }
+.photo-popup .popup-buttons .btn-cancel { background: #dce8f5; color: #1b2a3d; }
+.photo-popup .popup-buttons .btn-cancel:hover { background: #c8d8ea; }
 
 .inner-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    justify-content: center;
-    max-height: 340px;
-    overflow-y: auto;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    justify-content: center; max-height: 340px;
+    overflow-y: auto; padding: 0.5rem; margin-bottom: 1rem;
 }
 .inner-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.55rem;
-    border-radius: 16px;
-    border: 2px solid rgba(214, 51, 132, 0.25);
-    background: white;
-    cursor: pointer;
-    width: 96px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-family: inherit;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.3rem; padding: 0.5rem; border-radius: 14px;
+    border: 2px solid #b8cde2; background: white;
+    cursor: pointer; width: 96px; transition: all 0.2s ease; font-family: inherit;
 }
-.inner-option:hover {
-    border-color: #ff1493;
-    transform: translateY(-3px) scale(1.06);
-    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.25);
-}
-.inner-option.selected {
-    border-color: #27ae60;
-    background: #e8f5e9;
-    box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.4), 0 6px 16px rgba(39, 174, 96, 0.3);
-}
+.inner-option:hover { border-color: #5a87b0; transform: scale(1.05); }
+.inner-option.selected { border-color: #2d6a4f; background: #e8f5e9; box-shadow: 0 0 0 2px #2d6a4f; }
 .inner-option img {
-    width: 76px; height: 76px;
-    border-radius: 12px;
-    object-fit: cover;
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    background: #ffe8f0;
-    display: block;
+    width: 76px; height: 76px; border-radius: 10px;
+    object-fit: cover; border: 2px solid #c8d8ea;
+    background: #eef4fc; display: block;
 }
 .inner-option .no-inner-ph {
-    width: 76px; height: 76px;
-    border-radius: 12px;
-    background: #ecf0f1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    border: 2px solid #bdc3c7;
+    width: 76px; height: 76px; border-radius: 10px;
+    background: #ecf0f1; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2rem; border: 2px solid #bdc3c7;
 }
 .inner-option .inner-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #a04a6d;
-    max-width: 90px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 0.72rem; font-weight: 600; color: #1b2a3d;
+    max-width: 90px; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap;
 }
-.inner-option.no-inner-option { border-color: #95a5a6; }
-.inner-option.no-inner-option.selected {
-    border-color: #95a5a6;
-    background: #ecf0f1;
-    box-shadow: 0 0 0 3px rgba(149, 165, 166, 0.4);
-}
+.inner-option.no-inner-option { border-color: #7f8c8d; }
+.inner-option.no-inner-option.selected { border-color: #7f8c8d; background: #ecf0f1; box-shadow: 0 0 0 2px #7f8c8d; }
 
-.modal .bulk-delete-count {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #c0392b;
-    margin: 0.5rem 0;
-}
+.modal .bulk-delete-count { font-size: 2rem; font-weight: bold; color: #c0392b; margin: 0.5rem 0; }
 
 .email-options-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(160, 74, 109, 0.5);
-    backdrop-filter: blur(8px);
-    z-index: 3000;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7);
+    z-index: 3000; justify-content: center; align-items: center; padding: 2rem;
 }
 .email-options-modal.active { display: flex; }
 .email-options-content {
-    background: linear-gradient(145deg, #fffafd, #fff0f8);
-    border-radius: 32px;
-    max-width: 700px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 2rem;
-    position: relative;
-    box-shadow: 0 24px 60px rgba(214, 51, 132, 0.4), 0 0 80px rgba(255, 105, 180, 0.3);
-    border: 2px solid rgba(255, 182, 193, 0.6);
-    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: white; border-radius: 24px;
+    max-width: 700px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    padding: 2rem; position: relative;
 }
 .email-options-content .close-btn {
-    position: sticky;
-    top: 0;
-    float: right;
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 38px; height: 38px;
-    font-size: 20px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    position: sticky; top: 0; float: right;
+    background: #c0392b; color: white; border: none;
+    border-radius: 50%; width: 36px; height: 36px;
+    font-size: 20px; cursor: pointer; font-family: inherit;
 }
-.email-options-content .close-btn:hover {
-    transform: rotate(90deg) scale(1.1);
-}
-.email-options-content h3 {
-    color: #d63384;
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-.email-options-content .subtitle {
-    color: #a04a6d;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-}
+.email-options-content h3 { color: #22384f; font-size: 1.6rem; margin-bottom: 0.5rem; text-align: center; }
+.email-options-content .subtitle { color: #475f7a; text-align: center; margin-bottom: 1.5rem; }
 
 .email-option-card {
-    background: linear-gradient(135deg, #fff0f8, #ffe0ec);
-    border-radius: 18px;
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 1rem;
-    border: 2px solid rgba(255, 182, 193, 0.5);
-    transition: all 0.3s ease;
-}
-.email-option-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 26px rgba(255, 105, 180, 0.2);
-    border-color: #ff1493;
+    background: #f4f8fc; border-radius: 16px;
+    padding: 1.2rem 1.5rem; margin-bottom: 1rem;
+    border: 2px solid #dce8f5;
 }
 .email-option-card .header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem; }
 .email-option-card .header .icon { font-size: 1.8rem; }
-.email-option-card .header .title { font-size: 1.1rem; font-weight: 600; color: #a04a6d; }
+.email-option-card .header .title { font-size: 1.1rem; font-weight: 600; color: #1b2a3d; }
 .email-option-card .header .badge {
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: white;
-    padding: 0.2rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    margin-left: auto;
-    box-shadow: 0 4px 10px rgba(214, 51, 132, 0.3);
+    background: #2d6a4f; color: white;
+    padding: 0.15rem 0.7rem; border-radius: 20px;
+    font-size: 0.7rem; margin-left: auto;
 }
-.email-option-card .description {
-    color: #a04a6d;
-    font-size: 0.9rem;
-    padding-left: 2.6rem;
-}
+.email-option-card .description { color: #475f7a; font-size: 0.9rem; padding-left: 2.6rem; }
 .email-option-card .action-btn {
-    margin-top: 0.6rem;
-    margin-left: 2.6rem;
-    padding: 0.5rem 1.3rem;
-    border-radius: 60px;
-    border: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(135deg, #d63384, #ff1493);
-    color: white;
-    font-family: inherit;
-    box-shadow: 0 4px 12px rgba(214, 51, 132, 0.35);
-    transition: all 0.3s ease;
+    margin-top: 0.5rem; margin-left: 2.6rem;
+    padding: 0.4rem 1.2rem; border-radius: 60px;
+    border: none; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; background: #22384f; color: white; font-family: inherit;
 }
-.email-option-card .action-btn:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 20px rgba(255, 20, 147, 0.5);
-}
-.email-option-card .action-btn.html-btn { background: linear-gradient(135deg, #27ae60, #1a6e3b); }
-.email-option-card .action-btn.plain-btn { background: linear-gradient(135deg, #a04a6d, #d63384); }
+.email-option-card .action-btn.html-btn { background: #2d6a4f; }
+.email-option-card .action-btn.plain-btn { background: #475f7a; }
 
 .email-subject-box {
-    background: linear-gradient(135deg, #fff0f8, #ffe0ec);
-    padding: 14px 18px;
-    border-radius: 14px;
-    margin: 10px 0 15px 0;
-    border-left: 5px solid #ff1493;
-    box-shadow: 0 4px 12px rgba(255, 105, 180, 0.15);
+    background: #f4f8fc; padding: 12px 15px;
+    border-radius: 12px; margin: 10px 0 15px 0;
+    border-left: 4px solid #22384f;
 }
 .email-subject-box code {
-    background: white;
-    padding: 3px 10px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    color: #d63384;
-    font-weight: 600;
+    background: white; padding: 2px 8px;
+    border-radius: 4px; font-size: 0.9rem;
 }
 
-/* ============================================================ */
-/* WHATSAPP MODAL — with saved recipients                       */
-/* ============================================================ */
+/* WhatsApp modal */
 .wa-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(160, 74, 109, 0.5);
-    backdrop-filter: blur(8px);
-    z-index: 3000;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px); z-index: 3000;
+    justify-content: center; align-items: center; padding: 1rem;
 }
 .wa-modal.active { display: flex; }
 .wa-content {
     background: linear-gradient(145deg, #fffafd, #fff0f8);
-    border-radius: 32px;
-    max-width: 560px;
-    width: 100%;
-    max-height: 92vh;
-    overflow-y: auto;
-    padding: 2rem;
+    border-radius: 32px; max-width: 560px; width: 100%;
+    max-height: 92vh; overflow-y: auto; padding: 2rem;
     box-shadow: 0 24px 60px rgba(37, 211, 102, 0.35), 0 0 80px rgba(37, 211, 102, 0.25);
     border: 2px solid rgba(37, 211, 102, 0.5);
     text-align: center;
-    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.wa-content h3 {
-    color: #128C7E;
-    font-size: 1.5rem;
-    margin-bottom: 0.4rem;
-}
-
-/* Section labels */
+.wa-content h3 { color: #128C7E; font-size: 1.5rem; margin-bottom: 0.4rem; }
 .wa-section-label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: #128C7E;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin: 12px 0 8px 4px;
-    text-align: left;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.78rem; font-weight: 700; color: #128C7E;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    margin: 12px 0 8px 4px; text-align: left;
 }
 .wa-section-label .add-new-link {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #25D366;
-    cursor: pointer;
-    text-decoration: none;
-    text-transform: none;
-    letter-spacing: 0;
-    padding: 4px 10px;
-    border-radius: 20px;
+    font-size: 0.75rem; font-weight: 600; color: #25D366;
+    cursor: pointer; text-decoration: none; text-transform: none;
+    letter-spacing: 0; padding: 4px 10px; border-radius: 20px;
     background: rgba(37, 211, 102, 0.12);
-    transition: all 0.2s ease;
 }
-.wa-section-label .add-new-link:hover {
-    background: rgba(37, 211, 102, 0.25);
-    transform: scale(1.05);
-}
-
-/* Saved recipients list */
+.wa-section-label .add-new-link:hover { background: rgba(37, 211, 102, 0.25); }
 .wa-recipients {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 220px;
-    overflow-y: auto;
-    padding: 4px;
-    margin-bottom: 12px;
+    display: flex; flex-direction: column; gap: 6px;
+    max-height: 220px; overflow-y: auto; padding: 4px; margin-bottom: 12px;
 }
 .wa-recipient {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 14px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 14px;
     border: 2px solid rgba(37, 211, 102, 0.25);
-    background: white;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    text-align: left;
-    font-family: inherit;
+    background: white; cursor: pointer;
+    transition: all 0.25s ease; text-align: left; font-family: inherit;
 }
-.wa-recipient:hover {
-    border-color: #25D366;
-    background: #f0fff4;
-    transform: translateX(3px);
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.2);
-}
-.wa-recipient.selected {
-    border-color: #128C7E;
-    background: #e6f9ee;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.3);
-}
+.wa-recipient:hover { border-color: #25D366; background: #f0fff4; transform: translateX(3px); }
+.wa-recipient.selected { border-color: #128C7E; background: #e6f9ee; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.3); }
 .wa-recipient .wa-avatar {
-    width: 38px; height: 38px;
-    border-radius: 50%;
+    width: 38px; height: 38px; border-radius: 50%;
     background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    font-weight: 600;
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0; font-weight: 600;
 }
-.wa-recipient .wa-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-}
-.wa-recipient .wa-name {
-    font-weight: 600;
-    color: #128C7E;
-    font-size: 0.92rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.wa-recipient .wa-number {
-    font-size: 0.75rem;
-    color: #7a9cbf;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.wa-recipient .wa-info { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wa-recipient .wa-name { font-weight: 600; color: #128C7E; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wa-recipient .wa-number { font-size: 0.75rem; color: #475f7a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wa-recipient .wa-remove {
-    background: rgba(192, 57, 43, 0.1);
-    color: #c0392b;
-    border: none;
-    border-radius: 50%;
-    width: 26px; height: 26px;
-    font-size: 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    font-family: inherit;
+    background: rgba(192, 57, 43, 0.1); color: #c0392b; border: none;
+    border-radius: 50%; width: 26px; height: 26px; font-size: 15px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-family: inherit;
 }
-.wa-recipient .wa-remove:hover {
-    background: #c0392b;
-    color: white;
-    transform: scale(1.15) rotate(90deg);
-}
-
+.wa-recipient .wa-remove:hover { background: #c0392b; color: white; transform: scale(1.15) rotate(90deg); }
 .wa-empty-recipients {
-    padding: 14px;
-    background: rgba(37, 211, 102, 0.08);
-    border-radius: 12px;
-    color: #7a9cbf;
-    font-size: 0.82rem;
-    font-style: italic;
-    text-align: center;
-    border: 1px dashed rgba(37, 211, 102, 0.3);
-    margin-bottom: 12px;
+    padding: 14px; background: rgba(37, 211, 102, 0.08);
+    border-radius: 12px; color: #475f7a; font-size: 0.82rem;
+    font-style: italic; text-align: center;
+    border: 1px dashed rgba(37, 211, 102, 0.3); margin-bottom: 12px;
 }
-
-/* Add-new form (hidden by default) */
 .wa-add-form {
-    display: none;
-    background: white;
-    border-radius: 16px;
-    padding: 12px;
-    margin-bottom: 12px;
+    display: none; background: white; border-radius: 16px;
+    padding: 12px; margin-bottom: 12px;
     border: 2px dashed rgba(37, 211, 102, 0.5);
 }
 .wa-add-form.visible { display: block; }
 .wa-add-form input {
-    width: 100%;
-    padding: 0.65rem 1rem;
-    border-radius: 60px;
-    border: 2px solid rgba(37, 211, 102, 0.3);
-    font-size: 0.92rem;
-    margin-bottom: 8px;
-    outline: none;
-    font-family: inherit;
-    background: white;
-    color: #128C7E;
-    transition: all 0.3s ease;
+    width: 100%; padding: 0.65rem 1rem; border-radius: 60px;
+    border: 2px solid rgba(37, 211, 102, 0.3); font-size: 0.92rem;
+    margin-bottom: 8px; outline: none; font-family: inherit;
+    background: white; color: #128C7E;
 }
-.wa-add-form input:focus {
-    border-color: #25D366;
-    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.15);
-}
-.wa-add-form .wa-add-buttons {
-    display: flex;
-    gap: 6px;
-    justify-content: flex-end;
-}
+.wa-add-form input:focus { border-color: #25D366; box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.15); }
+.wa-add-form .wa-add-buttons { display: flex; gap: 6px; justify-content: flex-end; }
 .wa-add-form .wa-add-buttons button {
-    padding: 0.5rem 1.2rem;
-    border-radius: 40px;
-    border: none;
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.25s ease;
+    padding: 0.5rem 1.2rem; border-radius: 40px; border: none;
+    font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: inherit;
 }
-.wa-add-form .wa-add-buttons .wa-save-btn {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
-}
-.wa-add-form .wa-add-buttons .wa-save-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
-}
-.wa-add-form .wa-add-buttons .wa-cancel-add {
-    background: #ffe0ec;
-    color: #a04a6d;
-}
-.wa-add-form .wa-add-buttons .wa-cancel-add:hover {
-    background: #ffd0e0;
-}
-
-/* Message preview */
+.wa-add-form .wa-add-buttons .wa-save-btn { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
+.wa-add-form .wa-add-buttons .wa-cancel-add { background: #dce8f5; color: #475f7a; }
 .wa-preview {
-    background: white;
-    border-radius: 16px;
-    padding: 0.8rem 1rem;
-    margin-top: 8px;
-    text-align: left;
-    font-size: 0.8rem;
-    color: #475f7a;
-    max-height: 180px;
-    overflow-y: auto;
+    background: white; border-radius: 16px; padding: 0.8rem 1rem;
+    margin-top: 8px; text-align: left; font-size: 0.8rem;
+    color: #475f7a; max-height: 180px; overflow-y: auto;
     border: 1px solid rgba(37, 211, 102, 0.3);
-    white-space: pre-wrap;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    line-height: 1.5;
+    white-space: pre-wrap; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.5;
 }
 .wa-preview-title {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #128C7E;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 0.5rem;
-    text-align: left;
+    font-size: 0.75rem; font-weight: 700; color: #128C7E;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    margin-bottom: 0.5rem; text-align: left;
 }
-
-.wa-content .wa-buttons {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 12px;
-}
+.wa-content .wa-buttons { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
 .wa-content .wa-buttons button {
-    padding: 0.75rem 1.9rem;
-    border-radius: 60px;
-    border: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    padding: 0.75rem 1.9rem; border-radius: 60px; border: none;
+    font-size: 0.95rem; font-weight: 600; cursor: pointer; font-family: inherit;
 }
-.wa-content .wa-buttons .wa-send {
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: white;
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
-}
-.wa-content .wa-buttons .wa-send:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 10px 26px rgba(37, 211, 102, 0.6);
-}
-.wa-content .wa-buttons .wa-send:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-.wa-content .wa-buttons .wa-cancel {
-    background: #ffe0ec;
-    color: #a04a6d;
-}
-.wa-content .wa-buttons .wa-cancel:hover {
-    background: #ffd0e0;
-    transform: translateY(-2px);
-}
+.wa-content .wa-buttons .wa-send { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
+.wa-content .wa-buttons .wa-send:hover { transform: translateY(-2px) scale(1.04); }
+.wa-content .wa-buttons .wa-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.wa-content .wa-buttons .wa-cancel { background: #dce8f5; color: #475f7a; }
 .wa-content .wa-hint {
-    font-size: 0.75rem;
-    color: #95a5a6;
-    margin-top: 1rem;
-    font-style: italic;
-    line-height: 1.5;
+    font-size: 0.75rem; color: #95a5a6; margin-top: 1rem;
+    font-style: italic; line-height: 1.5;
 }
 
 html, body { max-width: 100%; overflow-x: hidden; }
@@ -1731,29 +718,20 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media (max-width: 600px) {
     body { padding: 0.5rem; align-items: flex-start; }
     .card { padding: 1.2rem 0.85rem 1.4rem; border-radius: 28px; }
-    .card::before, .card::after { font-size: 20px; top: 12px; }
-    .card::before { left: 15px; }
-    .card::after { right: 15px; }
-    h2 { font-size: 1.3rem; }
+    h2 { font-size: 1.25rem; }
     .sub { font-size: 0.78rem; }
     .status-badge { font-size: 0.7rem; padding: 0.25rem 0.8rem; }
     .category-section, .add-section {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-        padding: 0.7rem;
-        border-radius: 22px;
+        flex-direction: column; align-items: stretch;
+        gap: 0.5rem; padding: 0.7rem; border-radius: 22px;
     }
     .category-select, .add-section input[type="text"] {
         min-width: 0; max-width: 100%; width: 100%; font-size: 16px;
     }
     .btn-add { width: 100%; justify-content: center; }
     .bulk-section label, .bulk-btn {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.85rem;
-        flex: 1 1 auto;
-        justify-content: center;
-        display: inline-flex;
+        font-size: 0.75rem; padding: 0.4rem 0.85rem;
+        flex: 1 1 auto; justify-content: center; display: inline-flex;
     }
     .popup-display { font-size: 1.4rem; min-height: 5rem; padding: 0.8rem; }
     .popup-display .outfit-photo { width: 56px; height: 56px; }
@@ -1786,37 +764,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </head>
 <body>
 
-<div class="romantic-bg" aria-hidden="true">
-    <span class="heart">💕</span>
-    <span class="heart">💖</span>
-    <span class="heart">💗</span>
-    <span class="heart">🌸</span>
-    <span class="heart">💕</span>
-    <span class="heart">❤️</span>
-    <span class="heart">💝</span>
-    <span class="heart">🌺</span>
-    <span class="heart">💖</span>
-    <span class="heart">💕</span>
-    <span class="heart">💗</span>
-    <span class="heart">🌸</span>
-</div>
-
-<div class="sparkles" aria-hidden="true">
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-    <span class="sparkle"></span>
-</div>
-
 <div class="card" role="main">
-    <h2><span>💕</span> today's outfit <span>💕</span></h2>
-    <div class="sub">✨ cloud synced · google drive photos · click refresh to pick ✨</div>
+    <h2><span>👕</span> today's outfit</h2>
+    <div class="sub">cloud synced · Google Drive photos · click refresh to pick</div>
 
     <div class="status-badge" id="statusBadge">
         🔁 0 / 0 picked
@@ -1842,7 +792,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <input type="text" id="newItemInput" placeholder="e.g. Blue Office Shirt" maxlength="80">
         <input type="text" id="newCategoryInput" placeholder="Category" maxlength="60">
         <input type="text" id="newItemLink" placeholder="Google Drive share link" style="flex:2;min-width:200px;">
-        <button class="btn-add" id="addItemBtn">💖 add</button>
+        <button class="btn-add" id="addItemBtn">➕ add</button>
     </div>
 
     <div class="bulk-section">
@@ -1857,7 +807,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             <div class="select-all-container" id="selectAllContainer" style="display:none;">
                 <input type="checkbox" id="selectAllCheckbox">
                 <label for="selectAllCheckbox">Select All</label>
-                <span id="selectedCount" style="font-size:0.8rem; color:#a04a6d;">(0 selected)</span>
+                <span id="selectedCount" style="font-size:0.8rem; color:#475f7a;">(0 selected)</span>
             </div>
             <button class="bulk-delete-btn" id="bulkDeleteBtn">🗑️ Delete Selected</button>
         </div>
@@ -1866,27 +816,27 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
     <div class="popup-area">
         <div class="popup-display" id="popupDisplay">
-            <span class="popup-empty">💖 click refresh to pick an outfit 💖</span>
+            <span class="popup-empty">✨ click refresh to pick an outfit</span>
         </div>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-primary" id="refreshBtn"><i>💫</i> refresh</button>
+        <button class="btn btn-primary" id="refreshBtn"><i>⟳</i> refresh</button>
         <button class="btn btn-outline" id="resetBtn"><i>↺</i> reset all</button>
         <button class="btn btn-clear" id="clearHistoryBtn"><i>🗑️</i> clear history</button>
-        <button class="btn btn-email" id="emailBtn"><i>💌</i> email</button>
+        <button class="btn btn-email" id="emailBtn"><i>✉</i> email</button>
         <button class="btn btn-whatsapp" id="whatsappBtn"><i>💬</i> whatsapp</button>
         <button class="btn btn-danger" id="deleteModeBtn"><i>🔒</i> delete mode</button>
         <button class="btn btn-outline" id="manualAddBtn"><i>✍️</i> add manually</button>
         <button class="btn btn-sync" id="syncBtn"><i>🔄</i> force sync</button>
     </div>
 
-    <div class="reset-notice" id="resetNotice">💕 add some items to get started 💕</div>
+    <div class="reset-notice" id="resetNotice">add some items to get started!</div>
 
     <div class="history-section">
-        <h3>💝 outfit history <span style="font-size:0.8rem; color:#a04a6d;">(click tags · 🗑️ to delete)</span></h3>
+        <h3>📜 outfit history <span style="font-size:0.8rem; color:#475f7a;">(click tags · 🗑️ to delete)</span></h3>
         <div class="history-list" id="historyList">
-            <div class="history-empty">no outfits picked yet 💕</div>
+            <div class="history-empty">no outfits picked yet</div>
         </div>
     </div>
 
@@ -1900,10 +850,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <!-- Category + Date Modal -->
 <div class="modal-overlay" id="categoryModal">
     <div class="modal" style="max-width:520px;">
-        <h3>💕 Select Category & Date 💕</h3>
+        <h3>📂 Select Category & Date</h3>
         <p>Choose a category and when you want to wear this outfit</p>
         <select id="categoryModalSelect"><option value="__all__">📋 All Categories</option></select>
-        <div style="font-size:0.85rem; color:#a04a6d; margin-bottom:0.8rem;" id="categoryModalCount"></div>
+        <div style="font-size:0.85rem; color:#475f7a; margin-bottom:0.8rem;" id="categoryModalCount"></div>
 
         <div class="date-option" id="dateOptionGroup">
             <label class="selected" id="todayLabel"><input type="radio" name="outfitDate" value="today" checked> 📅 Today</label>
@@ -1920,7 +870,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         <div class="modal-buttons">
             <button class="modal-cancel" id="categoryModalCancel">Cancel</button>
-            <button class="modal-confirm" id="categoryModalConfirm" style="background:linear-gradient(135deg,#27ae60,#1a6e3b);">💖 Pick Cloth</button>
+            <button class="modal-confirm" id="categoryModalConfirm" style="background:#2d6a4f;">🎲 Pick Cloth</button>
         </div>
     </div>
 </div>
@@ -1928,7 +878,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <!-- BIG PHOTO POPUP -->
 <div class="modal-overlay" id="photoPopup">
     <div class="photo-popup">
-        <h3 id="photoPopupTitle">👔 Cloth Picked 💕</h3>
+        <h3 id="photoPopupTitle">👔 Cloth Picked</h3>
         <img class="big-photo" id="photoPopupImg" alt="Picked cloth">
         <div class="popup-meta">
             <span class="cat" id="photoPopupCat">—</span>
@@ -1937,7 +887,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <div class="popup-buttons">
             <button class="btn-cancel" id="photoPopupCancel">Cancel</button>
             <button class="btn-again" id="photoPopupAgain">🔄 Pick Again</button>
-            <button class="btn-next" id="photoPopupNext">💕 OK, Pick Inner →</button>
+            <button class="btn-next" id="photoPopupNext">✅ OK, Pick Inner →</button>
         </div>
     </div>
 </div>
@@ -1945,12 +895,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <!-- Inner Selection Modal -->
 <div class="modal-overlay" id="innerModal">
     <div class="modal" style="max-width:560px;">
-        <h3>🩲 Choose an Inner 💕</h3>
+        <h3>🩲 Choose an Inner</h3>
         <p id="innerModalSubtitle">Pick an inner to go with your cloth</p>
         <div class="inner-grid" id="innerGrid"></div>
         <div class="modal-buttons">
             <button class="modal-cancel" id="innerModalCancel">Cancel</button>
-            <button class="modal-confirm" id="innerModalConfirm" style="background:linear-gradient(135deg,#27ae60,#1a6e3b);">✅ Confirm Outfit</button>
+            <button class="modal-confirm" id="innerModalConfirm" style="background:#2d6a4f;">✅ Confirm Outfit</button>
         </div>
     </div>
 </div>
@@ -1958,11 +908,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
 <!-- Final Confirmation Modal -->
 <div class="modal-overlay" id="finalModal">
     <div class="photo-popup">
-        <h3>🎉 Final Outfit 💕</h3>
+        <h3>🎉 Final Outfit</h3>
         <div id="finalOutfitPreview" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
         <div class="modal-buttons">
-            <button class="modal-cancel" id="finalCancel" style="background:#ffe0ec;color:#a04a6d;">Back</button>
-            <button class="modal-confirm" id="finalConfirm" style="background:linear-gradient(135deg,#27ae60,#1a6e3b);">💖 Save to History</button>
+            <button class="modal-cancel" id="finalCancel" style="background:#dce8f5;color:#1b2a3d;">Back</button>
+            <button class="modal-confirm" id="finalConfirm" style="background:#2d6a4f;">✅ Save to History</button>
         </div>
     </div>
 </div>
@@ -2013,7 +963,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <h3>🗑️ Bulk Delete Items</h3>
         <p>Are you sure you want to delete the following items?</p>
         <div class="bulk-delete-count" id="bulkDeleteCount">0</div>
-        <p style="font-size:0.85rem; color:#a04a6d;" id="bulkDeleteList"></p>
+        <p style="font-size:0.85rem; color:#475f7a;" id="bulkDeleteList"></p>
         <div class="modal-buttons">
             <button class="modal-cancel" id="bulkDeleteCancel">Cancel</button>
             <button class="modal-confirm" id="bulkDeleteConfirm">🗑️ Delete All</button>
@@ -2030,7 +980,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <input type="text" id="manualCategory" placeholder="📂 Category (optional)" maxlength="60" autocomplete="off">
         <input type="text" id="manualInnerName" placeholder="🩲 Inner name (optional — blank = No Inner)" maxlength="80" autocomplete="off">
 
-        <div style="text-align:left; margin-bottom:0.4rem; font-size:0.85rem; color:#a04a6d; font-weight:500; padding-left:0.5rem;">📅 Date:</div>
+        <div style="text-align:left; margin-bottom:0.4rem; font-size:0.85rem; color:#475f7a; font-weight:500; padding-left:0.5rem;">📅 Date:</div>
         <select id="manualDateSelect">
             <option value="today" selected>📅 Today</option>
             <option value="tomorrow">📅 Tomorrow</option>
@@ -2054,58 +1004,48 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <div class="error-text" id="manualAddError">❌ Please enter a cloth name</div>
         <div class="modal-buttons">
             <button class="modal-cancel" id="manualAddCancel" type="button">Cancel</button>
-            <button class="modal-confirm" id="manualAddConfirm" type="button" style="background:linear-gradient(135deg,#27ae60,#1a6e3b);">✍️ Add to History</button>
+            <button class="modal-confirm" id="manualAddConfirm" type="button" style="background:#2d6a4f;">✍️ Add to History</button>
         </div>
     </div>
 </div>
 
-<!-- Email Options Modal -->
+<!-- Email Options Modal — ONLY 2 OPTIONS -->
 <div class="email-options-modal" id="emailOptionsModal">
     <div class="email-options-content">
         <button class="close-btn" id="emailOptionsClose">✕</button>
-        <h3>💌 Email Options 💌</h3>
-        <p class="subtitle">Choose how you want to send your outfit log · history will clear after</p>
+        <h3>📧 Email Options</h3>
+        <p class="subtitle">Choose how you want to send your outfit log</p>
         <div class="email-subject-box">
             <strong>📌 Subject:</strong> <code id="emailSubjectPreview">👕 Honey Outfit Log Selected by Me {Shinu} - —</code>
         </div>
+
         <div class="email-option-card">
-            <div class="header"><span class="icon">🎨</span><span class="title">HTML Formatting</span><span class="badge">Best Visual + Photos</span></div>
-            <div class="description">Romantic formatted email with cloth & inner photos inline. Subject line is included at the top.</div>
-            <button class="action-btn html-btn" id="htmlOptionBtn">💕 Copy HTML</button>
-        </div>
-        <div class="email-option-card">
-            <div class="header"><span class="icon">📄</span><span class="title">Plain Text</span><span class="badge">Universal</span></div>
-            <div class="description">Clean plain text email (no photos, subject auto-filled).</div>
-            <button class="action-btn plain-btn" id="plainOptionBtn">📧 Open Email</button>
-        </div>
-        <div class="email-option-card">
-            <div class="header"><span class="icon">🔄</span><span class="title">Copy HTML for Outlook</span><span class="badge">Recommended</span></div>
-            <div class="description">Copies romantic HTML with photos and subject line for pasting into Outlook.</div>
-            <button class="action-btn html-btn" id="hybridOptionBtn">💕 Copy HTML</button>
-        </div>
-        <div class="email-option-card">
-            <div class="header"><span class="icon">📧</span><span class="title">Open Email Client</span><span class="badge">Quick</span></div>
-            <div class="description">Opens your email client with plain text content and subject pre-filled.</div>
+            <div class="header"><span class="icon">📧</span><span class="title">Open in Default Mail App</span><span class="badge">Plain Text</span></div>
+            <div class="description">Opens your default mail app with a plain-text version of the outfit log and subject pre-filled.</div>
             <button class="action-btn plain-btn" id="openOptionBtn">📧 Open Email</button>
+        </div>
+
+        <div class="email-option-card">
+            <div class="header"><span class="icon">💕</span><span class="title">Copy HTML</span><span class="badge">Best Visual</span></div>
+            <div class="description">Copies the full romantic HTML log to your clipboard. Paste it into Gmail, Outlook, or any email service.</div>
+            <button class="action-btn html-btn" id="htmlOptionBtn">💕 Copy HTML</button>
         </div>
     </div>
 </div>
 
-<!-- WhatsApp Modal — with saved recipients + auto-save last used -->
+<!-- WhatsApp Modal -->
 <div class="wa-modal" id="waModal">
     <div class="wa-content">
-        <h3>💬 Send on WhatsApp</h3>
+        <h3>💬 Share on WhatsApp</h3>
 
-        <!-- Saved recipients -->
         <div class="wa-section-label">
             <span>📱 Saved Recipients</span>
             <a class="add-new-link" id="waAddNewToggle">➕ Add new</a>
         </div>
         <div class="wa-recipients" id="waRecipients"></div>
 
-        <!-- Add new form (hidden by default) -->
         <div class="wa-add-form" id="waAddForm">
-            <input type="text" id="waNewName" placeholder="Name (e.g. Shinu, Me, Mom)" maxlength="40" autocomplete="off">
+            <input type="text" id="waNewName" placeholder="Name (e.g. My Love, Me)" maxlength="40" autocomplete="off">
             <input type="tel" id="waNewNumber" placeholder="Number with country code (e.g. 919876543210)" autocomplete="off">
             <div class="wa-add-buttons">
                 <button class="wa-cancel-add" id="waAddCancelBtn" type="button">Cancel</button>
@@ -2113,7 +1053,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             </div>
         </div>
 
-        <div class="wa-preview-title">📝 Message Preview (latest outfit only)</div>
+        <div class="wa-preview-title">💕 Message Preview</div>
         <div class="wa-preview" id="waPreview"></div>
 
         <div class="wa-buttons">
@@ -2121,10 +1061,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
             <button class="wa-send" id="waSendBtn" disabled>💬 Open WhatsApp</button>
         </div>
         <div class="wa-hint">
-            ✨ Tap a <strong>saved recipient</strong> to send instantly.<br>
+            ✨ Tap a <strong>saved recipient</strong> to share.<br>
             ✨ <strong>Last used number</strong> is auto-remembered.<br>
-            🔗 Photo links are included so the recipient can view them.<br>
-            💕 Sends only the <strong>latest picked outfit</strong> — history is not cleared.
+            💕 Shares only the <strong>latest outfit</strong> — history is preserved.
         </div>
     </div>
 </div>
@@ -2137,9 +1076,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
     "use strict";
 
     // ============================================================
-    // TEST DATA BLOCK — REPLACE WITH YOUR REAL DATA LATER
+    // ⚠️ TEST DATA — REPLACE WITH YOUR REAL DATA
     // ============================================================
-
     const FIXED_CATEGORIES = {
         cloth: ['Regular', 'Office', 'Night', 'While Going Out on Day and Night'],
         inner: ['Inner Wear']
@@ -2162,18 +1100,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
     ];
 
     // ============================================================
-    // SUPABASE CONFIG — PUT YOUR URL & KEY HERE
+    // SUPABASE CONFIG — PUT YOUR OWN URL & KEY HERE
     // ============================================================
-    const SUPABASE_URL = 'https://uskzenvzqlwmarjijidr.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVza3plbnZ6cWx3bWFyamlqaWRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjg4MTQsImV4cCI6MjEwNTIwNDgxNH0.IjW2SnsHHscEPjdiD_WaJ7u1ladgNr4OZAx1GWvKJKE';
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
     const TABLE_ITEMS   = 'outfit_items';
     const TABLE_HISTORY = 'outfit_history';
     const TABLE_PICKED  = 'outfit_picked';
-
-    // localStorage keys for WhatsApp recipients + last used
-    const LS_SAVED_RECIPIENTS = 'outfitPicker_savedRecipients';
-    const LS_LAST_USED_NUMBER = 'outfitPicker_lastUsedNumber';
 
     let supabaseClient = null;
     try {
@@ -2192,14 +1126,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
     let picked = [];
     let selectedForDelete = new Set();
     let currentFolder = 'cloth';
-
     let pendingCloth = null;
     let pendingInner = null;
     let currentlyDisplayedEntry = null;
 
-    // WhatsApp recipients state
-    let savedRecipients = [];    // [{ name, number }]
-    let selectedRecipient = null; // { name, number } or null
+    const LS_SAVED_RECIPIENTS = 'outfitPicker_savedRecipients';
+    const LS_LAST_USED_NUMBER = 'outfitPicker_lastUsedNumber';
+    let savedRecipients = [];
+    let selectedRecipient = null;
     let lastUsedNumber = '';
 
     // DOM
@@ -2304,12 +1238,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
     const emailOptionsModal = document.getElementById('emailOptionsModal');
     const emailOptionsClose = document.getElementById('emailOptionsClose');
     const htmlOptionBtn = document.getElementById('htmlOptionBtn');
-    const plainOptionBtn = document.getElementById('plainOptionBtn');
-    const hybridOptionBtn = document.getElementById('hybridOptionBtn');
     const openOptionBtn = document.getElementById('openOptionBtn');
     const emailSubjectPreview = document.getElementById('emailSubjectPreview');
 
-    // WhatsApp DOM
     const waModal = document.getElementById('waModal');
     const waRecipients = document.getElementById('waRecipients');
     const waAddNewToggle = document.getElementById('waAddNewToggle');
@@ -2330,9 +1261,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     let lastSyncTime = null;
     let isSyncing = false;
 
-    // ============================================================
-    // GOOGLE DRIVE HELPERS
-    // ============================================================
+    // Drive helpers
     function extractDriveId(link) {
         if (!link) return '';
         let m = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
@@ -2352,9 +1281,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         return `https://drive.google.com/file/d/${id}/view`;
     }
 
-    // ============================================================
-    // TOAST / SYNC BADGE
-    // ============================================================
     function showToast(msg, duration) {
         if (!toast) return;
         toast.textContent = msg;
@@ -2377,153 +1303,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
     setInterval(updateLastSyncInfo, 5000);
 
-    // ============================================================
-    // RECIPIENT STORAGE (localStorage)
-    // ============================================================
-    function loadRecipients() {
-        try {
-            const raw = localStorage.getItem(LS_SAVED_RECIPIENTS);
-            savedRecipients = raw ? JSON.parse(raw) : [];
-            if (!Array.isArray(savedRecipients)) savedRecipients = [];
-        } catch (e) { savedRecipients = []; }
-
-        try {
-            lastUsedNumber = localStorage.getItem(LS_LAST_USED_NUMBER) || '';
-        } catch (e) { lastUsedNumber = ''; }
-    }
-    function saveRecipients() {
-        try {
-            localStorage.setItem(LS_SAVED_RECIPIENTS, JSON.stringify(savedRecipients));
-        } catch (e) {}
-    }
-    function saveLastUsed(number) {
-        try {
-            lastUsedNumber = number;
-            localStorage.setItem(LS_LAST_USED_NUMBER, number);
-        } catch (e) {}
-    }
-
-    function addRecipient(name, number) {
-        number = (number || '').replace(/\D/g, '');
-        name = (name || '').trim();
-        if (!name) { showToast('⚠️ Enter a name.', 2000); return false; }
-        if (!number || number.length < 8) { showToast('⚠️ Enter a valid number.', 2500); return false; }
-        // Check duplicate number
-        if (savedRecipients.some(r => r.number === number)) {
-            showToast('⚠️ This number is already saved.', 2500);
-            return false;
-        }
-        savedRecipients.push({ name, number });
-        saveRecipients();
-        renderRecipients();
-        showToast(`💾 Saved: ${name}`, 2000);
-        return true;
-    }
-
-    function removeRecipient(number) {
-        savedRecipients = savedRecipients.filter(r => r.number !== number);
-        saveRecipients();
-        if (selectedRecipient && selectedRecipient.number === number) {
-            selectedRecipient = null;
-        }
-        renderRecipients();
-        updateSendButtonState();
-        showToast('🗑️ Removed', 1500);
-    }
-
-    function renderRecipients() {
-        if (!waRecipients) return;
-        waRecipients.innerHTML = '';
-
-        if (savedRecipients.length === 0 && !lastUsedNumber) {
-            const empty = document.createElement('div');
-            empty.className = 'wa-empty-recipients';
-            empty.textContent = '💭 No saved recipients yet. Tap "➕ Add new" to save one.';
-            waRecipients.appendChild(empty);
-            return;
-        }
-
-        // Show "Last used" as a pseudo-recipient if not already in saved list
-        if (lastUsedNumber && !savedRecipients.some(r => r.number === lastUsedNumber)) {
-            const lastRow = document.createElement('div');
-            lastRow.className = 'wa-recipient';
-            lastRow.dataset.number = lastUsedNumber;
-            lastRow.innerHTML = `
-                <div class="wa-avatar">🕐</div>
-                <div class="wa-info">
-                    <div class="wa-name">Last used</div>
-                    <div class="wa-number">+${lastUsedNumber}</div>
-                </div>
-            `;
-            lastRow.addEventListener('click', () => {
-                selectedRecipient = { name: 'Last used', number: lastUsedNumber };
-                renderRecipients();
-                updateSendButtonState();
-            });
-            if (selectedRecipient && selectedRecipient.number === lastUsedNumber) {
-                lastRow.classList.add('selected');
-            }
-            waRecipients.appendChild(lastRow);
-        }
-
-        // Saved recipients
-        savedRecipients.forEach(r => {
-            const row = document.createElement('div');
-            row.className = 'wa-recipient';
-            row.dataset.number = r.number;
-
-            const avatar = document.createElement('div');
-            avatar.className = 'wa-avatar';
-            avatar.textContent = r.name.charAt(0).toUpperCase() || '?';
-
-            const info = document.createElement('div');
-            info.className = 'wa-info';
-            const nameEl = document.createElement('div');
-            nameEl.className = 'wa-name';
-            nameEl.textContent = r.name;
-            const numEl = document.createElement('div');
-            numEl.className = 'wa-number';
-            numEl.textContent = '+' + r.number;
-            info.appendChild(nameEl);
-            info.appendChild(numEl);
-
-            const removeBtn = document.createElement('button');
-            removeBtn.className = 'wa-remove';
-            removeBtn.textContent = '×';
-            removeBtn.title = 'Remove';
-            removeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (confirm(`Remove "${r.name}" from saved recipients?`)) {
-                    removeRecipient(r.number);
-                }
-            });
-
-            row.appendChild(avatar);
-            row.appendChild(info);
-            row.appendChild(removeBtn);
-
-            row.addEventListener('click', () => {
-                selectedRecipient = { name: r.name, number: r.number };
-                renderRecipients();
-                updateSendButtonState();
-            });
-
-            if (selectedRecipient && selectedRecipient.number === r.number) {
-                row.classList.add('selected');
-            }
-
-            waRecipients.appendChild(row);
-        });
-    }
-
-    function updateSendButtonState() {
-        if (!waSendBtn) return;
-        waSendBtn.disabled = !selectedRecipient;
-    }
-
-    // ============================================================
-    // PICKED / ITEM HELPERS
-    // ============================================================
     function keyFor(folder, name) { return folder + '::' + name; }
     function isPicked(folder, name) { return picked.includes(keyFor(folder, name)); }
     function getItemsByFolder(folder) { return ALL_ITEMS.filter(it => it.folder === folder); }
@@ -2534,9 +1313,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         return avail.filter(it => it.category === category);
     }
 
-    // ============================================================
-    // DATE HELPERS
-    // ============================================================
     function getDateForOption(opt, custom) {
         const n = new Date();
         if (opt === 'today') return n;
@@ -2563,7 +1339,263 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // DELETE MODE
+    // RECIPIENTS
+    // ============================================================
+    function loadRecipients() {
+        try {
+            const raw = localStorage.getItem(LS_SAVED_RECIPIENTS);
+            savedRecipients = raw ? JSON.parse(raw) : [];
+            if (!Array.isArray(savedRecipients)) savedRecipients = [];
+        } catch (e) { savedRecipients = []; }
+        try {
+            lastUsedNumber = localStorage.getItem(LS_LAST_USED_NUMBER) || '';
+        } catch (e) { lastUsedNumber = ''; }
+    }
+    function saveRecipients() {
+        try { localStorage.setItem(LS_SAVED_RECIPIENTS, JSON.stringify(savedRecipients)); } catch (e) {}
+    }
+    function saveLastUsed(n) {
+        try { lastUsedNumber = n; localStorage.setItem(LS_LAST_USED_NUMBER, n); } catch (e) {}
+    }
+    function addRecipient(name, number) {
+        number = (number || '').replace(/\D/g, '');
+        name = (name || '').trim();
+        if (!name) { showToast('⚠️ Enter a name.', 2000); return false; }
+        if (!number || number.length < 8) { showToast('⚠️ Enter a valid number.', 2500); return false; }
+        if (savedRecipients.some(r => r.number === number)) {
+            showToast('⚠️ This number is already saved.', 2500);
+            return false;
+        }
+        savedRecipients.push({ name, number });
+        saveRecipients();
+        renderRecipients();
+        showToast(`💾 Saved: ${name}`, 2000);
+        return true;
+    }
+    function removeRecipient(number) {
+        savedRecipients = savedRecipients.filter(r => r.number !== number);
+        saveRecipients();
+        if (selectedRecipient && selectedRecipient.number === number) selectedRecipient = null;
+        renderRecipients();
+        updateSendButtonState();
+        showToast('🗑️ Removed', 1500);
+    }
+    function renderRecipients() {
+        if (!waRecipients) return;
+        waRecipients.innerHTML = '';
+        if (savedRecipients.length === 0 && !lastUsedNumber) {
+            const empty = document.createElement('div');
+            empty.className = 'wa-empty-recipients';
+            empty.textContent = '💭 No saved recipients yet. Tap "➕ Add new" to save one.';
+            waRecipients.appendChild(empty);
+            return;
+        }
+        if (lastUsedNumber && !savedRecipients.some(r => r.number === lastUsedNumber)) {
+            const lastRow = document.createElement('div');
+            lastRow.className = 'wa-recipient';
+            lastRow.innerHTML = `
+                <div class="wa-avatar">🕐</div>
+                <div class="wa-info">
+                    <div class="wa-name">Last used</div>
+                    <div class="wa-number">+${lastUsedNumber}</div>
+                </div>
+            `;
+            lastRow.addEventListener('click', () => {
+                selectedRecipient = { name: 'Last used', number: lastUsedNumber };
+                renderRecipients();
+                updateSendButtonState();
+            });
+            if (selectedRecipient && selectedRecipient.number === lastUsedNumber) lastRow.classList.add('selected');
+            waRecipients.appendChild(lastRow);
+        }
+        savedRecipients.forEach(r => {
+            const row = document.createElement('div');
+            row.className = 'wa-recipient';
+            const avatar = document.createElement('div');
+            avatar.className = 'wa-avatar';
+            avatar.textContent = r.name.charAt(0).toUpperCase() || '?';
+            const info = document.createElement('div');
+            info.className = 'wa-info';
+            const nameEl = document.createElement('div');
+            nameEl.className = 'wa-name';
+            nameEl.textContent = r.name;
+            const numEl = document.createElement('div');
+            numEl.className = 'wa-number';
+            numEl.textContent = '+' + r.number;
+            info.appendChild(nameEl);
+            info.appendChild(numEl);
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'wa-remove';
+            removeBtn.textContent = '×';
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm(`Remove "${r.name}" from saved recipients?`)) removeRecipient(r.number);
+            });
+            row.appendChild(avatar);
+            row.appendChild(info);
+            row.appendChild(removeBtn);
+            row.addEventListener('click', () => {
+                selectedRecipient = { name: r.name, number: r.number };
+                renderRecipients();
+                updateSendButtonState();
+            });
+            if (selectedRecipient && selectedRecipient.number === r.number) row.classList.add('selected');
+            waRecipients.appendChild(row);
+        });
+    }
+    function updateSendButtonState() {
+        if (!waSendBtn) return;
+        waSendBtn.disabled = !selectedRecipient;
+    }
+
+    // ============================================================
+    // CLOUD SYNC
+    // ============================================================
+    async function pushAllToCloud() {
+        if (!supabaseClient) return false;
+        if (isSyncing) return false;
+        isSyncing = true;
+        setSyncStatus('syncing', '🔄 saving...');
+        try {
+            await supabaseClient.from(TABLE_ITEMS).delete().neq('id', 0);
+            if (ALL_ITEMS.length > 0) {
+                const rows = ALL_ITEMS.map(it => ({
+                    name: it.name,
+                    category: it.category || '',
+                    folder: it.folder,
+                    drive_link: it.link || ''
+                }));
+                const { error } = await supabaseClient.from(TABLE_ITEMS).insert(rows);
+                if (error) console.warn('items insert warn:', error);
+            }
+            await supabaseClient.from(TABLE_HISTORY).delete().neq('id', 0);
+            if (history.length > 0) {
+                const rows = history.map(h => ({
+                    cloth_name: h.cloth || '',
+                    cloth_category: h.clothCategory || '',
+                    cloth_link: h.clothLink || '',
+                    inner_name: h.inner || '',
+                    inner_link: h.innerLink || '',
+                    no_inner: !!h.noInner,
+                    display_date: h.displayDate || '',
+                    date_tag: h.dateTag || '',
+                    wearer: h.wearer || ''
+                }));
+                const { error } = await supabaseClient.from(TABLE_HISTORY).insert(rows);
+                if (error) console.warn('history insert warn:', error);
+            }
+            await supabaseClient.from(TABLE_PICKED).delete().neq('id', 0);
+            if (picked.length > 0) {
+                const rows = picked.map(k => {
+                    const [folder, name] = k.split('::');
+                    return { folder, item_name: name };
+                });
+                const { error } = await supabaseClient.from(TABLE_PICKED).insert(rows);
+                if (error) console.warn('picked insert warn:', error);
+            }
+            lastSyncTime = Date.now();
+            setSyncStatus('online', '☁️ synced');
+            updateLastSyncInfo();
+            isSyncing = false;
+            return true;
+        } catch (e) {
+            console.error('pushAllToCloud failed:', e);
+            setSyncStatus('offline', '⚠️ save failed');
+            isSyncing = false;
+            return false;
+        }
+    }
+
+    async function pullAllFromCloud() {
+        if (!supabaseClient) return null;
+        try {
+            const [iRes, hRes, pRes] = await Promise.all([
+                supabaseClient.from(TABLE_ITEMS).select('*').order('id', { ascending: true }),
+                supabaseClient.from(TABLE_HISTORY).select('*').order('id', { ascending: true }),
+                supabaseClient.from(TABLE_PICKED).select('*').order('id', { ascending: true })
+            ]);
+            if (iRes.error || hRes.error || pRes.error) {
+                console.warn('pull errors:', iRes.error, hRes.error, pRes.error);
+                return null;
+            }
+            const items = (iRes.data || []).map(r => ({
+                name: r.name,
+                category: r.category || '',
+                folder: r.folder || 'cloth',
+                link: r.drive_link || ''
+            }));
+            const hist = (hRes.data || []).map(r => ({
+                cloth: r.cloth_name || '',
+                clothCategory: r.cloth_category || '',
+                clothLink: r.cloth_link || '',
+                inner: r.inner_name || '',
+                innerLink: r.inner_link || '',
+                noInner: !!r.no_inner,
+                displayDate: r.display_date || '',
+                dateTag: r.date_tag || '',
+                wearer: r.wearer || ''
+            }));
+            const pk = (pRes.data || []).map(r => keyFor(r.folder || 'cloth', r.item_name));
+            return { items, history: hist, picked: pk };
+        } catch (e) {
+            console.error('pullAllFromCloud failed:', e);
+            return null;
+        }
+    }
+
+    async function syncNow(silent) {
+        if (!supabaseClient) {
+            if (!silent) showToast('⚠️ Cloud not configured.', 3000);
+            setSyncStatus('offline', '⚠️ no cloud');
+            return;
+        }
+        setSyncStatus('syncing', '🔄 syncing...');
+        const pulled = await pullAllFromCloud();
+        if (!pulled) {
+            setSyncStatus('offline', '⚠️ offline');
+            if (!silent) showToast('⚠️ Sync failed', 2500);
+            return;
+        }
+        ALL_ITEMS = pulled.items.length > 0 ? pulled.items : TEST_ITEMS.slice();
+        history = pulled.history;
+        picked = pulled.picked;
+        currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+        if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
+        else updatePopup(null);
+        lastSyncTime = Date.now();
+        setSyncStatus('online', '☁️ synced');
+        updateLastSyncInfo();
+        updateUI();
+        if (!silent) showToast('🔄 Synced from cloud!', 2000);
+    }
+
+    let autoSyncInterval = null;
+    function startAutoSync() {
+        if (autoSyncInterval) clearInterval(autoSyncInterval);
+        autoSyncInterval = setInterval(async () => {
+            if (isSyncing || !supabaseClient || document.hidden) return;
+            const before = JSON.stringify({ h: history, d: ALL_ITEMS, p: picked });
+            const pulled = await pullAllFromCloud();
+            if (pulled) {
+                const after = JSON.stringify({ h: pulled.history, d: pulled.items, p: pulled.picked });
+                if (before !== after) {
+                    ALL_ITEMS = pulled.items;
+                    history = pulled.history;
+                    picked = pulled.picked;
+                    currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
+                    if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
+                    lastSyncTime = Date.now();
+                    setSyncStatus('online', '☁️ synced');
+                    updateLastSyncInfo();
+                    updateUI();
+                    showToast('🔄 Updated from other device', 2000);
+                }
+            }
+        }, 10000);
+    }
+
+    // ============================================================
+    // UI RENDER
     // ============================================================
     function updateDeleteIndicator() {
         if (deleteIndicator) {
@@ -2580,9 +1612,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (!deleteMode) selectedForDelete.clear();
     }
 
-    // ============================================================
-    // UI RENDER
-    // ============================================================
     function updateUI() {
         renderItemList();
         renderHistory();
@@ -2605,9 +1634,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         if (refreshBtn) refreshBtn.disabled = (getAvailableByFolder('cloth').length === 0);
 
-        if (totalAll === 0) resetNotice.textContent = '💕 add cloths and inners to get started 💕';
+        if (totalAll === 0) resetNotice.textContent = '📭 Add cloths and inners to get started';
         else if (getAvailableByFolder('cloth').length === 0) resetNotice.textContent = '🎉 All cloths picked! click "reset all"';
-        else resetNotice.textContent = `💖 click refresh to pick an outfit (${currentFolder} folder) 💖`;
+        else resetNotice.textContent = `click refresh to pick an outfit (${currentFolder} folder)`;
 
         if (totalAll === 0) {
             currentlyDisplayedEntry = null;
@@ -2708,15 +1737,15 @@ html, body { max-width: 100%; overflow-x: hidden; }
         const folderItems = getItemsByFolder(currentFolder);
         if (folderItems.length === 0) {
             const e = document.createElement('span');
-            e.style.cssText = 'color:#d4a0b8;font-style:italic;padding:0.5rem;';
-            e.textContent = currentFolder === 'cloth' ? 'no cloths yet 💕' : 'no inners yet 💕';
+            e.style.cssText = 'color:#90a8c0;font-style:italic;padding:0.5rem;';
+            e.textContent = currentFolder === 'cloth' ? 'no cloths yet' : 'no inners yet';
             itemGrid.appendChild(e);
             return;
         }
         const filtered = getFilteredItems();
         if (filtered.length === 0) {
             const e = document.createElement('span');
-            e.style.cssText = 'color:#d4a0b8;font-style:italic;padding:0.5rem;';
+            e.style.cssText = 'color:#90a8c0;font-style:italic;padding:0.5rem;';
             e.textContent = `no items in "${categorySelect.value}"`;
             itemGrid.appendChild(e);
             return;
@@ -2777,7 +1806,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         if (history.length === 0) {
             const e = document.createElement('div');
             e.className = 'history-empty';
-            e.textContent = 'no outfits picked yet 💕';
+            e.textContent = 'no outfits picked yet';
             historyList.appendChild(e);
             return;
         }
@@ -2919,7 +1948,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     function showPhotoPopup(picked) {
         pendingCloth = picked;
         const thumb = driveThumbUrl(picked.cloth.link, 800);
-        photoPopupTitle.textContent = '💕 Cloth Picked 💕';
+        photoPopupTitle.textContent = '👔 Cloth Picked';
         photoPopupImg.src = thumb || '';
         photoPopupImg.onerror = () => { photoPopupImg.style.background = '#ffe0e0'; };
         photoPopupCat.textContent = picked.cloth.category;
@@ -2931,7 +1960,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
     function openInnerModal() {
         if (!pendingCloth) return;
-        innerModalSubtitle.textContent = `Cloth: ${pendingCloth.cloth.name} — now pick an inner 💕`;
+        innerModalSubtitle.textContent = `Cloth: ${pendingCloth.cloth.name} — now pick an inner`;
         innerGrid.innerHTML = '';
 
         const availableInners = getAvailableByFolder('inner');
@@ -2989,11 +2018,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
         clothBox.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:0.4rem;';
         const cImg = document.createElement('img');
         cImg.src = driveThumbUrl(pendingCloth.cloth.link, 400);
-        cImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #d63384;background:#ffe8f0;box-shadow:0 6px 20px rgba(214,51,132,0.3);';
+        cImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #22384f;background:#eef4fc;';
         cImg.onerror = () => { cImg.style.background = '#ffe0e0'; };
         clothBox.appendChild(cImg);
         const cTxt = document.createElement('div');
-        cTxt.style.cssText = 'font-weight:600;color:#a04a6d;font-size:0.9rem;';
+        cTxt.style.cssText = 'font-weight:600;color:#22384f;font-size:0.9rem;';
         cTxt.textContent = `👔 ${pendingCloth.cloth.name}`;
         clothBox.appendChild(cTxt);
         finalOutfitPreview.appendChild(clothBox);
@@ -3002,21 +2031,21 @@ html, body { max-width: 100%; overflow-x: hidden; }
         innerBox.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:0.4rem;';
         if (pendingInner.noInner) {
             const ni = document.createElement('div');
-            ni.style.cssText = 'width:180px;height:220px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:3px solid #c8a8b8;background:#ffe0ec;font-size:3rem;';
+            ni.style.cssText = 'width:180px;height:220px;display:flex;align-items:center;justify-content:center;border-radius:16px;border:3px solid #7f8c8d;background:#ecf0f1;font-size:3rem;';
             ni.textContent = '🚫';
             innerBox.appendChild(ni);
             const nTxt = document.createElement('div');
-            nTxt.style.cssText = 'font-weight:600;color:#a04a6d;font-size:0.9rem;';
+            nTxt.style.cssText = 'font-weight:600;color:#7f8c8d;font-size:0.9rem;';
             nTxt.textContent = 'No Inner';
             innerBox.appendChild(nTxt);
         } else {
             const iImg = document.createElement('img');
             iImg.src = driveThumbUrl(pendingInner.item.link, 400);
-            iImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #27ae60;background:#e8f5e9;box-shadow:0 6px 20px rgba(39,174,96,0.3);';
+            iImg.style.cssText = 'width:180px;height:220px;object-fit:cover;border-radius:16px;border:3px solid #2d6a4f;background:#eef4fc;';
             iImg.onerror = () => { iImg.style.background = '#ffe0e0'; };
             innerBox.appendChild(iImg);
             const iTxt = document.createElement('div');
-            iTxt.style.cssText = 'font-weight:600;color:#1a6e3b;font-size:0.9rem;';
+            iTxt.style.cssText = 'font-weight:600;color:#2d6a4f;font-size:0.9rem;';
             iTxt.textContent = `🩲 ${pendingInner.item.name}`;
             innerBox.appendChild(iTxt);
         }
@@ -3054,14 +2083,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
         pendingCloth = null;
         pendingInner = null;
         if (navigator.vibrate) navigator.vibrate(12);
-        showToast(`💕 Saved: ${entry.cloth} + ${entry.noInner ? 'No Inner' : entry.inner}`, 2500);
+        showToast(`✅ Saved: ${entry.cloth} + ${entry.noInner ? 'No Inner' : entry.inner}`, 2500);
         await pushAllToCloud();
     }
 
     function updatePopup(entry) {
         if (!popupDisplay) return;
         if (!entry) {
-            popupDisplay.innerHTML = `<span class="popup-empty">💖 click refresh to pick an outfit 💖</span>`;
+            popupDisplay.innerHTML = `<span class="popup-empty">✨ click refresh to pick an outfit</span>`;
             return;
         }
         popupDisplay.innerHTML = '';
@@ -3241,7 +2270,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // RESET / CLEAR HISTORY
+    // RESET / CLEAR
     // ============================================================
     async function handleReset() {
         if (ALL_ITEMS.length === 0) { showToast('📭 No items to reset.', 2000); return; }
@@ -3290,7 +2319,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         newCategoryInput.value = '';
         newItemLink.value = '';
         newItemInput.focus();
-        showToast(`💖 Added: ${name}`, 2000);
+        showToast(`✅ Added: ${name}`, 2000);
         await pushAllToCloud();
     }
 
@@ -3315,7 +2344,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             });
             if (added > 0) {
                 updateUI();
-                showToast(`💕 Imported ${added} item(s)!`, 2500);
+                showToast(`✅ Imported ${added} item(s)!`, 2500);
                 if (dups.length) showToast(`⚠️ Skipped ${dups.length} duplicates.`, 3000);
                 await pushAllToCloud();
             } else showToast('ℹ️ No new items found.', 2500);
@@ -3498,7 +2527,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // PASSWORD MODAL
+    // PASSWORD / BULK DELETE
     // ============================================================
     function openModal() {
         if (deleteMode) {
@@ -3527,10 +2556,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
             setTimeout(() => passwordError.classList.remove('show'), 3000);
         }
     }
-
-    // ============================================================
-    // BULK DELETE
-    // ============================================================
     function showBulkDeleteModal() {
         if (selectedForDelete.size === 0) { showToast('No items selected.', 2000); return; }
         const names = Array.from(selectedForDelete);
@@ -3555,7 +2580,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // EMAIL — romantic HTML
+    // EMAIL — only 2 options now
     // ============================================================
     function generateFullHTMLEmail() {
         const subjectLine = getSubjectLine();
@@ -3641,7 +2666,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
             <p style="margin:6px 0;color:#a04a6d;font-family:'Georgia',serif;font-style:italic;"><strong>📋 Total outfits worn:</strong> ${history.length} 🌸</p>
         </div>
         <div style="text-align:center;font-size:28px;margin:18px 0;letter-spacing:8px;">💕 💖 💗 💝 💕</div>
-        <p style="text-align:center;color:#d63384;font-size:12px;font-family:'Georgia',serif;font-style:italic;">✨ Made with love by Shinu for Honey🍯 💕</p></div>`;
+        <p style="text-align:center;color:#d63384;font-size:12px;font-family:'Georgia',serif;font-style:italic;">✨ Made with love by Honey for Shinu 💕</p></div>`;
         return html;
     }
 
@@ -3663,16 +2688,19 @@ html, body { max-width: 100%; overflow-x: hidden; }
         return b;
     }
 
-    async function handlePostEmailClear() {
-        if (history.length === 0 && picked.length === 0) return;
-        history = [];
-        picked = [];
-        selectedForDelete.clear();
-        currentlyDisplayedEntry = null;
-        updatePopup(null);
-        updateUI();
-        showToast('💕 History cleared after email', 2500);
-        await pushAllToCloud();
+    function optionHTML() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#fff0f8;">${generateFullHTMLEmail()}</body></html>`;
+        copyToClipboard(full, '💕 HTML copied! Paste it in your email client.');
+    }
+
+    function optionOpen() {
+        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
+        const sub = encodeURIComponent(getSubjectLine());
+        const body = encodeURIComponent(generatePlainTextEmail());
+        window.location.href = `mailto:?subject=${sub}&body=${body}`;
+        showToast('📧 Opening your email app...', 2500);
+        closeEmailOptions();
     }
 
     function copyToClipboard(text, msg) {
@@ -3680,7 +2708,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
             navigator.clipboard.writeText(text).then(() => {
                 showToast(msg, 3000);
                 closeEmailOptions();
-                handlePostEmailClear();
             }).catch(() => fallbackCopy(text, msg));
         } else fallbackCopy(text, msg);
     }
@@ -3692,39 +2719,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
             document.execCommand('copy');
             showToast(msg, 2000);
             closeEmailOptions();
-            handlePostEmailClear();
         } catch (e) { showToast('❌ Copy failed.', 2000); }
         document.body.removeChild(ta);
     }
 
-    function optionHTML() {
-        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
-        const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#fff0f8;">${generateFullHTMLEmail()}</body></html>`;
-        copyToClipboard(full, '💕 HTML copied! History will clear now.');
-    }
-    function optionPlain() {
-        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
-        const sub = encodeURIComponent(getSubjectLine());
-        const body = encodeURIComponent(generatePlainTextEmail());
-        window.location.href = `mailto:?subject=${sub}&body=${body}`;
-        showToast('💌 Email opened! History will clear shortly...', 2500);
-        closeEmailOptions();
-        setTimeout(handlePostEmailClear, 1500);
-    }
-    function optionHybrid() {
-        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
-        const full = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#fff0f8;">${generateFullHTMLEmail()}</body></html>`;
-        copyToClipboard(full, '💕 HTML copied! History will clear now.');
-    }
-    function optionOpen() {
-        if (history.length === 0) { showToast('📭 No history!', 2500); return; }
-        const sub = encodeURIComponent(getSubjectLine());
-        const body = encodeURIComponent(generatePlainTextEmail());
-        window.location.href = `mailto:?subject=${sub}&body=${body}`;
-        showToast('💌 Email opened! History will clear shortly...', 2500);
-        closeEmailOptions();
-        setTimeout(handlePostEmailClear, 1500);
-    }
     function openEmailOptions() {
         if (history.length === 0) { showToast('📭 No history!', 2500); return; }
         if (emailSubjectPreview) emailSubjectPreview.textContent = getSubjectLine();
@@ -3737,8 +2735,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
     }
 
     // ============================================================
-    // WHATSAPP — sends only the currently displayed outfit
-    // with saved recipients + auto-save last used
+    // WHATSAPP
     // ============================================================
     function buildWhatsAppMessage() {
         let entry = currentlyDisplayedEntry;
@@ -3786,7 +2783,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         }
 
         msg += `\n━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `💕 *Made with love by Shinu for Honey🍯* 💕`;
+        msg += `💕 *Made with love by Honey for Shinu* 💕`;
         return msg;
     }
 
@@ -3795,34 +2792,23 @@ html, body { max-width: 100%; overflow-x: hidden; }
             showToast('📭 No outfit picked yet!', 2500);
             return;
         }
-        // Reset selection
         selectedRecipient = null;
         updateSendButtonState();
-
-        // Hide add form
         waAddForm.classList.remove('visible');
         waNewName.value = '';
         waNewNumber.value = '';
-
-        // Render recipients (includes "Last used" + saved list)
         renderRecipients();
-
-        // Preview message
         if (waPreview) waPreview.textContent = buildWhatsAppMessage();
-
         waModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-
     function closeWhatsAppModal() {
         waModal.classList.remove('active');
         document.body.style.overflow = '';
-        // reset selection
         selectedRecipient = null;
         updateSendButtonState();
         waAddForm.classList.remove('visible');
     }
-
     function sendWhatsApp() {
         if (!selectedRecipient || !selectedRecipient.number) {
             showToast('⚠️ Please select a recipient first.', 2500);
@@ -3832,30 +2818,17 @@ html, body { max-width: 100%; overflow-x: hidden; }
         const message = buildWhatsAppMessage();
         const encoded = encodeURIComponent(message);
         const url = `https://wa.me/${phone}?text=${encoded}`;
-
         const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-
-        // Auto-save last used number
         saveLastUsed(phone);
-
-        if (isMobile) {
-            window.location.href = url;
-        } else {
-            window.open(url, '_blank');
-        }
-
-        // Do NOT clear history after WhatsApp
+        if (isMobile) window.location.href = url;
+        else window.open(url, '_blank');
         showToast(`💬 WhatsApp opening for ${selectedRecipient.name}! History preserved 💕`, 2800);
         closeWhatsAppModal();
     }
-
     function toggleAddForm() {
         waAddForm.classList.toggle('visible');
-        if (waAddForm.classList.contains('visible')) {
-            setTimeout(() => waNewName.focus(), 100);
-        }
+        if (waAddForm.classList.contains('visible')) setTimeout(() => waNewName.focus(), 100);
     }
-
     function saveNewRecipient() {
         const name = (waNewName.value || '').trim();
         const number = (waNewNumber.value || '').replace(/\D/g, '');
@@ -3865,157 +2838,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
             waNewName.value = '';
             waNewNumber.value = '';
             waAddForm.classList.remove('visible');
-            // Auto-select the newly saved recipient
             selectedRecipient = { name, number };
             renderRecipients();
             updateSendButtonState();
         }
-    }
-
-    // ============================================================
-    // SUPABASE SYNC
-    // ============================================================
-    async function pushAllToCloud() {
-        if (!supabaseClient) return false;
-        if (isSyncing) return false;
-        isSyncing = true;
-        setSyncStatus('syncing', '🔄 saving...');
-        try {
-            await supabaseClient.from(TABLE_ITEMS).delete().neq('id', 0);
-            if (ALL_ITEMS.length > 0) {
-                const rows = ALL_ITEMS.map(it => ({
-                    name: it.name,
-                    category: it.category || '',
-                    folder: it.folder,
-                    drive_link: it.link || ''
-                }));
-                const { error } = await supabaseClient.from(TABLE_ITEMS).insert(rows);
-                if (error) console.warn('items insert warn:', error);
-            }
-            await supabaseClient.from(TABLE_HISTORY).delete().neq('id', 0);
-            if (history.length > 0) {
-                const rows = history.map(h => ({
-                    cloth_name: h.cloth || '',
-                    cloth_category: h.clothCategory || '',
-                    cloth_link: h.clothLink || '',
-                    inner_name: h.inner || '',
-                    inner_link: h.innerLink || '',
-                    no_inner: !!h.noInner,
-                    display_date: h.displayDate || '',
-                    date_tag: h.dateTag || '',
-                    wearer: h.wearer || ''
-                }));
-                const { error } = await supabaseClient.from(TABLE_HISTORY).insert(rows);
-                if (error) console.warn('history insert warn:', error);
-            }
-            await supabaseClient.from(TABLE_PICKED).delete().neq('id', 0);
-            if (picked.length > 0) {
-                const rows = picked.map(k => {
-                    const [folder, name] = k.split('::');
-                    return { folder, item_name: name };
-                });
-                const { error } = await supabaseClient.from(TABLE_PICKED).insert(rows);
-                if (error) console.warn('picked insert warn:', error);
-            }
-            lastSyncTime = Date.now();
-            setSyncStatus('online', '☁️ synced');
-            updateLastSyncInfo();
-            isSyncing = false;
-            return true;
-        } catch (e) {
-            console.error('pushAllToCloud failed:', e);
-            setSyncStatus('offline', '⚠️ save failed');
-            isSyncing = false;
-            return false;
-        }
-    }
-
-    async function pullAllFromCloud() {
-        if (!supabaseClient) return null;
-        try {
-            const [iRes, hRes, pRes] = await Promise.all([
-                supabaseClient.from(TABLE_ITEMS).select('*').order('id', { ascending: true }),
-                supabaseClient.from(TABLE_HISTORY).select('*').order('id', { ascending: true }),
-                supabaseClient.from(TABLE_PICKED).select('*').order('id', { ascending: true })
-            ]);
-            if (iRes.error || hRes.error || pRes.error) {
-                console.warn('pull errors:', iRes.error, hRes.error, pRes.error);
-                return null;
-            }
-            const items = (iRes.data || []).map(r => ({
-                name: r.name,
-                category: r.category || '',
-                folder: r.folder || 'cloth',
-                link: r.drive_link || ''
-            }));
-            const hist = (hRes.data || []).map(r => ({
-                cloth: r.cloth_name || '',
-                clothCategory: r.cloth_category || '',
-                clothLink: r.cloth_link || '',
-                inner: r.inner_name || '',
-                innerLink: r.inner_link || '',
-                noInner: !!r.no_inner,
-                displayDate: r.display_date || '',
-                dateTag: r.date_tag || '',
-                wearer: r.wearer || ''
-            }));
-            const pk = (pRes.data || []).map(r => keyFor(r.folder || 'cloth', r.item_name));
-            return { items, history: hist, picked: pk };
-        } catch (e) {
-            console.error('pullAllFromCloud failed:', e);
-            return null;
-        }
-    }
-
-    async function syncNow(silent) {
-        if (!supabaseClient) {
-            if (!silent) showToast('⚠️ Cloud not configured. Add Supabase URL & key.', 3000);
-            setSyncStatus('offline', '⚠️ no cloud');
-            return;
-        }
-        setSyncStatus('syncing', '🔄 syncing...');
-        const pulled = await pullAllFromCloud();
-        if (!pulled) {
-            setSyncStatus('offline', '⚠️ offline');
-            if (!silent) showToast('⚠️ Sync failed', 2500);
-            return;
-        }
-        ALL_ITEMS = pulled.items.length > 0 ? pulled.items : TEST_ITEMS.slice();
-        history = pulled.history;
-        picked = pulled.picked;
-        currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
-        if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
-        else updatePopup(null);
-        lastSyncTime = Date.now();
-        setSyncStatus('online', '☁️ synced');
-        updateLastSyncInfo();
-        updateUI();
-        if (!silent) showToast('🔄 Synced from cloud!', 2000);
-    }
-
-    let autoSyncInterval = null;
-    function startAutoSync() {
-        if (autoSyncInterval) clearInterval(autoSyncInterval);
-        autoSyncInterval = setInterval(async () => {
-            if (isSyncing || !supabaseClient || document.hidden) return;
-            const before = JSON.stringify({ h: history, d: ALL_ITEMS, p: picked });
-            const pulled = await pullAllFromCloud();
-            if (pulled) {
-                const after = JSON.stringify({ h: pulled.history, d: pulled.items, p: pulled.picked });
-                if (before !== after) {
-                    ALL_ITEMS = pulled.items;
-                    history = pulled.history;
-                    picked = pulled.picked;
-                    currentlyDisplayedEntry = history.length > 0 ? history[history.length - 1] : null;
-                    if (currentlyDisplayedEntry) updatePopup(currentlyDisplayedEntry);
-                    lastSyncTime = Date.now();
-                    setSyncStatus('online', '☁️ synced');
-                    updateLastSyncInfo();
-                    updateUI();
-                    showToast('🔄 Updated from other device', 2000);
-                }
-            }
-        }, 10000);
     }
 
     // ============================================================
@@ -4070,18 +2896,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
     // ============================================================
     async function init() {
         loadLocalBackup();
-        loadRecipients();  // load saved WhatsApp recipients + last used
-
+        loadRecipients();
         if (ALL_ITEMS.length === 0) ALL_ITEMS = TEST_ITEMS.slice();
 
-        if (history.length > 0) {
-            currentlyDisplayedEntry = history[history.length - 1];
-            updatePopup(currentlyDisplayedEntry);
-        } else {
-            updatePopup(null);
-        }
-
         updateUI();
+        updatePopup(null);
         setupDateOptions();
         setupManualDateDropdown();
 
@@ -4200,12 +3019,9 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
         if (emailOptionsClose) emailOptionsClose.addEventListener('click', closeEmailOptions);
         if (htmlOptionBtn) htmlOptionBtn.addEventListener('click', optionHTML);
-        if (plainOptionBtn) plainOptionBtn.addEventListener('click', optionPlain);
-        if (hybridOptionBtn) hybridOptionBtn.addEventListener('click', optionHybrid);
         if (openOptionBtn) openOptionBtn.addEventListener('click', optionOpen);
         if (emailOptionsModal) emailOptionsModal.addEventListener('click', (e) => { if (e.target === emailOptionsModal) closeEmailOptions(); });
 
-        // WhatsApp modal
         if (waCancelBtn) waCancelBtn.addEventListener('click', closeWhatsAppModal);
         if (waSendBtn) waSendBtn.addEventListener('click', sendWhatsApp);
         if (waModal) waModal.addEventListener('click', (e) => { if (e.target === waModal) closeWhatsAppModal(); });
@@ -4265,7 +3081,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         });
 
         setInterval(saveLocalBackup, 5000);
-        console.log('💕 Honey Outfit Picker ready!');
+        console.log('👕 Outfit Picker ready!');
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
